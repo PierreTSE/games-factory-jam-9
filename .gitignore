@@ -267,3 +267,15 @@ GameJam novembre 2018.vcxproj.filters
 *.user
 *.vcxproj
 *.sln
+
+
+# CLion
+.idea
+cmake-build-debug
+
+# CMake
+CMakeLists.txt
+cmake/
+GDL_May/
+visual/
+/GameJamGDL/GameJamGDL
