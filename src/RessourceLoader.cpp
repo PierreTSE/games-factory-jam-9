@@ -20,7 +20,7 @@ RessourceReference<sf::Texture> RessourceLoader::loadTexture(std::string const& 
 
 std::string RessourceLoader::getPath(std::string const& name)
 {
-    if(!wdSet)
+    if(!ressourceLoaderInstance.wdSet)
     {
         using namespace std::filesystem;
         path p = current_path();
@@ -30,7 +30,7 @@ std::string RessourceLoader::getPath(std::string const& name)
             current_path(p);
         else
             throw std::runtime_error("Can't find resources directory");
-        wdSet = true;
+        ressourceLoaderInstance.wdSet = true;
     }
     return "rc/"+name;
 }
