@@ -12,31 +12,60 @@ enum characterState { WALKING_UP, WALKING_DOWN, WALKING_LEFT, WALKING_RIGHT };
 
 int main()
 {
-	Luciole luciole;
-	luciole.set_coordd(60, 100);
-	luciole.set_coordf(600,500);
-	Player monPerso;
+    // Ce code peux servir Ã  faire des changements automatiques sur les sprites, Ã  garder
+    //for(auto path : {"../../rc/sprites/ringing_down.png"}) {
+    //	sf::Image img, img2;
+    //	img.loadFromFile(path);
+    //	img2.create(img.getSize().x, img.getSize().y, sf::Color::Transparent);
+    //	
+    //	int n = img.getSize().x/340;
+    //	
+    //	for(int i = 0; i < n-1; i++) {
+    //		for(int j = 0; j < 340; j++) {
+    //			for(int k = 0; k < 600; k++)
+    //				img2.setPixel(i*340+j, k, img.getPixel((i+1)*340+j, k));
+    //		}
+    //	}
+	//	for(int j = 0; j < 340; j++) {
+	//		for(int k = 0; k < 600; k++)
+	//			img2.setPixel((n-1)*340+j, k, img.getPixel(j, k));
+	//	}
+	//	
+	//	img2.saveToFile(path);
+    //}
+    
+    
+    
+    
+  	Player monPerso;
 
 
-	//Création de la fenetre du jeux
+
+	//CrÃ©ation de la fenetre du jeux
 	sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SUPER BIZUT", sf::Style::Default, sf::ContextSettings(0, 0, 8));
 
 	//Tant que l'on joue (fenetre ouverte)
 	while (window.isOpen())
 	{
-		//Création d'un objet récupérant les événements (touche clavier et autre)
+		//CrÃ©ation d'un objet rÃ©cupÃ©rant les Ã©vÃ©nements (touche clavier et autre)
 		sf::Event event{};
 
 
 
 
-		//Boucle des évennements
+		//Boucle des Ã©vennements
 		while (window.pollEvent(event))
 		{
 			//Evenement de fermeture de la fenetre : on ferme le jeux
 			if (event.type == sf::Event::Closed)
 				window.close();
 			if(event.type == sf::Event::KeyPressed) {
+                switch(event.key.code)
+                {
+                    case sf::Keyboard::Space:
+                        monPerso.ring();
+                        break;
+                }
 			}
 		}
 		
@@ -101,10 +130,10 @@ sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
 Player monPerso;
 
 
-	//Création de la fenetre du jeux
+	//CrÃ©ation de la fenetre du jeux
 	sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SUPER BIZUT", sf::Style::Default, sf::ContextSettings(0, 0, 8));
 
-	//Création de la clock
+	//CrÃ©ation de la clock
 	sf::Clock clock;
 
 	sf::Time timer = sf::Time::Zero;
@@ -118,13 +147,13 @@ Player monPerso;
 		timer += elapsedTime;
 
 
-		//Création d'un objet récupérant les événements (touche clavier et autre)
+		//CrÃ©ation d'un objet rÃ©cupÃ©rant les Ã©vÃ©nements (touche clavier et autre)
 		sf::Event event{};
 
 
 
 
-		//Boucle des évennements
+		//Boucle des Ã©vennements
 		while (window.pollEvent(event))
 		{
 			//Evenement de fermeture de la fenetre : on ferme le jeux
