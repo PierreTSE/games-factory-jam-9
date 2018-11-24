@@ -58,6 +58,8 @@ Echolocation::Echolocation()
 	obstacle_.width = 400;
 	obstacle_.height = 200;
 
+	sortie.setPosition(200, 200);
+
 	alpha_ = 255;
 	dead_ = false;
 
@@ -76,6 +78,9 @@ void Echolocation::detect(sf::Vector2f center, float radius)
 
 		detectVerticalBorder(center, radius, obstacle_.left + obstacle_.width);
 		detectVerticalBorder(center, radius, obstacle_.left);
+
+		if (sortie.isInCircle(center, radius))
+			sortie.discover();
 
 		alpha_ = 255;
 	}
@@ -101,16 +106,17 @@ void Echolocation::drawLayout(sf::RenderWindow & window)
 	render.setScale(1, -1);
 	render.setColor({ 255, 255, 255, (sf::Uint8)alpha_ });
 	window.draw(render);
+	sortie.draw(window);
 }
 
-void Echolocation::update(sf::Time elpasedTime)
+void Echolocation::update(sf::Time elapsedTime)
 {
-	alpha_ -= 100 * elpasedTime.asSeconds();
+	sortie.update(elapsedTime);
+	alpha_ -= 100 * elapsedTime.asSeconds();
 	if (alpha_ < 0) {
 		alpha_ = 0;
 		dead_ = true;
-	}
-		
+	}		
 }
 
 bool Echolocation::isDead()

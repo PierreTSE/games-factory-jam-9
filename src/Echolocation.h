@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include "Utils.h"
+#include "Item.h"
 
 #include <SFML/Graphics.hpp>
 #include <memory>
@@ -15,6 +16,7 @@ class Echolocation
 		std::unique_ptr<sf::RenderTexture> layout_;
 		float alpha_;
 		bool dead_;
+		Item sortie;
 
 		void detectHorizontalBorder(sf::Vector2f center, float raduis, float border);
 		void detectVerticalBorder(sf::Vector2f center, float raduis, float border);
