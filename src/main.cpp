@@ -77,11 +77,58 @@ void mainTestEnvironment()
 
 }
 
+void mainTestChandelier()
+{
+    const float window_x = 800.f, window_y = 700.f;
+
+    sf::RenderWindow window(sf::VideoMode(window_x, window_y),
+                            "Test Environment",
+                            sf::Style::Default,
+                            sf::ContextSettings(0, 0, 8));
+
+    const float ratio = 10.f;
+
+    sf::Texture text;
+    text.loadFromFile(RessourceLoader::getPath("map/map10.png"));
+    sf::Sprite map(text);
+    map.scale(ratio, ratio);
+
+    auto chandeliers = Chandelier::createChandeliers(RessourceLoader::getPath("map/map10.txt"), ratio);
+    for(auto& e : chandeliers)
+    {
+        e.objet_.move(ratio,ratio);
+        e.objet_.scale(ratio,ratio);
+    }
+
+    while(window.isOpen())
+    {
+
+        globalClock::getClock().restart();
+
+        //std::cout << globalClock::getClock().frameTime().asMilliseconds() << std::endl;
+
+        window.clear();
+
+        window.draw(map);
+
+        for(auto& e : chandeliers)
+        {
+            e.gestion(globalClock::getClock().frameTime());
+            e.draw(window);
+        }
+
+        window.display();
+
+        sf::sleep(sf::milliseconds(10));
+    }
+}
+
 
 int main()
 {
+    //mainTestEnvironment();
 
-    mainTestEnvironment();
+    mainTestChandelier();
 
 
     // Ce code peux servir à faire des changements automatiques sur les sprites, à garder
