@@ -11,7 +11,6 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
-
 namespace fs = std::filesystem;
 
 void mainTestEnvironment(fs::path rc)

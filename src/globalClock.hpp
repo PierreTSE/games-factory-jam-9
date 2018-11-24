@@ -22,7 +22,7 @@ class globalClock
         
 
     private:
-        sf::Clock clock;
+        sf::Clock clock;"'eé"
         sf::Time frame = sf::Time::Zero;
         sf::Time global = sf::Time::Zero;
         double factor = 1;
