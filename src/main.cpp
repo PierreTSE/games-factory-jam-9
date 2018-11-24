@@ -39,7 +39,9 @@ int main()
     
   	Player monPerso;
 
-
+	Luciole luciole;
+	luciole.set_coordd(100, 100);
+	luciole.set_coordf(300, 300);
 
 	//Création de la fenetre du jeux
 	sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SUPER BIZUT", sf::Style::Default, sf::ContextSettings(0, 0, 8));

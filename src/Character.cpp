@@ -2,6 +2,7 @@
 #include<iostream>
 #include "constantes.hpp"
 #include "RessourceLoader.hpp"
+#include "globalClock.hpp"
 
 
 Player::Player() :
