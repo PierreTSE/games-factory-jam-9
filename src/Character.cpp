@@ -3,7 +3,7 @@
 
 Player::Player()
 {
-	//Initialisation du rectangle représentant le joueur
+	//Initialisation du rectangle reprÃ©sentant le joueur
 	form_.setSize({ 200,250 });
 	form_.setPosition(0, 160);
 	form_.setFillColor(sf::Color::Blue);
