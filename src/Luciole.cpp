@@ -8,12 +8,6 @@
 
 using namespace std;
 
-Luciole a;
-
-Luciole::Luciole()
-{
-	sprite.setScale(0.5, 0.5);
-}
 
 float Luciole::distance()
 {
@@ -52,8 +46,37 @@ void Luciole::mouv()
 
 void Luciole::draw(sf::RenderWindow & window)
 {
+	if (distance() > 1)
+	{
+		double dir = angle();
+		double tps = globalClock::getClock().frameTime().asSeconds();
+		abs += vitesse * tps*cos(dir);
+		ord += vitesse * tps*sin(dir);
+
+		lights.emplace_back(abs + 10, ord + 10);
+		lights.back().setAlphaSpeed(600);
+		lights.back().setAlpha(255);
+		lights.back().setRadiusSpeed(0);
+		lights.back().setRadius(50);
+		lights.back().setDrawCircle(false);
+	}
+
+
+
+	for (size_t i = 0; i < lights.size(); i++)
+		lights[i].update();
+
+	lights.erase(std::remove_if(lights.begin(),
+		lights.end(),
+		[](auto& elem) { return elem.isDead(); }),
+		lights.end());
 	obj.setPosition(abs, ord);
 	window.draw(obj);
+	for (size_t i = 0; i < lights.size(); i++)
+		lights[i].draw(window);
+
+	sprite.setPosition(abs, ord);
+	sprite.draw(window);
 }
 
 void Luciole::set_coordd(float X, float Y)
@@ -73,34 +96,7 @@ void Luciole::set_coordf(float X, float Y)
 
 Luciole::Luciole() :
 	sprite(FLAMING, AnimatedSprite(4, sf::milliseconds(200), RessourceLoader::getTexture("sprites/sprites_feufollet.png")))
-	if(distance() > 1)
-	{
-		double dir = angle();
-		double tps = globalClock::getClock().frameTime().asSeconds();
-		abs += vitesse * tps*cos(dir);
-		ord += vitesse * tps*sin(dir);
+{
 
-		lights.emplace_back(abs + 10, ord + 10);
-		lights.back().setAlphaSpeed(600);
-		lights.back().setAlpha(255);
-		lights.back().setRadiusSpeed(0);
-		lights.back().setRadius(50);
-		lights.back().setDrawCircle(false);
-	}
-	
-	
-
-	for (size_t i = 0; i < lights.size(); i++)
-		lights[i].update();
-
-	lights.erase(std::remove_if(lights.begin(),
-		lights.end(),
-		[](auto& elem) { return elem.isDead(); }),
-		lights.end());
-	obj.setPosition(abs, ord);
-	window.draw(obj);
-	for (size_t i = 0; i < lights.size(); i++)
-		lights[i].draw(window);
-	
-	sprite.setPosition(abs, ord);
-	sprite.draw(window);
+	sprite.setScale(0.5, 0.5);
+}
