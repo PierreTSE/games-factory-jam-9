@@ -6,8 +6,6 @@
 
 using namespace std;
 
-Luciole a;
-
 Luciole::Luciole()
 {
 	obj.setSize({ 20, 20 });
@@ -29,16 +27,39 @@ float Luciole::angle()
 
 void Luciole::mouv()
 {
-	double dir = angle();
-	double tps = globalClock::getClock().frameTime().asSeconds();
-	abs += vitesse * tps*cos(dir);
-	ord += vitesse * tps*sin(dir);
+	if(distance() > 1)
+	{
+		double dir = angle();
+		double tps = globalClock::getClock().frameTime().asSeconds();
+		abs += vitesse * tps*cos(dir);
+		ord += vitesse * tps*sin(dir);
+
+		lights.emplace_back(abs, ord);
+		lights.back().setAlphaSpeed(600);
+		lights.back().setAlpha(255);
+		lights.back().setRadiusSpeed(0);
+		lights.back().setRadius(50);
+		lights.back().setDrawCircle(false);
+	}
+	
+	
+
+	for (size_t i = 0; i < lights.size(); i++)
+		lights[i].update();
+
+	lights.erase(std::remove_if(lights.begin(),
+		lights.end(),
+		[](auto& elem) { return elem.isDead(); }),
+		lights.end());
 }
 
 void Luciole::draw(sf::RenderWindow & window)
 {
 	obj.setPosition(abs, ord);
 	window.draw(obj);
+	for (size_t i = 0; i < lights.size(); i++)
+		lights[i].draw(window);
+	
 }
 
 void Luciole::set_coordd(float X, float Y)

@@ -2,6 +2,7 @@
 #define LUCIOLE_H
 
 #include <SFML/Graphics.hpp>
+#include "SoundWave.h"
 
 class Luciole
 {
@@ -12,6 +13,7 @@ private:
 	float soly;
 	float vitesse = 100;
 	sf::RectangleShape obj;
+	std::vector<SoundWave> lights;
 public:
 	Luciole();
 	float distance();

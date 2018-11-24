@@ -18,7 +18,7 @@ class Player
 {
     public:
         Player();
-        bool collision();
+        bool collision(std::vector<std::vector<bool>> const& map);
         void movement(sf::RenderWindow& window, const sf::Time& elapsedTime);
         void draw(sf::RenderTarget& target);
         
@@ -28,6 +28,8 @@ class Player
         
         void setOrientation(Orientation o);
         void setAnimation(Animation a);
+
+		sf::Vector2f getPosition();
     
     private:
         enum States {
