@@ -30,6 +30,12 @@ void mainTestEnvironment()
 
 	const sf::RectangleShape background({window_x, window_y});
 
+    auto chandeliers = Chandelier::createChandeliers(RessourceLoader::getPath("map/map10.txt"), ratio);
+    for(auto& e : chandeliers)
+    {
+        e.objet_.move(ratio,ratio);
+        e.objet_.scale(ratio,ratio);
+    }
 
     while(window.isOpen())
     {
@@ -51,10 +57,18 @@ void mainTestEnvironment()
 
         globalClock::getClock().restart();
 
+        //std::cout << globalClock::getClock().frameTime().asMilliseconds() << std::endl;
+
         window.clear();
 
         window.draw(background);
         environment.drawObstacles(window, ratio);
+
+        for(auto& e : chandeliers)
+        {
+            e.gestion(globalClock::getClock().frameTime());
+            e.draw(window);
+        }
 
         window.display();
 
@@ -67,7 +81,7 @@ void mainTestEnvironment()
 int main()
 {
 
-    //mainTestEnvironment();
+    mainTestEnvironment();
 
 
     // Ce code peux servir à faire des changements automatiques sur les sprites, à garder
@@ -164,7 +178,7 @@ int main()
 
 		//test chandelier
 		chand.gestion(globalClock::getClock().frameTime());
-		window.draw(chand.objet);
+		window.draw(chand.objet_);
 
         window.display();
 

@@ -1,17 +1,30 @@
-#pragma once
-#include <cmath>
+#ifndef CHANDELIER_H
+#define CHANDELIER_H
 #include <SFML/Graphics.hpp>
+#include <filesystem>
 
-struct Chandelier
+class Chandelier
 {
-public:
-	//void move();
-	void gestion(sf::Time elapsedTime);
-	Chandelier(sf::Vector2i debut,sf::Vector2i fin);
+private:
+    sf::Vector2i debut_;
+    sf::Vector2i fin_;
 
-	sf::Vector2i debut_;
-	sf::Vector2i fin_;
-	sf::RectangleShape objet;
-	bool sens;
-	float vitesse = 0.05;
+    bool sens_;
+
+    const float vitesse_ = 0.05;
+
+public:
+
+    //TODO devra être remplacé par un sf::Sprite
+    sf::RectangleShape objet_;
+
+    Chandelier(sf::Vector2i debut, sf::Vector2i fin);
+
+    static std::vector<Chandelier> createChandeliers(std::filesystem::path path);
+    static std::vector<Chandelier> createChandeliers(std::filesystem::path path, int ratio);
+
+    void gestion(sf::Time elapsedTime);
+
+    void draw(sf::RenderWindow& window) const;
 };
+#endif // CHANDELIER_H
