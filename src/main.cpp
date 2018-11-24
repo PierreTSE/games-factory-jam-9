@@ -3,6 +3,7 @@
 #include "AnimatedEntity.hpp"
 #include "globalClock.hpp"
 #include "RessourceLoader.hpp"
+#include "Chandelier.h"
 
 
 enum characterState { WALKING_UP, WALKING_DOWN, WALKING_LEFT, WALKING_RIGHT };
@@ -15,7 +16,7 @@ int main()
 
     AnimatedSprite down(4, sf::milliseconds(250), RessourceLoader::getTexture("sprites/sprites_face_marche.png"), sf::IntRect{0, 0, 300, 600});
     AnimatedEntity<characterState> redGuy(WALKING_DOWN, down);
-
+	Chandelier chand = Chandelier({ 10,10 }, { 50,10 });
 
 	//Création de la fenetre du jeux
 	sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SUPER BIZUT", sf::Style::Default, sf::ContextSettings(0, 0, 8));
@@ -74,6 +75,10 @@ int main()
 		monPerso.drawRectangle(window);
 		monPerso.movement(window, elapsedTime);//Mouvement du personnage
         redGuy.draw(window);
+
+		//test chandelier
+		chand.gestion(elapsedTime);
+		window.draw(chand.objet);
 
 		window.display();
 
