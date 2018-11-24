@@ -8,7 +8,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
 	sf::Clock clock;
 
-	std::vector<SoundWave> waves;
+	SoundWave wave;
 
     while (window.isOpen())
     {
@@ -24,7 +24,7 @@ int main()
 		{
 			// get global mouse position
 			sf::Vector2i position = sf::Mouse::getPosition(window);
-			waves.emplace_back(position.x, position.y);
+			wave.setCenter(position.x, position.y);
 		}
 
 		sf::Time elapsed = clock.getElapsedTime();
@@ -33,10 +33,8 @@ int main()
 
         window.clear();
 		
-		for (size_t i = 0; i < waves.size(); i++) {
-			waves[i].update(elapsed);
-			waves[i].draw(window);
-		}
+		wave.update(elapsed);
+		wave.draw(window);
         
         window.display();
     }
