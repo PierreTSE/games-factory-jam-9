@@ -35,6 +35,8 @@ template<typename StateType>
 template<typename StateType>
 void AnimatedEntity<StateType>::setState(StateType state)
 {
+    if(current == state)
+        return;
     ptrdiff_t index = std::find(states.begin(), states.end(), current) - states.begin();
     if(index < states.size())
         sprites[index].reset();

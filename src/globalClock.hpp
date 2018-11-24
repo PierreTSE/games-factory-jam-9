@@ -2,6 +2,7 @@
 #define GLOBALCLOCK_HPP
 
 #include <SFML/System/Clock.hpp>
+#include <functional>
 
 
 class globalClock
@@ -15,6 +16,8 @@ class globalClock
         void changeSpeed(double speed) noexcept;
         sf::Time timeSinceStartup() const noexcept;
         
+        void executeIn(sf::Time delay, std::function<void()> fun);
+        
         static globalClock& getClock();
         
 
@@ -24,6 +27,7 @@ class globalClock
         sf::Time global = sf::Time::Zero;
         double factor = 1;
         bool running = true;
+        std::vector<std::pair<sf::Time, std::function<void()>>> callbacks;
 };
 
 static globalClock instance;

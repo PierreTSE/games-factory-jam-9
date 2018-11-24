@@ -9,6 +9,16 @@ sf::Time globalClock::restart() noexcept
     {
         frame = elapsed * (float)factor;
         global += frame;
+        for(auto& [time, fun] : callbacks)
+        {
+            time -= frame;
+            if(time < sf::Time::Zero)
+                fun();
+        }
+        callbacks.erase(std::remove_if(callbacks.begin(),
+                                       callbacks.end(),
+                                       [](auto const& p) { return p.first < sf::Time::Zero; }),
+                        callbacks.end());
     }
     else
     {
@@ -46,4 +56,9 @@ sf::Time globalClock::timeSinceStartup() const noexcept
 globalClock& globalClock::getClock()
 {
     return instance;
+}
+
+void globalClock::executeIn(sf::Time delay, std::function<void()> fun)
+{
+    callbacks.emplace_back(delay, std::move(fun));
 }
