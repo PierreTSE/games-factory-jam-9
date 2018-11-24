@@ -11,11 +11,11 @@ class AnimatedSprite : public sf::Sprite
     public:
         AnimatedSprite(int nFrame, sf::Time time, const sf::Texture& tex);
         AnimatedSprite(int nFrame, sf::Time time, const sf::Texture& tex, sf::IntRect textRect);
-
+        void reset();
+        
         void update();
     
     private:
-        sf::Texture texture;
         sf::IntRect frameSize;
         int numFrame;
         int n;
