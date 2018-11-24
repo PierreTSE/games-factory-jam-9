@@ -24,6 +24,8 @@ class Player
         
         void setCanMove(bool b);
         
+        void ring(); // Test
+        
         void setOrientation(Orientation o);
         void setAnimation(Animation a);
     
