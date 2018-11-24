@@ -217,6 +217,10 @@ public :
         updatePillars();
     }
 
+    std::vector<sf::Vector2i> getDepart() const { return depart_; }
+
+    std::vector<sf::Vector2i> getArrivee() const { return arrivee_; }
+
     void drawObstacles(sf::RenderWindow& window, float ratio, sf::Vector2f origin = {1.f, 1.f}) const
     {
         for(int i = 0 ; i < height_ ; ++i)
