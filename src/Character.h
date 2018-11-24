@@ -18,8 +18,8 @@ class Player
 {
     public:
         Player();
-        bool collision(std::vector<std::vector<bool>> const& map);
-        void movement(sf::RenderWindow& window, const sf::Time& elapsedTime);
+        bool collision(std::vector<std::vector<bool>> const& map, sf::Vector2f pos);
+        void movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>> const& map);
         void draw(sf::RenderTarget& target);
         
         void setCanMove(bool b);

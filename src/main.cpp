@@ -161,14 +161,14 @@ int main()
 	environment.load(RessourceLoader::getPath("map/map10.png"));
 
     Player monPerso;
+    
+    Chandelier chand({50, 50}, {150, 50});
 
 	Maze maze(environment);
 
 	Luciole luciole(&maze);
 	luciole.set_coordd(100, 100);
 	luciole.set_coordf(500, 500);
-
-    Chandelier chand({10,10},{50,50});
 
     //Création de la fenetre du jeux
     sf::RenderWindow window(sf::VideoMode(1200, 720),
@@ -208,7 +208,7 @@ int main()
 
         globalClock::getClock().restart();
 
-        monPerso.movement(window, globalClock::getClock().frameTime()); //Mouvement du personnage
+        monPerso.movement(globalClock::getClock().frameTime(), environment.getObstacles()); //Mouvement du personnage
 
         window.clear();
 

@@ -2,12 +2,17 @@
 #define UTILS_H
 
 #include <SFML/Graphics.hpp>
+#include <random>
+
 
 class Utils {
 	public:
 		template <class T> static T min(T x1, T x2);
 		template <class T> static T max(T x1, T x2);
 		sf::Color static makeHSV(int hue, float sat, float val, float alpha);
+		
+		int random(int min, int max);
+		int random(int max);
 };
 
 template<class T>
@@ -22,7 +27,7 @@ inline T Utils::max(T x1, T x2)
 	return x1 > x2 ? x1 : x2;
 }
 
-// hue: 0-360°; sat: 0.f-1.f; val: 0.f-1.f
+// hue: 0-360Â°; sat: 0.f-1.f; val: 0.f-1.f
 inline sf::Color Utils::makeHSV(int hue, float sat, float val, float alpha)
 {
 	hue %= 360;
@@ -51,6 +56,19 @@ inline sf::Color Utils::makeHSV(int hue, float sat, float val, float alpha)
 	case 4: return sf::Color(t * 255, p * 255, val * 255, alpha);
 	case 5: return sf::Color(val * 255, p * 255, q * 255, alpha);
 	}
+}
+
+int Utils::random(int min, int max)
+{
+	std::random_device rd;
+	static std::default_random_engine eng(rd());
+	std::uniform_int_distribution<int> distrib(min, max);
+	return distrib(eng);
+}
+
+int Utils::random(int max)
+{
+    random(0, max);
 }
 
 #endif // !UTILS_H

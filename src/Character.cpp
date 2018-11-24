@@ -1,5 +1,6 @@
 #include "Character.h"
 #include<iostream>
+#include <cmath>
 #include "constantes.hpp"
 #include "RessourceLoader.hpp"
 #include "globalClock.hpp"
@@ -57,50 +58,64 @@ Player::Player() :
 }
 
 
-void Player::movement(sf::RenderWindow& window, const sf::Time& elapsedTime)
+void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>> const& map)
 {
     if(!canMove)
         return;
+    
+    sf::Vector2f nextPos = position_;
 
     if(sf::Keyboard::isKeyPressed(
         sf::Keyboard::Right) /*&& (position_.x + form_.getGlobalBounds().width) < WINDOW_SIZE_X*/)
     {
         setOrientation(Orientation::RIGHT);
         setAnimation(Animation::WALKING);
-        position_.x += speed_ * elapsedTime.asSeconds();
+        nextPos.x += speed_ * elapsedTime.asSeconds();
     }
     else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && position_.x > 0)
     {
         setOrientation(Orientation::LEFT);
         setAnimation(Animation::WALKING);
-        position_.x -= speed_ * elapsedTime.asSeconds();
+        nextPos.x -= speed_ * elapsedTime.asSeconds();
     }
     else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && position_.y > 0)
     {
         setOrientation(Orientation::UP);
         setAnimation(Animation::WALKING);
-        position_.y -= speed_ * elapsedTime.asSeconds();
+        nextPos.y -= speed_ * elapsedTime.asSeconds();
     }
     else if(sf::Keyboard::isKeyPressed(
         sf::Keyboard::Down) /*&& (position_.y + form_.getGlobalBounds().height) < WINDOW_SIZE_Y*/)
     {
         setOrientation(Orientation::DOWN);
         setAnimation(Animation::WALKING);
-        position_.y += speed_ * elapsedTime.asSeconds();
+        nextPos.y += speed_ * elapsedTime.asSeconds();
     }
     else
     {
         setAnimation(Animation::IDLE);
     }
+    
+    if(collision(map, nextPos))
+        position_ = nextPos;
+    else 
+        setAnimation(Animation::IDLE);
 
     sprite.setPosition(position_);
 }
 
 
-bool Player::collision(std::vector<std::vector<bool>> const& map)
+bool Player::collision(std::vector<std::vector<bool>> const& map, sf::Vector2f pos)
 {
-    hitbox_.left = position_.x + 10;
-    hitbox_.top = position_.y + 10;
+    double factor = 720.0/61;
+    sf::Vector2f min = sf::Vector2f{hitbox_.left, hitbox_.top}; - getPosition() + pos;
+    sf::Vector2f max = min + sf::Vector2f{hitbox_.width, hitbox_.height};
+    
+    for(int i = floor(min.x/factor); i <= floor(max.x/factor); i++) {
+        for(int j = floor(min.y/factor); j <= floor(max.y/factor); j++)
+            if(map[j][i])
+                return false;
+    }
 
     return true;
 }
