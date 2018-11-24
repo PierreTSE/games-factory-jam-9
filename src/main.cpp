@@ -100,9 +100,9 @@ int main()
 
     Player monPerso;
 
-    Luciole luciole;
-    luciole.set_coordd(500, 500);
-    luciole.set_coordf(100, 100);
+	Luciole luciole;
+	luciole.set_coordd(100, 100);
+	luciole.set_coordf(500, 500);
 
     std::vector<SoundWave> waves;
 

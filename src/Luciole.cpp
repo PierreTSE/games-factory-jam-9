@@ -3,13 +3,16 @@
 #include <stdlib.h>
 #include"globalClock.hpp"
 #include<cmath>
+#include "constantes.hpp"
+#include "RessourceLoader.hpp"
 
 using namespace std;
 
+Luciole a;
+
 Luciole::Luciole()
 {
-	obj.setSize({ 20, 20 });
-	obj.setFillColor(sf::Color::Green);
+	sprite.setScale(0.5, 0.5);
 }
 
 float Luciole::distance()
@@ -25,8 +28,51 @@ float Luciole::angle()
 	return atan2(soly-ord,solx-abs);
 }
 
+#include <stdlib.h> 
+long random_at_most(long max) {
+	unsigned long
+		num_bins = (unsigned long)max + 1,
+		num_rand = (unsigned long)RAND_MAX + 1,
+		bin_size = num_rand / num_bins,
+		defect = num_rand % num_bins;
+	long x;
+	do {
+		x = rand();
+	} while (num_rand - defect <= (unsigned long)x);
+	return x / bin_size;
+}
+
 void Luciole::mouv()
 {
+	double dir = angle();
+	double tps = globalClock::getClock().frameTime().asSeconds();
+	abs += vitesse * tps*cos(dir);
+	ord += vitesse * tps*sin(dir);
+}
+
+void Luciole::draw(sf::RenderWindow & window)
+{
+	obj.setPosition(abs, ord);
+	window.draw(obj);
+}
+
+void Luciole::set_coordd(float X, float Y)
+{
+	abs = X;
+	ord = Y;
+}
+
+void Luciole::set_coordf(float X, float Y)
+{
+	solx = X;
+	soly = Y;
+}
+
+
+
+
+Luciole::Luciole() :
+	sprite(FLAMING, AnimatedSprite(4, sf::milliseconds(200), RessourceLoader::getTexture("sprites/sprites_feufollet.png")))
 	if(distance() > 1)
 	{
 		double dir = angle();
@@ -51,26 +97,10 @@ void Luciole::mouv()
 		lights.end(),
 		[](auto& elem) { return elem.isDead(); }),
 		lights.end());
-}
-
-void Luciole::draw(sf::RenderWindow & window)
-{
 	obj.setPosition(abs, ord);
 	window.draw(obj);
 	for (size_t i = 0; i < lights.size(); i++)
 		lights[i].draw(window);
 	
-}
-
-void Luciole::set_coordd(float X, float Y)
-{
-	abs = X;
-	ord = Y;
-}
-
-void Luciole::set_coordf(float X, float Y)
-{
-	solx = X;
-	soly = Y;
-}
-
+	sprite.setPosition(abs, ord);
+	sprite.draw(window);
