@@ -33,7 +33,7 @@ void Item::update(sf::Time elapsedTime)
 	if (alpha_ > 0) {
 		hue_ += 100 * elapsedTime.asSeconds();
 		alpha_ -= 100 * elapsedTime.asSeconds();
-		angle_ = sens_ * 120 * elapsedTime.asSeconds();
+		angle_ += sens_ * 70 * elapsedTime.asSeconds();
 		if (angle_ < 0 || angle_ > 90)
 			sens_ = -sens_;
 	}
@@ -45,7 +45,7 @@ void Item::draw(sf::RenderWindow &window)
 	{
 		shape_.setRotation(angle_);
 		shape_.setPosition(x_, y_);
-		shape_.setFillColor(Utils::makeHSV(hue_, 0.5f, 1.f, alpha_));
+		shape_.setFillColor(Utils::makeHSV(hue_, 0.6f, 1.f, alpha_));
 		window.draw(shape_);
 	}
 	
