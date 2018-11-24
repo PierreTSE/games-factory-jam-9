@@ -46,6 +46,7 @@ class Player
         Animation animation;
         sf::FloatRect hitbox_;
         bool canMove = true;
+        bool canRing = true;
 
 };
 

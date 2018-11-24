@@ -143,14 +143,19 @@ void Player::setCanMove(bool b)
 
 void Player::ring()
 {
-    if(!canMove) // Bandit
+    if(!canRing)
         return;
     setAnimation(Animation::RINGING);
     setCanMove(false);
+    canRing = false;
     globalClock::getClock().executeIn(sf::seconds(0.74), [&]()
     {
         setAnimation(Animation::IDLE);
         setCanMove(true);
+    });
+    globalClock::getClock().executeIn(sf::seconds(1), [&]()
+    {
+        canRing = true;
     });
 }
 
