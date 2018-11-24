@@ -108,6 +108,17 @@ void Player::setCanMove(bool b)
     canMove = b;
 }
 
+void Player::ring()
+{
+    if(!canMove) // Bandit
+        return;
+    setAnimation(Animation::RINGING);
+    setCanMove(false);
+    globalClock::getClock().executeIn(sf::seconds(0.74), [&](){
+        setAnimation(Animation::IDLE);
+        setCanMove(true);
+    });
+}
 
 
 
