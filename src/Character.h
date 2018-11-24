@@ -28,6 +28,8 @@ class Player
         
         void setOrientation(Orientation o);
         void setAnimation(Animation a);
+
+		sf::Vector2f getPosition();
     
     private:
         enum States {

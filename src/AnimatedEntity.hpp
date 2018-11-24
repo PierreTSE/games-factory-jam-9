@@ -20,6 +20,7 @@ template<typename StateType>
         AnimatedEntity(StateType defaultState, AnimatedSprite const& sprite);
         void setup(StateType state, AnimatedSprite const& sprite);
         void setState(StateType state);
+		sf::Vector2f getSize();
         
         void draw(sf::RenderTarget&);
     
@@ -41,6 +42,15 @@ void AnimatedEntity<StateType>::setState(StateType state)
     if(index < states.size())
         sprites[index].reset();
     current = state;
+}
+
+template<typename StateType>
+inline sf::Vector2f AnimatedEntity<StateType>::getSize()
+{
+	sf::Vector2f res;
+	res.x = sprites.front().getGlobalBounds().width;
+	res.y = sprites.front().getGlobalBounds().height;
+	return res;
 }
 
 template<typename StateType>

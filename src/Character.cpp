@@ -104,6 +104,11 @@ void Player::setAnimation(Animation a)
     sprite.setState(combineStates(orientation, animation));
 }
 
+sf::Vector2f Player::getPosition()
+{
+	return position_ + sprite.getSize()/2.f;
+}
+
 void Player::setCanMove(bool b)
 {
     canMove = b;

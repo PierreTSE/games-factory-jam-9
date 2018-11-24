@@ -1,10 +1,13 @@
-#include "Character.h"
 #include <SFML/Graphics.hpp>
+#include <vector>
+
+#include "Character.h"
 #include "AnimatedEntity.hpp"
 #include "globalClock.hpp"
 #include "RessourceLoader.hpp"
 #include"Luciole.h"
 #include"constantes.hpp"
+#include "SoundWave.h"
 
 enum characterState { WALKING_UP, WALKING_DOWN, WALKING_LEFT, WALKING_RIGHT };
 
@@ -40,8 +43,10 @@ int main()
   	Player monPerso;
 
 	Luciole luciole;
-	luciole.set_coordd(100, 100);
-	luciole.set_coordf(300, 300);
+	luciole.set_coordd(500, 500);
+	luciole.set_coordf(100, 100);
+
+	std::vector<SoundWave> waves;
 
 	//Création de la fenetre du jeux
 	sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SUPER BIZUT", sf::Style::Default, sf::ContextSettings(0, 0, 8));
@@ -51,9 +56,6 @@ int main()
 	{
 		//Création d'un objet récupérant les événements (touche clavier et autre)
 		sf::Event event{};
-
-
-
 
 		//Boucle des évennements
 		while (window.pollEvent(event))
@@ -66,6 +68,8 @@ int main()
                 {
                     case sf::Keyboard::Space:
                         monPerso.ring();
+						if((waves.size() == 0 || waves.back().getTime() > sf::milliseconds(500)))
+							waves.emplace_back(monPerso.getPosition().x, monPerso.getPosition().y);
                         break;
                 }
 			}
@@ -79,18 +83,24 @@ int main()
 		window.clear();
 
 		monPerso.draw(window);
-		if (luciole.distance() > 20)
-		{
-			luciole.mouv();
-		}
-		luciole.draw(window);
-			window.display();
 
+		luciole.mouv();
+		luciole.draw(window);
+
+		for (size_t i = 0; i < waves.size(); i++)
+		{
+			waves[i].update();
+			waves[i].draw(window);
+		}
+
+		waves.erase(std::remove_if(waves.begin(),
+			waves.end(),
+			[](auto& elem) { return elem.isDead(); }),
+			waves.end());
+
+		window.display();
 
 		sf::sleep(sf::milliseconds(10));
-
-
-
 
 	}
 
@@ -100,80 +110,3 @@ int main()
 }
 
 
-
-/*
-sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
-
-	while (window.isOpen())
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-
-		window.clear();
-		window.draw(shape);
-		window.display();
-	}
-	
-	
-*/
-
-
-
-
-
-/*
-
-Player monPerso;
-
-
-	//Création de la fenetre du jeux
-	sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SUPER BIZUT", sf::Style::Default, sf::ContextSettings(0, 0, 8));
-
-	//Création de la clock
-	sf::Clock clock;
-
-	sf::Time timer = sf::Time::Zero;
-
-	//Tant que l'on joue (fenetre ouverte)
-	while (window.isOpen())
-	{
-		sf::Time elapsedTime = clock.getElapsedTime();
-		clock.restart();
-
-		timer += elapsedTime;
-
-
-		//Création d'un objet récupérant les événements (touche clavier et autre)
-		sf::Event event{};
-
-
-
-
-		//Boucle des évennements
-		while (window.pollEvent(event))
-		{
-			//Evenement de fermeture de la fenetre : on ferme le jeux
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-
-
-		window.clear();
-
-		monPerso.drawRectangle(window);
-		monPerso.movement(window, elapsedTime);//Mouvement du personnage
-
-
-
-		window.display();
-
-
-		sf::sleep(sf::milliseconds(10));
-		
-		*/
