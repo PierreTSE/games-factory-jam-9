@@ -3,19 +3,23 @@
 #include "AnimatedEntity.hpp"
 #include "globalClock.hpp"
 #include "RessourceLoader.hpp"
-#include "constantes.hpp"
+#include"Luciole.h"
+#include"constantes.hpp"
+
+enum characterState { WALKING_UP, WALKING_DOWN, WALKING_LEFT, WALKING_RIGHT };
 
 
 
 int main()
-{    
-  	Player monPerso;
-
+{
+	Luciole luciole;
+	luciole.set_coordd(60, 100);
+	luciole.set_coordf(600,500);
+	Player monPerso;
 
 
 	//Création de la fenetre du jeux
 	sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SUPER BIZUT", sf::Style::Default, sf::ContextSettings(0, 0, 8));
-
 
 	//Tant que l'on joue (fenetre ouverte)
 	while (window.isOpen())
@@ -33,33 +37,29 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 			if(event.type == sf::Event::KeyPressed) {
-                switch(event.key.code)
-                {
-                    case sf::Keyboard::Space:
-                        monPerso.setAnimation(Animation::RINGING);
-                        monPerso.setCanMove(false);
-                        globalClock::getClock().executeIn(sf::seconds(1), [&](){
-                            monPerso.setAnimation(Animation::IDLE);
-                            monPerso.setCanMove(true);
-                        });
-                        break;
-                }
 			}
 		}
 		
 		globalClock::getClock().restart();
+		
 
+		monPerso.movement(window, globalClock::getClock().frameTime());//Mouvement du personnage
 
-        monPerso.movement(window, globalClock::getClock().frameTime());//Mouvement du personnage
-
-        
 		window.clear();
-        monPerso.draw(window);
-		window.display();
+
+		monPerso.draw(window);
+		if (luciole.distance() > 20)
+		{
+			luciole.mouv();
+		}
+		luciole.draw(window);
+			window.display();
 
 
 		sf::sleep(sf::milliseconds(10));
-		
+
+
+
 
 	}
 

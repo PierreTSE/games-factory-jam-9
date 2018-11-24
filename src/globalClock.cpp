@@ -1,4 +1,5 @@
 #include "globalClock.hpp"
+#include<algorithm>
 
 
 sf::Time globalClock::restart() noexcept
