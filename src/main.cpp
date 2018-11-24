@@ -8,7 +8,32 @@
 
 
 int main()
-{    
+{
+    // Ce code peux servir à faire des changements automatiques sur les sprites, à garder
+    //for(auto path : {"../../rc/sprites/ringing_down.png"}) {
+    //	sf::Image img, img2;
+    //	img.loadFromFile(path);
+    //	img2.create(img.getSize().x, img.getSize().y, sf::Color::Transparent);
+    //	
+    //	int n = img.getSize().x/340;
+    //	
+    //	for(int i = 0; i < n-1; i++) {
+    //		for(int j = 0; j < 340; j++) {
+    //			for(int k = 0; k < 600; k++)
+    //				img2.setPixel(i*340+j, k, img.getPixel((i+1)*340+j, k));
+    //		}
+    //	}
+	//	for(int j = 0; j < 340; j++) {
+	//		for(int k = 0; k < 600; k++)
+	//			img2.setPixel((n-1)*340+j, k, img.getPixel(j, k));
+	//	}
+	//	
+	//	img2.saveToFile(path);
+    //}
+    
+    
+    
+    
   	Player monPerso;
 
 
@@ -36,12 +61,7 @@ int main()
                 switch(event.key.code)
                 {
                     case sf::Keyboard::Space:
-                        monPerso.setAnimation(Animation::RINGING);
-                        monPerso.setCanMove(false);
-                        globalClock::getClock().executeIn(sf::seconds(1), [&](){
-                            monPerso.setAnimation(Animation::IDLE);
-                            monPerso.setCanMove(true);
-                        });
+                        monPerso.ring();
                         break;
                 }
 			}

@@ -2,12 +2,13 @@
 #include<iostream>
 #include "constantes.hpp"
 #include "RessourceLoader.hpp"
+#include "globalClock.hpp"
 
 
 Player::Player() :
-    sprite(IDLE_DOWN, AnimatedSprite(1, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_down.png"), sf::IntRect{0,0,340,600}))
+    sprite(IDLE_DOWN, AnimatedSprite(1, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_down.png"), sf::IntRect{340,0,340,600}))
 {
-    sprite.setup(IDLE_UP, AnimatedSprite(1, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_up.png"), sf::IntRect{0,0,340,600}));
+    sprite.setup(IDLE_UP, AnimatedSprite(1, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_up.png"), sf::IntRect{340,0,340,600}));
 
     sprite.setup(WALKING_DOWN, AnimatedSprite(4, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_down.png"), sf::IntRect{0,0,340,600}));
     sprite.setup(WALKING_UP, AnimatedSprite(4, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_up.png"), sf::IntRect{0,0,340,600}));
@@ -106,6 +107,18 @@ void Player::setAnimation(Animation a)
 void Player::setCanMove(bool b)
 {
     canMove = b;
+}
+
+void Player::ring()
+{
+    if(!canMove)
+        return;
+    setAnimation(Animation::RINGING);
+    setCanMove(false);
+    globalClock::getClock().executeIn(sf::seconds(0.74), [&](){
+        setAnimation(Animation::IDLE);
+        setCanMove(true);
+    });
 }
 
 
