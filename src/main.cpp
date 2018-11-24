@@ -23,6 +23,7 @@ void mainTestEnvironment(fs::path rc)
 
     const float window_x = 800.f, window_y = 700.f;
 
+	
     sf::RenderWindow window(sf::VideoMode(window_x, window_y),
                             "Test Environment",
                             sf::Style::Default,
@@ -106,6 +107,8 @@ int main()
 	luciole.set_coordd(100, 100);
 	luciole.set_coordf(500, 500);
 
+	Chandelier chand = Chandelier({ 10,10 }, { 50,10 });
+
     std::vector<SoundWave> waves;
 
     //Création de la fenetre du jeux
@@ -163,7 +166,7 @@ int main()
 			[](auto& elem) { return elem.isDead(); }),
 			waves.end());
 		//test chandelier
-		chand.gestion(elapsedTime);
+		chand.gestion(globalClock::getClock().frameTime());
 		window.draw(chand.objet);
 
         window.display();
