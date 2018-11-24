@@ -9,7 +9,6 @@ SoundWave::SoundWave()
 	radius_ = 0;
 	alpha_ = 255;
 
-	dead_ = false;
 	timer_ = sf::Time::Zero;
 }
 
@@ -26,7 +25,6 @@ SoundWave::SoundWave(float x, float y)
 	radius_ = 0;
 	alpha_ = 255;
 
-	dead_ = false;
 	timer_ = sf::Time::Zero;
 }
 
@@ -38,28 +36,26 @@ void SoundWave::setCenter(float x, float y)
 	radius_ = 0;
 	alpha_ = 255;
 
-	dead_ = false;
 	timer_ = sf::Time::Zero;
+
 }
 
 void SoundWave::update(sf::Time elapsedTime)
 {
 	timer_ += elapsedTime;
 	
-	if (!dead_)
+	if (alpha_ != 0)
 	{
-		radius_ += 500 * elapsedTime.asSeconds();
-		alpha_ -= 300 * elapsedTime.asSeconds();
+		radius_ += 300 * elapsedTime.asSeconds();
+		alpha_ -= 600 * elapsedTime.asSeconds();
 
 		if (alpha_ < 0) {
 			alpha_ = 0;
-			dead_ = true;
 		}
 
 		wave_.setRadius(radius_);
 		wave_.setPosition(center_.x - radius_, center_.y - radius_);
 		wave_.setOutlineColor({ 255, 255, 255, (sf::Uint8) alpha_ });
-
 		echo_.detect(center_, radius_);
 	}
 	echo_.update(elapsedTime);
@@ -69,10 +65,16 @@ void SoundWave::draw(sf::RenderWindow & window)
 {
 	//echo_.drawObstacle(window);
 	echo_.drawLayout(window);
+
 	window.draw(wave_);
 }
 
 bool SoundWave::isDead()
 {
-	return dead_;
+	return echo_.isDead();
+}
+
+sf::Time SoundWave::getTime()
+{
+	return timer_;
 }

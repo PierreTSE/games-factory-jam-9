@@ -21,7 +21,7 @@ void Echolocation::detectHorizontalBorder(sf::Vector2f center, float radius, flo
 			line.setPosition(x2 - 2.5, border - 2.5);
 			line.setFillColor(sf::Color::White);
 
-			layout_.draw(line);
+			layout_->draw(line);
 		}
 	}
 	
@@ -46,7 +46,7 @@ void Echolocation::detectVerticalBorder(sf::Vector2f center, float radius, float
 			line.setPosition(border - 2.5, y2 - 2.5);
 			line.setFillColor(sf::Color::White);
 
-			layout_.draw(line);
+			layout_->draw(line);
 		}
 	}
 }
@@ -59,13 +59,15 @@ Echolocation::Echolocation()
 	obstacle_.height = 200;
 
 	alpha_ = 255;
+	dead_ = false;
 
-	layout_.create(800, 600);
+	layout_.reset(new sf::RenderTexture);
+	layout_->create(800, 600);
 }
 
 void Echolocation::detect(sf::Vector2f center, float radius)
 {
-	layout_.clear(sf::Color::Transparent);
+	layout_->clear(sf::Color::Transparent);
 
 	if (radius > 0)
 	{
@@ -93,7 +95,7 @@ void Echolocation::drawObstacle(sf::RenderWindow & window)
 void Echolocation::drawLayout(sf::RenderWindow & window)
 {
 	sf::Sprite render;
-	render.setTexture(layout_.getTexture());
+	render.setTexture(layout_->getTexture());
 	render.setOrigin(400, 300);
 	render.setPosition(400, 300);
 	render.setScale(1, -1);
@@ -104,6 +106,14 @@ void Echolocation::drawLayout(sf::RenderWindow & window)
 void Echolocation::update(sf::Time elpasedTime)
 {
 	alpha_ -= 100 * elpasedTime.asSeconds();
-	if (alpha_ < 0)
+	if (alpha_ < 0) {
 		alpha_ = 0;
+		dead_ = true;
+	}
+		
+}
+
+bool Echolocation::isDead()
+{
+	return dead_;
 }

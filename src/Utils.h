@@ -1,4 +1,4 @@
-#ifndef UTILS-H
+#ifndef UTILS_H
 #define UTILS_H
 
 #include <SFML/Graphics.hpp>

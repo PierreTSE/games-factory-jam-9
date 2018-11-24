@@ -4,6 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include "Echolocation.h"
 
+
+#include <vector>
+
 class SoundWave
 {
 	private:
@@ -13,7 +16,6 @@ class SoundWave
 		float alpha_;
 		sf::Vector2f center_;
 		sf::Time timer_;
-		float dead_;
 	public:
 		SoundWave();
 		SoundWave(float x, float y);
@@ -21,6 +23,7 @@ class SoundWave
 		void update(sf::Time elapsedTime);
 		void draw(sf::RenderWindow &window);
 		bool isDead();
+		sf::Time getTime();
 };
 
 

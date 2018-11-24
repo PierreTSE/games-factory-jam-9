@@ -8,7 +8,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
 	sf::Clock clock;
 
-	SoundWave wave;
+	std::vector<SoundWave> wave;
 
     while (window.isOpen())
     {
@@ -20,11 +20,10 @@ int main()
         }
 
 		
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		if ((wave.size() == 0 || wave.back().getTime() > sf::milliseconds(500)) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			// get global mouse position
 			sf::Vector2i position = sf::Mouse::getPosition(window);
-			wave.setCenter(position.x, position.y);
+			wave.emplace_back(position.x, position.y);
 		}
 
 		sf::Time elapsed = clock.getElapsedTime();
@@ -33,10 +32,20 @@ int main()
 
         window.clear();
 		
-		wave.update(elapsed);
-		wave.draw(window);
-        
-        window.display();
+		for (size_t i = 0; i < wave.size(); i++)
+		{
+			wave[i].update(elapsed);
+			wave[i].draw(window);
+
+		}
+
+		wave.erase(std::remove_if(wave.begin(),
+								  wave.end(),
+								  [](auto& elem){ return elem.isDead(); }),
+				   wave.end());
+
+			window.display();
+		
     }
 
     return 0;
