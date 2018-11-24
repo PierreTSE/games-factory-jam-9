@@ -111,7 +111,7 @@ void Player::setCanMove(bool b)
 
 void Player::ring()
 {
-    if(!canMove)
+    if(!canMove) // Bandit
         return;
     setAnimation(Animation::RINGING);
     setCanMove(false);
