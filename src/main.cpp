@@ -5,6 +5,7 @@
 #include "RessourceLoader.hpp"
 #include"Luciole.h"
 #include"constantes.hpp"
+#include "Chandelier.h"
 
 enum characterState { WALKING_UP, WALKING_DOWN, WALKING_LEFT, WALKING_RIGHT };
 
@@ -86,6 +87,11 @@ int main()
 		luciole.draw(window);
 			window.display();
 
+		//test chandelier
+		chand.gestion(elapsedTime);
+		window.draw(chand.objet);
+
+		window.display();
 
 		sf::sleep(sf::milliseconds(10));
 
