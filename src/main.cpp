@@ -9,7 +9,7 @@
 
 int main()
 {
-    // Ce code peux servir à faire des changements automatiques sur les sprites, à garder
+    // Ce code peux servir Ã  faire des changements automatiques sur les sprites, Ã  garder
     //for(auto path : {"../../rc/sprites/ringing_down.png"}) {
     //	sf::Image img, img2;
     //	img.loadFromFile(path);
@@ -38,20 +38,20 @@ int main()
 
 
 
-	//Création de la fenetre du jeux
+	//CrÃ©ation de la fenetre du jeux
 	sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SUPER BIZUT", sf::Style::Default, sf::ContextSettings(0, 0, 8));
 
 
 	//Tant que l'on joue (fenetre ouverte)
 	while (window.isOpen())
 	{
-		//Création d'un objet récupérant les événements (touche clavier et autre)
+		//CrÃ©ation d'un objet rÃ©cupÃ©rant les Ã©vÃ©nements (touche clavier et autre)
 		sf::Event event{};
 
 
 
 
-		//Boucle des évennements
+		//Boucle des Ã©vennements
 		while (window.pollEvent(event))
 		{
 			//Evenement de fermeture de la fenetre : on ferme le jeux
@@ -121,10 +121,10 @@ sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
 Player monPerso;
 
 
-	//Création de la fenetre du jeux
+	//CrÃ©ation de la fenetre du jeux
 	sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SUPER BIZUT", sf::Style::Default, sf::ContextSettings(0, 0, 8));
 
-	//Création de la clock
+	//CrÃ©ation de la clock
 	sf::Clock clock;
 
 	sf::Time timer = sf::Time::Zero;
@@ -138,13 +138,13 @@ Player monPerso;
 		timer += elapsedTime;
 
 
-		//Création d'un objet récupérant les événements (touche clavier et autre)
+		//CrÃ©ation d'un objet rÃ©cupÃ©rant les Ã©vÃ©nements (touche clavier et autre)
 		sf::Event event{};
 
 
 
 
-		//Boucle des évennements
+		//Boucle des Ã©vennements
 		while (window.pollEvent(event))
 		{
 			//Evenement de fermeture de la fenetre : on ferme le jeux
