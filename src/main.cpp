@@ -1,25 +1,23 @@
 #include "AnimatedEntity.hpp"
 #include "Character.h"
+#include "Chandelier.h"
 #include "constantes.hpp"
 #include "environment/Environment.hpp"
 #include "globalClock.hpp"
 #include "Luciole.h"
 #include "RessourceLoader.hpp"
-#include"Luciole.h"
-#include"constantes.hpp"
-#include "Chandelier.h"
 #include "SoundWave.h"
 
 #include <filesystem>
-#include <vector>
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 namespace fs = std::filesystem;
 
-void mainTestEnvironment(fs::path rc)
+void mainTestEnvironment()
 {
     Environment environment;
-    environment.load(rc / "map" / "map10.png");
+    environment.load(RessourceLoader::getPath("map/map10.png"));
 
     const float window_x = 800.f, window_y = 700.f;
 
@@ -68,9 +66,8 @@ void mainTestEnvironment(fs::path rc)
 
 int main()
 {
-    const fs::path rc = "../rc";
 
-    //mainTestEnvironment(rc);
+    //mainTestEnvironment();
 
 
     // Ce code peux servir à faire des changements automatiques sur les sprites, à garder
@@ -105,6 +102,8 @@ int main()
 	Luciole luciole;
 	luciole.set_coordd(100, 100);
 	luciole.set_coordf(500, 500);
+
+    Chandelier chand({10,10},{50,50});
 
     std::vector<SoundWave> waves;
 
@@ -162,8 +161,9 @@ int main()
 			waves.end(),
 			[](auto& elem) { return elem.isDead(); }),
 			waves.end());
+
 		//test chandelier
-		chand.gestion(elapsedTime);
+		chand.gestion(globalClock::getClock().frameTime());
 		window.draw(chand.objet);
 
         window.display();
