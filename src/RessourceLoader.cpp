@@ -2,20 +2,36 @@
 #include <filesystem>
 
 
+RessourceReference<sf::Font> RessourceLoader::getFont(std::string const& name)
+{
+    if(ressourceLoaderInstance.loadedFonts.find(name) != ressourceLoaderInstance.loadedFonts.end())
+        return ressourceLoaderInstance.loadedFonts[name].get();
+    else
+        return ressourceLoaderInstance.loadFont(name);
+}
+
 RessourceReference<sf::Texture> RessourceLoader::getTexture(std::string const& name)
 {
     if(ressourceLoaderInstance.loadedTextures.find(name) != ressourceLoaderInstance.loadedTextures.end())
         return ressourceLoaderInstance.loadedTextures[name].get();
-    else 
+    else
         return ressourceLoaderInstance.loadTexture(name);
 }
 
 RessourceReference<sf::Texture> RessourceLoader::loadTexture(std::string const& name)
 {
-    std::string path = getPath(name);
-    auto tex = std::make_unique<sf::Texture>();
+    const std::string path = getPath(name);
+    auto        tex  = std::make_unique<sf::Texture>();
     tex->loadFromFile(path);
     return loadedTextures.insert({name, std::move(tex)}).first->second.get();
+}
+
+RessourceReference<sf::Font> RessourceLoader::loadFont(std::string const& name)
+{
+    const std::string path = getPath(name);
+    auto        font = std::make_unique<sf::Font>();
+    font->loadFromFile(path);
+    return loadedFonts.insert({name, std::move(font)}).first->second.get();
 }
 
 std::string RessourceLoader::getPath(std::string const& name)
@@ -24,26 +40,26 @@ std::string RessourceLoader::getPath(std::string const& name)
     {
         using namespace std::filesystem;
         path p = current_path();
-        while(!exists(p/"rc") && p.has_parent_path())
+        while(!exists(p / "rc") && p.has_parent_path())
             p = p.parent_path();
-        if(exists(p/"rc"))
+        if(exists(p / "rc"))
             current_path(p);
         else
             throw std::runtime_error("Can't find resources directory");
         ressourceLoaderInstance.wdSet = true;
     }
-    return "rc/"+name;
+    return "rc/" + name;
 }
 
-RessourceReference<sf::SoundBuffer> RessourceLoader::getSound(std::string const& name)
+RessourceReference<sf::SoundBuffer> RessourceLoader::getSoundBuffer(std::string const& name)
 {
     if(ressourceLoaderInstance.loadedSound.find(name) != ressourceLoaderInstance.loadedSound.end())
         return ressourceLoaderInstance.loadedSound[name].get();
     else
-        return ressourceLoaderInstance.loadSound(name);
+        return ressourceLoaderInstance.loadSoundBuffer(name);
 }
 
-RessourceReference<sf::SoundBuffer> RessourceLoader::loadSound(std::string const& name)
+RessourceReference<sf::SoundBuffer> RessourceLoader::loadSoundBuffer(std::string const& name)
 {
     std::string path = getPath(name);
     auto snd = std::make_unique<sf::SoundBuffer>();

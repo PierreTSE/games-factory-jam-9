@@ -107,7 +107,7 @@ void Player::ring(CB&& callback)
     if(nbRing_ > 0 && life_ > 0)
     {        
         sprite.setColor(sf::Color(255, 255, 255, 255 * (--life_ / static_cast<double>(nbRing_))));
-        std::cout << life_ << std::endl;
+        //std::cout << life_ << std::endl;
     }
 
 	canRing = false;
