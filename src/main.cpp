@@ -27,7 +27,7 @@ void mainTestEnvironment()
 
     const float window_x = 800.f, window_y = 700.f;
 
-	
+
     sf::RenderWindow window(sf::VideoMode(window_x, window_y),
                             "Test Environment",
                             sf::Style::Default,
@@ -35,13 +35,13 @@ void mainTestEnvironment()
 
     const float ratio = 10.f;
 
-	const sf::RectangleShape background({window_x, window_y});
+    const sf::RectangleShape background({window_x, window_y});
 
-    auto chandeliers = Chandelier::createChandeliers(RessourceLoader::getPath("map/map10.txt"), ratio);
+    auto      chandeliers = Chandelier::createChandeliers(RessourceLoader::getPath("map/map10.txt"), ratio);
     for(auto& e : chandeliers)
     {
-        e.objet_.move(ratio,ratio);
-        e.objet_.scale(ratio,ratio);
+        e.objet_.move(ratio, ratio);
+        e.objet_.scale(ratio, ratio);
     }
 
     while(window.isOpen())
@@ -81,7 +81,6 @@ void mainTestEnvironment()
 
         sf::sleep(sf::milliseconds(10));
     }
-
 }
 
 void mainTestChandelier()
@@ -100,16 +99,15 @@ void mainTestChandelier()
     sf::Sprite map(text);
     map.scale(ratio, ratio);
 
-    auto chandeliers = Chandelier::createChandeliers(RessourceLoader::getPath("map/map10.txt"), ratio);
+    auto      chandeliers = Chandelier::createChandeliers(RessourceLoader::getPath("map/map10.txt"), ratio);
     for(auto& e : chandeliers)
     {
-        e.objet_.move(ratio,ratio);
-        e.objet_.scale(ratio,ratio);
+        e.objet_.move(ratio, ratio);
+        e.objet_.scale(ratio, ratio);
     }
 
     while(window.isOpen())
     {
-
         globalClock::getClock().restart();
 
         //std::cout << globalClock::getClock().frameTime().asMilliseconds() << std::endl;
@@ -133,23 +131,21 @@ void mainTestChandelier()
 
 int main()
 {
-   // mainTestEnvironment();
+    // mainTestEnvironment();
 
-
-
-
-    //Création de la fenetre du jeux
+    // Création de la fenêtre du jeu
     sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y),
                             "SUPER BIZUT",
                             sf::Style::Default,
                             sf::ContextSettings(0, 0, 8));
-	Cinematique cine;
-	cine.animation(window);
+
+    Cinematique cine(RessourceLoader::getPath("flashback"));
+    cine.animation(window);
+
     std::unique_ptr<Screen> screen(new LevelScreen(window, 10));
     while(screen)
         screen = screen->execute();
-    
-   
+
 
     return 0;
 }

@@ -1,21 +1,31 @@
-#include "RessourceLoader.hpp"
-#include "globalClock.hpp"
-#include <SFML/Graphics.hpp>
+#ifndef CINEMATIQUE_H
+#define CINEMATIQUE_H
 #include "constantes.hpp"
+
+#include <filesystem>
+#include <SFML/Graphics.hpp>
+#include <SFML/System/Time.hpp>
+
 
 class Cinematique
 {
 private:
-	std::vector<sf::Sprite> images;
-	sf::Time temps = sf::Time::Zero;
+    std::vector<sf::Sprite> images_;
+
+    sf::Time temps_      = sf::Time::Zero;
+    sf::Time degradTime_ = sf::Time::Zero;
+
+    sf::RectangleShape rect_ = sf::RectangleShape({static_cast<float>(WINDOW_SIZE_X), static_cast<float>(WINDOW_SIZE_Y)});
+
+    size_t currentImg_ = 0;
+    bool   first_      = true;
+    size_t count_      = 0;
 
 public:
-	sf::Time degradTime = sf::Time::Zero;
-	sf::RectangleShape rect = sf::RectangleShape({ (float)WINDOW_SIZE_X,(float)WINDOW_SIZE_Y });
-	int currentImg = 0;
-	bool first = true;
-	int count = 0;
-	void fondu(sf::RenderWindow &window);
-	Cinematique();
-	void animation(sf::RenderWindow &window);
+    Cinematique(std::filesystem::path dirPath);
+
+    void fondu(sf::RenderWindow& window);
+
+    void animation(sf::RenderWindow& window);
 };
+#endif // CINEMATIQUE_H
