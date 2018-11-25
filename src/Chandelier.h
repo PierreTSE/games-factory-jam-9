@@ -39,6 +39,8 @@ public:
     static std::vector<Chandelier> createChandeliers(std::filesystem::path path, int ratio);
     
     void setMaze(Maze* m);
+	void setSortie(Item* i);
+
 
     void gestion(sf::Time elapsedTime);
 
