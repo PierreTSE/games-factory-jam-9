@@ -98,8 +98,8 @@ void Echolocation::drawLayout(sf::RenderWindow & window)
 {
 	sf::Sprite render;
 	render.setTexture(layout_->getTexture());
-	render.setOrigin(400, 300);
-	render.setPosition(400, 300);
+	render.setOrigin(render.getGlobalBounds().width/2, render.getGlobalBounds().height / 2);
+	render.setPosition(render.getGlobalBounds().width / 2, render.getGlobalBounds().height / 2);
 	render.setScale(1, -1);
 	render.setColor({ 255, 255, 255, (sf::Uint8)alpha_ });
 	window.draw(render);

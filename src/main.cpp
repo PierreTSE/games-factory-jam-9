@@ -214,7 +214,7 @@ int main()
 
         window.clear();
 
-        monPerso.draw(window);
+        
 
         //luciole.mouv();
         //luciole.draw(window);
@@ -224,6 +224,8 @@ int main()
             waves[i].update();
             waves[i].draw(window);
         }
+
+		monPerso.draw(window);
 
 		waves.erase(std::remove_if(waves.begin(),
 			waves.end(),
