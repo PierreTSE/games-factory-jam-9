@@ -162,6 +162,8 @@ int main()
 
     Player monPerso;
     
+    
+    
     Chandelier chand({50, 50}, {150, 50});
 
 	Maze maze(environment);
@@ -175,6 +177,11 @@ int main()
                             "SUPER BIZUT",
                             sf::Style::Default,
                             sf::ContextSettings(0, 0, 8));
+    
+    
+    
+    sf::Sprite testDegueu(RessourceLoader::getTexture("sprites/test.png"));
+    testDegueu.setScale(15, 15);
 
     //Tant que l'on joue (fenetre ouverte)
     while(window.isOpen())
@@ -211,6 +218,7 @@ int main()
         monPerso.movement(globalClock::getClock().frameTime(), environment.getObstacles()); //Mouvement du personnage
 
         window.clear();
+        window.draw(testDegueu);
 
         
 

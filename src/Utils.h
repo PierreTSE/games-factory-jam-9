@@ -58,17 +58,4 @@ inline sf::Color Utils::makeHSV(int hue, float sat, float val, float alpha)
 	}
 }
 
-int Utils::random(int min, int max)
-{
-	std::random_device rd;
-	static std::default_random_engine eng(rd());
-	std::uniform_int_distribution<int> distrib(min, max);
-	return distrib(eng);
-}
-
-int Utils::random(int max)
-{
-    random(0, max);
-}
-
 #endif // !UTILS_H

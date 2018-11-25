@@ -48,10 +48,15 @@ Player::Player() :
                                 sf::IntRect{0, 0, 340, 600}));
 
 
-    hitbox_.width = 50;
-    hitbox_.height = 50;
+    hitbox_.width = 45;
+    hitbox_.height = 45;
+    hitbox_.left = 20;
+    hitbox_.top = 110;
+    
+    // TODO Remove
+    position_ = {-27.5+45,-115+15*5};
 
-    sprite.setScale(0.5, 0.5);
+    sprite.setScale(0.25, 0.25);
 
     orientation = Orientation::DOWN;
     animation = Animation::IDLE;
@@ -72,13 +77,13 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
         setAnimation(Animation::WALKING);
         nextPos.x += speed_ * elapsedTime.asSeconds();
     }
-    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && position_.x > 0)
+    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         setOrientation(Orientation::LEFT);
         setAnimation(Animation::WALKING);
         nextPos.x -= speed_ * elapsedTime.asSeconds();
     }
-    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && position_.y > 0)
+    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
         setOrientation(Orientation::UP);
         setAnimation(Animation::WALKING);
@@ -107,8 +112,8 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
 
 bool Player::collision(std::vector<std::vector<bool>> const& map, sf::Vector2f pos)
 {
-    double factor = 720.0/61;
-    sf::Vector2f min = sf::Vector2f{hitbox_.left, hitbox_.top}; - getPosition() + pos;
+    double factor = 600/40;
+    sf::Vector2f min = sf::Vector2f{hitbox_.left, hitbox_.top} + pos;
     sf::Vector2f max = min + sf::Vector2f{hitbox_.width, hitbox_.height};
     
     for(int i = floor(min.x/factor); i <= floor(max.x/factor); i++) {
