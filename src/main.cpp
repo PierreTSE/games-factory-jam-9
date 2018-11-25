@@ -8,6 +8,7 @@
 #include "RessourceLoader.hpp"
 #include "SoundWave.h"
 #include "Maze.h"
+#include "Bell.h"
 
 #include <filesystem>
 #include <SFML/Graphics.hpp>
@@ -169,8 +170,6 @@ int main()
 
     Chandelier chand({10,10},{50,50});
 
-    std::vector<SoundWave> waves;
-
     //Création de la fenetre du jeux
     sf::RenderWindow window(sf::VideoMode(1200, 720),
                             "SUPER BIZUT",
@@ -196,8 +195,8 @@ int main()
                 {
                     case sf::Keyboard::Space :
                         monPerso.ring();
-                        if((waves.size() == 0 || waves.back().getTime() > sf::milliseconds(500)))
-                            waves.emplace_back(&maze, monPerso.getPosition().x, monPerso.getPosition().y);
+                        if(Bell::getInstance().checkReady(sf::seconds(1000)))
+                            Bell::getInstance().add(&maze, monPerso.getPosition().x, monPerso.getPosition().y);
                         break;
 					case sf::Keyboard::Return:
 						environment.switchPillars();
@@ -209,7 +208,6 @@ int main()
 
         globalClock::getClock().restart();
 
-
         monPerso.movement(window, globalClock::getClock().frameTime()); //Mouvement du personnage
 
         window.clear();
@@ -219,18 +217,9 @@ int main()
         //luciole.mouv();
         //luciole.draw(window);
 
-        for(size_t i = 0 ; i < waves.size() ; i++)
-        {
-            waves[i].update();
-            waves[i].draw(window);
-        }
+		bell.getInstance().draw(window);
 
 		monPerso.draw(window);
-
-		waves.erase(std::remove_if(waves.begin(),
-			waves.end(),
-			[](auto& elem) { return elem.isDead(); }),
-			waves.end());
 
 		//test chandelier
 		chand.gestion(globalClock::getClock().frameTime());
