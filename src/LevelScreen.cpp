@@ -3,6 +3,7 @@
 #include "Bell.h"
 #include "camera.hpp"
 #include "constantes.hpp"
+#include <numeric>
 
 
 LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber) :

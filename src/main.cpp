@@ -131,7 +131,7 @@ void mainTestChandelier()
 
 int main()
 {
-   // mainTestEnvironment();
+    mainTestEnvironment();
 
 
 
