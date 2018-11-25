@@ -1,3 +1,4 @@
+#include <cmath>
 #ifndef CHANDELIER_H
 #define CHANDELIER_H
 #include <SFML/Graphics.hpp>

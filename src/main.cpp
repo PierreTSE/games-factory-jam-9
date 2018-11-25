@@ -26,6 +26,7 @@ void mainTestEnvironment()
 
     const float window_x = 800.f, window_y = 700.f;
 
+	
     sf::RenderWindow window(sf::VideoMode(window_x, window_y),
                             "Test Environment",
                             sf::Style::Default,
