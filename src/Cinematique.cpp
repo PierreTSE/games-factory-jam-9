@@ -36,17 +36,19 @@ void Cinematique::animation(sf::RenderWindow& window)
         sf::Time currentTime = sf::milliseconds(1);
         globalClock::getClock().restart();
 
+        bool skipped      = false;
         bool animateFrame = true;
         while(animateFrame)
         {
             while(window.pollEvent(event))
             {
-                if(event.type == sf::Event::KeyPressed)
+                if(event.type == sf::Event::KeyPressed && currentTime > fadeInTime_ && !skipped)
                 {
                     switch(event.key.code)
                     {
                         case sf::Keyboard::Space :
-                            currentTime = sf::seconds(frameTime_.asSeconds());
+                            currentTime = fadeInTime_ + frameTime_;
+                            skipped     = true;
                             break;
                     }
                 }
@@ -57,7 +59,7 @@ void Cinematique::animation(sf::RenderWindow& window)
 
             if(currentTime < fadeInTime_)
             {
-                rect_.setFillColor(sf::Color(0, 0, 0, 255 / (fadeInTime_ / (fadeInTime_ - currentTime))));
+                rect_.setFillColor(sf::Color(0, 0, 0, 255 * ((fadeInTime_ - currentTime) / fadeInTime_)));
                 window.draw(rect_);
             }
             else if(currentTime >= fadeInTime_ + frameTime_)
