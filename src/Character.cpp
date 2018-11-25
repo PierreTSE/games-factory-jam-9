@@ -79,7 +79,7 @@ Player::Player(Maze* maze, Item *sortie, int nbRing) : nbRing_{nbRing},
     sprite.setScale(SPRITE_RATIO, SPRITE_RATIO);
 
     hitbox_.width  = 3 * PIXEL_SIZE;
-    hitbox_.height = 3 * PIXEL_SIZE;
+    hitbox_.height = 2.5 * PIXEL_SIZE;
     hitbox_.left   = (TARGET_SPRITE_WIDTH - hitbox_.width) / 2;
     hitbox_.top    = TARGET_SPRITE_HEIGHT - hitbox_.height;
 
@@ -144,8 +144,9 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
         }
         setAnimation(Animation::IDLE);
     }
-
+    auto test1 = sprite.getSize();
     sprite.setPosition(position_);
+    auto test2 = sprite.getSize();
 }
 
 
@@ -192,7 +193,10 @@ void Player::setAnimation(Animation a)
     sprite.setState(combineStates(orientation, animation));
 }
 
-sf::Vector2f Player::getPosition() { return position_ + sprite.getSize() / 2.f; }
+sf::Vector2f Player::getPosition() { 
+    auto s = sprite.getSize() / 2.f;
+    return position_ + s; 
+}
 
 sf::FloatRect Player::getHitbox()
 {

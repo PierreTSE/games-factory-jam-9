@@ -18,6 +18,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "Cinematique.hpp"
+#include "FinaleLevelScreen.hpp"
+
 
 namespace fs = std::filesystem;
 
@@ -139,7 +141,7 @@ int main()
                             sf::ContextSettings(0, 0, 8));
 
 
-    std::unique_ptr<Screen> screen(new TitleScreen(window));
+    std::unique_ptr<Screen> screen(new LevelScreen(window, 5));
     // cinématiques d'abord
     //std::unique_ptr<Screen> screen(new Cinematique(window, RessourceLoader::getPath("flashback"), std::make_unique<LevelScreen>(window, 3)));
     

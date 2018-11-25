@@ -96,29 +96,21 @@ std::unique_ptr<Screen> LevelScreen::execute()
         globalClock::getClock().restart();
 
 
+        
         player.movement(globalClock::getClock().frameTime(), env.getObstacles()); //Mouvement du personnage
-
         if(sortie.touchPlayer(player.getHitbox()))
         {
             Bell::getInstance().clear();
             return std::unique_ptr<Screen>(new LevelScreen(window_, lvl + 1));
         }
 
-
-        sf::View view = scrollCamera(env, player);
-
         for(Chandelier& chand : chandeliers)
             chand.gestion(globalClock::getClock().frameTime());
 
-
-        window_.setView(view);
-
         if(player.getLife() == 0)
             return std::make_unique<Cinematique>(window_, RessourceLoader::getPath("gameOver"));
-        
         window_.clear();
         Bell::getInstance().draw(window_); // Draw visible walls
-
         player.draw(window_);
         for(Chandelier& chand : chandeliers)
             chand.draw(window_);
@@ -127,16 +119,16 @@ std::unique_ptr<Screen> LevelScreen::execute()
 			lu.checkColision(player.getHitbox());
 			lu.draw(window_);
 		}
-            
 
         lucioles.erase(std::remove_if(lucioles.begin(),
                                       lucioles.end(),
                                       [](auto& elem) { return elem.isDead(); }),
                        lucioles.end());
-
         sortie.update();
         sortie.draw(window_);
 
+        sf::View view = scrollCamera(env, player);
+        window_.setView(view);
         window_.display();
 
 

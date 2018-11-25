@@ -20,6 +20,7 @@ template<typename StateType>
 		sf::Vector2f getSize();
 		void setColor(sf::Color c);
         void draw(sf::RenderTarget&);
+        void updateTransformation();
     
     private:
         AnimatedSprite* currentSprite();
@@ -44,10 +45,11 @@ void AnimatedEntity<StateType>::setState(StateType state)
 
 template<typename StateType>
 inline sf::Vector2f AnimatedEntity<StateType>::getSize()
-{
+{    
+    updateTransformation();
 	sf::Vector2f res;
-	res.x = sprites.front().getGlobalBounds().width / (float)sprites.front().getNbFrame();
-	res.y = sprites.front().getGlobalBounds().height / (float)sprites.front().getNbFrame();
+	res.x = currentSprite()->getGlobalBounds().width / (float)sprites.front().getNbFrame();
+	res.y = currentSprite()->getGlobalBounds().height / (float)sprites.front().getNbFrame();
 	return res;
 }
 
@@ -79,11 +81,8 @@ void AnimatedEntity<StateType>::draw(sf::RenderTarget& target)
     if(!c)
         return;
     AnimatedSprite& curSprite = *c;
+    updateTransformation();
     curSprite.update();
-    curSprite.setOrigin(getOrigin());
-    curSprite.setPosition(getPosition());
-    curSprite.setRotation(getRotation());
-    curSprite.setScale(getScale());
 	curSprite.setColor(multColor);
 
     target.draw(curSprite);
@@ -94,6 +93,20 @@ AnimatedSprite* AnimatedEntity<StateType>::currentSprite()
 {
     ptrdiff_t index = std::find(states.begin(), states.end(), current) - states.begin();
     return index < states.size() ? &sprites[index] : nullptr;
+}
+
+template<typename StateType>
+void AnimatedEntity<StateType>::updateTransformation()
+{
+    auto p = getPosition();
+    auto c = currentSprite();
+    if(!c)
+        return;
+    AnimatedSprite& curSprite = *c;
+    curSprite.setOrigin(getOrigin());
+    curSprite.setPosition(getPosition());
+    curSprite.setRotation(getRotation());
+    curSprite.setScale(getScale());
 }
 
 #endif // ANIMATEDENTITY_HPP
