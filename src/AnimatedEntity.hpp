@@ -21,7 +21,7 @@ template<typename StateType>
         void setup(StateType state, AnimatedSprite const& sprite);
         void setState(StateType state);
 		sf::Vector2f getSize();
-        
+		void setColor(sf::Color c);
         void draw(sf::RenderTarget&);
     
     private:
@@ -30,6 +30,7 @@ template<typename StateType>
         StateType current;
         std::vector<StateType> states;
         std::vector<AnimatedSprite> sprites;
+		sf::Color multColor;
 };
 
 
@@ -54,6 +55,12 @@ inline sf::Vector2f AnimatedEntity<StateType>::getSize()
 }
 
 template<typename StateType>
+inline void AnimatedEntity<StateType>::setColor(sf::Color c)
+{
+	multColor = c;
+}
+
+template<typename StateType>
 void AnimatedEntity<StateType>::setup(StateType state, AnimatedSprite const& sprite)
 {
     states.push_back(state);
@@ -63,6 +70,7 @@ void AnimatedEntity<StateType>::setup(StateType state, AnimatedSprite const& spr
 template<typename StateType>
 AnimatedEntity<StateType>::AnimatedEntity(StateType defaultState, AnimatedSprite const& sprite)
 {
+	multColor = sf::Color(255, 255, 255);
     setup(defaultState, sprite);
     current = defaultState;
 }
@@ -79,6 +87,7 @@ void AnimatedEntity<StateType>::draw(sf::RenderTarget& target)
     curSprite.setPosition(getPosition());
     curSprite.setRotation(getRotation());
     curSprite.setScale(getScale());
+	curSprite.setColor(multColor);
 
     target.draw(curSprite);
 }

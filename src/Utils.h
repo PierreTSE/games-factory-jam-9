@@ -11,8 +11,8 @@ class Utils {
 		template <class T> static T max(T x1, T x2);
 		sf::Color static makeHSV(int hue, float sat, float val, float alpha);
 		
-		int random(int min, int max);
-		int random(int max);
+		static int random(int min, int max);
+		static int random(int max);
 };
 
 template<class T>

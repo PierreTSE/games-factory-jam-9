@@ -44,6 +44,11 @@ std::unique_ptr<Screen> LevelScreen::execute()
                         });
                         
                         break;
+					case sf::Keyboard::L:
+						lucioles.emplace_back(&maze);
+						lucioles.back().set_coordd(player.getPosition().x, player.getPosition().y);
+						lucioles.back().set_coordf(Utils::random(env.width_ * PIXEL_SIZE), Utils::random(env.height_ * PIXEL_SIZE));
+						break;
                 }
             }
         }
@@ -73,6 +78,11 @@ std::unique_ptr<Screen> LevelScreen::execute()
             chand.draw(window_);
         for(Luciole& lu : lucioles)
             lu.draw(window_);
+
+		lucioles.erase(std::remove_if(lucioles.begin(),
+			lucioles.end(),
+			[](auto& elem) { return elem.isDead(); }),
+			lucioles.end());
 
         window_.display();
 

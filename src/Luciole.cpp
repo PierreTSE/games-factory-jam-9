@@ -33,35 +33,45 @@ void Luciole::mouv()
 
 void Luciole::draw(sf::RenderWindow& window)
 {
-    if(distance() > 1)
+    if(distance() > 20)
     {
         double dir = angle();
-        double tps = globalClock::getClock().frameTime().asSeconds();
-        abs += vitesse * tps * cos(dir);
-        ord += vitesse * tps * sin(dir);
+        sf::Time tps = globalClock::getClock().frameTime();
+		timer_ += tps;
 
-		lights.emplace_back(maze_, abs + 10, ord + 10);
-		lights.back().setAlphaSpeed(600);
-		lights.back().setAlpha(255);
-		lights.back().setRadiusSpeed(0);
-		lights.back().setRadius(50);
-		lights.back().setDrawCircle(false);
+        abs += vitesse * tps.asSeconds() * cos(dir);
+        ord += vitesse * tps.asSeconds() * sin(dir);
+
+
+		color += sens * 256 * tps.asSeconds();
+		if (color > 255)
+		{
+			color = 255;
+			sens = -sens;
+		}
+		else if (color < 128)
+		{
+			sens = 1;
+		}
+			
+
+		sprite.setColor(sf::Color(color, color, color));
+		sprite.setPosition(abs, ord);
+
+		if (color == 255)
+		{
+			Bell::getInstance().add(maze_, abs + sprite.getSize().x / 2, ord + sprite.getSize().y / 2, 0, 255, 100, 255);
+			timer_ = sf::Time::Zero;
+		}
+	}
+	else
+	{
+		alpha -= 255 * globalClock::getClock().frameTime().asSeconds();
+		if (alpha < 0)
+			alpha = 0;
+		sprite.setColor({ 255, 255, 255, (sf::Uint8)alpha });
 	}
 
-
-    for(size_t i = 0; i < lights.size(); i++)
-        lights[i].update();
-
-    lights.erase(std::remove_if(lights.begin(),
-                                lights.end(),
-                                [](auto& elem) { return elem.isDead(); }),
-                 lights.end());
-    obj.setPosition(abs, ord);
-    window.draw(obj);
-    for(size_t i = 0; i < lights.size(); i++)
-        lights[i].draw(window);
-
-    sprite.setPosition(abs, ord);
     sprite.draw(window);
 }
 
@@ -75,6 +85,11 @@ void Luciole::set_coordf(float X, float Y)
 {
     solx = X;
     soly = Y;
+}
+
+bool Luciole::isDead()
+{
+	return alpha == 0;
 }
 
 

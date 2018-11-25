@@ -12,5 +12,5 @@ int Utils::random(int min, int max)
 
 int Utils::random(int max)
 {
-    random(0, max);
+    return random(0, max);
 }
