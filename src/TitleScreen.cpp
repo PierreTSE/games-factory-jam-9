@@ -91,7 +91,7 @@ bool TitleScreen::spawnTitle()
         double progression = (time-sf::seconds(1)) / sf::seconds(2);
         progression = std::clamp(progression, 0.0, 1.0);
         
-        title.setColor(sf::Color(255, 255, 255, progression*255));
+        title.setFillColor(sf::Color(255, 255, 255, progression*255));
         
         window_.clear();
         window_.draw(bg);
