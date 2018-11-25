@@ -21,8 +21,8 @@ class SoundWave
 		sf::Time timer_;
 		bool drawCircle = true;
 	public:
-		SoundWave(Maze *maze);
-		SoundWave(Maze *maze, float x, float y);
+		SoundWave(Maze *maze, Item *sortie);
+		SoundWave(Maze *maze, Item *sortie, float x, float y);
 		void setCenter(float x, float y);
 		void update();
 		void setRadiusSpeed(float sp);

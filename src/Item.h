@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include "Utils.h"
+#include "AnimatedEntity.hpp"
+#include "RessourceLoader.hpp"
 
 class Item
 {
@@ -13,13 +15,17 @@ class Item
 		int sens_;
 		float hue_;
 		float alpha_;
-		sf::RectangleShape shape_;
+		enum States {
+			FLOATING
+		};
+		AnimatedEntity<States> sprite_;
 	public:
-		Item();
+		Item(float x, float y);
 		void setPosition(float x, float y);
 		void discover();
 		bool isInCircle(sf::Vector2f center, float radius);
-		void update(sf::Time elpasedTime);
+		bool touchPlayer(sf::FloatRect box);
+		void update();
 		void draw(sf::RenderWindow &window);
 };
 

@@ -85,7 +85,7 @@ void Chandelier::gestion(sf::Time elapsedTime)
     if(timer_ > sf::seconds(1)) {
         colorDir = !colorDir;
         if(colorDir)
-            Bell::getInstance().add(maze_, objet_.getPosition().x + 30, objet_.getPosition().y + 30, 0, 255, 100, 255);
+            Bell::getInstance().add(maze_, sortie_, objet_.getPosition().x + 30, objet_.getPosition().y + 30, 0, 255, 100, 255);
         timer_ -= sf::seconds(1);
     }
     

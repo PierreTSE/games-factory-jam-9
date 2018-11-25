@@ -7,14 +7,14 @@
 #include "Bell.h"
 
 
-Player::Player(Maze* maze, int nbRing) : nbRing_{nbRing},
+Player::Player(Maze* maze, Item *sortie, int nbRing) : nbRing_{nbRing},
                                          life_{nbRing},
                                          sprite(IDLE_DOWN,
                                                 AnimatedSprite(1,
                                                                sf::milliseconds(250),
                                                                RessourceLoader::getTexture("sprites/walking_down.png"),
                                                                sf::IntRect{340, 0, 340, 600})),
-                                         maze_{maze}
+                                         maze_{maze}, sortie_{sortie}
 {
     sprite.setup(IDLE_UP,
                  AnimatedSprite(1,
@@ -97,29 +97,32 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
 
     Animation prev = animation;
 
+
+	float px = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+	float py = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+
+
     if(sf::Keyboard::isKeyPressed(
-                                  sf::Keyboard::Right)
-        /*&& (position_.x + form_.getGlobalBounds().width) < WINDOW_SIZE_X*/)
+        sf::Keyboard::Right) || px > 50)
     {
         setOrientation(Orientation::RIGHT);
         setAnimation(Animation::WALKING);
         nextPos.x += speed_ * elapsedTime.asSeconds();
     }
-    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || px < -50)
     {
         setOrientation(Orientation::LEFT);
         setAnimation(Animation::WALKING);
         nextPos.x -= speed_ * elapsedTime.asSeconds();
     }
-    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || py < -50)
     {
         setOrientation(Orientation::UP);
         setAnimation(Animation::WALKING);
         nextPos.y -= speed_ * elapsedTime.asSeconds();
     }
     else if(sf::Keyboard::isKeyPressed(
-                                       sf::Keyboard::Down)
-        /*&& (position_.y + form_.getGlobalBounds().height) < WINDOW_SIZE_Y*/)
+        sf::Keyboard::Down) || py > 50)
     {
         setOrientation(Orientation::DOWN);
         setAnimation(Animation::WALKING);
@@ -135,14 +138,8 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
     {
         if(wallDetectionCooldown > sf::seconds(0.75))
         {
-            Bell::getInstance().add(maze_,
-                                    position_.x + hitbox_.left + hitbox_.width / 2.0,
-                                    position_.y + hitbox_.top + hitbox_.height / 2.0,
-                                    0,
-                                    255,
-                                    600,
-                                    4500,
-                                    false);
+            Bell::getInstance().add(maze_, sortie_, position_.x + hitbox_.left + hitbox_.width / 2.0,
+                                    position_.y + hitbox_.top + hitbox_.height / 2.0, 0, 255, 600, 4500, false);
             wallDetectionCooldown = sf::Time::Zero;
         }
         setAnimation(Animation::IDLE);
@@ -196,6 +193,14 @@ void Player::setAnimation(Animation a)
 }
 
 sf::Vector2f Player::getPosition() { return position_ + sprite.getSize() / 2.f; }
+
+sf::FloatRect Player::getHitbox()
+{
+	sf::FloatRect res(hitbox_);
+	res.left += position_.x;
+	res.top += position_.y;
+	return res;
+}
 
 void Player::setCanMove(bool b) { canMove = b; }
 
