@@ -107,6 +107,20 @@ std::unique_ptr<Screen> LevelScreen::execute()
 			return std::unique_ptr<Screen>(new LevelScreen(window_, lvl + 1));
 		}
 
+        if(sortie.touchPlayer(player.getHitbox()))
+        {
+            Bell::getInstance().clear();
+			if (lvl < 3) {
+				return std::make_unique<LevelScreen>(window_, 2);
+			}
+			else
+			{
+				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl+1)), std::make_unique<LevelScreen>(window_, lvl+1));
+			}
+			
+
+			
+        }
 
         for(Chandelier& chand : chandeliers)
             chand.gestion(globalClock::getClock().frameTime());
