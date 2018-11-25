@@ -19,7 +19,6 @@ public :
     void stopMusic(const std::string& name);
 
 private :
-
     std::vector<sf::SoundBuffer>                      soundBuffers_;
     std::map<std::string, sf::Sound>                  sounds_;
     std::map<std::string, std::unique_ptr<sf::Music>> musics_;

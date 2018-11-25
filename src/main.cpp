@@ -147,8 +147,6 @@ int main()
 {
     //testSon();
 
-    system("pause");
-
     // mainTestEnvironment();
 
     // Création de la fenêtre du jeu
@@ -162,7 +160,7 @@ int main()
     //std::unique_ptr<Screen> screen(new TitleScreen(window));
 
     // cinématiques d'abord
-    std::unique_ptr<Screen> screen(new Cinematique(window, RessourceLoader::getPath("1"), "cinematique", std::make_unique<LevelScreen>(window, 3)));
+    std::unique_ptr<Screen> screen(new Cinematique(window, RessourceLoader::getPath("1"), "cinematique.ogg", false, std::make_unique<LevelScreen>(window, 3)));
     
     // direct sur le jeu
     //std::unique_ptr<Screen> screen(std::make_unique<LevelScreen>(window,3));
