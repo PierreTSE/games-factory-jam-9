@@ -3,7 +3,7 @@
 #include "Bell.h"
 #include "camera.hpp"
 #include "constantes.hpp"
-
+#include <numeric>
 
 LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber) :
     Screen{win},
@@ -19,6 +19,7 @@ LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber) :
 
 std::unique_ptr<Screen> LevelScreen::execute()
 {
+
     while(window_.isOpen())
     {
         //Création d'un objet récupérant les événements (touche clavier et autre)

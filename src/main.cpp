@@ -9,6 +9,7 @@
 #include "SoundWave.h"
 #include "Maze.h"
 #include "camera.hpp"
+#include "Cinematique.h"
 #include "Bell.h"
 #include "Screen.hpp"
 #include "LevelScreen.hpp"
@@ -142,7 +143,8 @@ int main()
                             "SUPER BIZUT",
                             sf::Style::Default,
                             sf::ContextSettings(0, 0, 8));
-    
+	Cinematique cine;
+	cine.animation(window);
     std::unique_ptr<Screen> screen(new LevelScreen(window, 10));
     while(screen)
         screen = screen->execute();
