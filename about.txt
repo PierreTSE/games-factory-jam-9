@@ -1,0 +1,6 @@
+This game uses the open source API SFML : https://www.sfml-dev.org/
+
+This game uses the open-source software OpenAL : http://openal-soft.org/
+
+Lasting Hope byKevin MacLeod under Creative Commons Attribution (https://creativecommons.org/licenses/by/4.0/)
+Source : http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100178

@@ -13,12 +13,29 @@ class Cinematique : public Screen
 public:
     Cinematique(sf::RenderWindow&       win,
                 std::filesystem::path   dirPath,
+                std::unique_ptr<Screen> nextScreen  = std::unique_ptr<Screen>());
+
+    Cinematique(sf::RenderWindow&       win,
+                std::filesystem::path   dirPath,
                 bool                    waitForSkip = false,
                 std::unique_ptr<Screen> nextScreen  = std::unique_ptr<Screen>());
 
     Cinematique(sf::RenderWindow&       win,
                 std::filesystem::path   dirPath,
                 std::vector<sf::Text>   texts,
+                bool                    waitForSkip = false,
+                std::unique_ptr<Screen> nextScreen  = std::unique_ptr<Screen>());
+
+    Cinematique(sf::RenderWindow&       win,
+                std::filesystem::path   dirPath,
+                std::string             musicName,
+                bool                    waitForSkip = false,
+                std::unique_ptr<Screen> nextScreen  = std::unique_ptr<Screen>());
+
+    Cinematique(sf::RenderWindow&       win,
+                std::filesystem::path   dirPath,
+                std::string             musicName,
+                std::vector<sf::Text>   texts       = std::vector<sf::Text>(),
                 bool                    waitForSkip = false,
                 std::unique_ptr<Screen> nextScreen  = std::unique_ptr<Screen>());
 
@@ -34,6 +51,8 @@ private:
     std::vector<sf::Sprite> images_;
 
     std::vector<sf::Text> texts_;
+
+    std::string musicName_;
 
     bool waitForSkip_ = false;
 
