@@ -21,6 +21,7 @@ private:
 	float alpha = 255;
 	float color = 128;
 	float sens = 1;
+	bool triggered_ = false;
 	enum States {
 		FLAMING
 	};
@@ -35,6 +36,7 @@ public:
 	void set_coordd(float X, float Y);
 	void set_coordf(float X,float Y);
 	bool isDead();
+	void checkColision(sf::FloatRect box);
 };
 
 #endif

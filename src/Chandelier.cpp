@@ -105,3 +105,8 @@ void Chandelier::setMaze(Maze* m)
 {
     maze_ = m;
 }
+
+void Chandelier::setSortie(Item * i)
+{
+	sortie_ = i;
+}
