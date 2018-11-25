@@ -57,6 +57,7 @@ Echolocation::Echolocation(Maze *maze)
 
 	alpha_ = 255;
 	dead_ = false;
+	triggered_ = false;
 
 	layout_.reset(new sf::RenderTexture);
 	layout_->create(maze->getWidth()*PIXEL_SIZE, maze->getHeight()*PIXEL_SIZE);
@@ -86,9 +87,15 @@ void Echolocation::detect(sf::Vector2f center, float radius)
 			}
 		}
 
-		if (sortie.isInCircle(center, radius))
-			sortie.discover();
-
+		if (sortie.isInCircle(center, radius)) {
+			if (Bell::getInstance().getNbPortes() == 0)
+			{
+				sortie.discover();
+				Bell::getInstance().incPorte();
+				triggered_ = true;
+			}
+			
+		}
 		alpha_ = 255;
 	}
 	
@@ -113,6 +120,8 @@ void Echolocation::update(sf::Time elapsedTime)
 	if (alpha_ < 0) {
 		alpha_ = 0;
 		dead_ = true;
+		if (triggered_)
+			Bell::getInstance().decPorte();
 	}		
 }
 

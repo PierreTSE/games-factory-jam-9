@@ -8,6 +8,7 @@
 #include "Utils.h"
 #include "Item.h"
 #include "Maze.h"
+#include "Bell.h"
 
 
 class Echolocation
@@ -17,6 +18,7 @@ class Echolocation
 		std::unique_ptr<sf::RenderTexture> layout_;
 		float alpha_;
 		bool dead_;
+		bool triggered_;
 		Item sortie;
 
 		void detectHorizontalBorder(sf::Vector2f center, float raduis, float j, float border);

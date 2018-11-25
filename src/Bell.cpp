@@ -24,6 +24,21 @@ void Bell::draw(sf::RenderWindow &window)
 									 soundwaves_.end());
 }
 
+void Bell::incPorte()
+{
+	nbPortes++;
+}
+
+void Bell::decPorte()
+{
+	nbPortes--;
+}
+
+int Bell::getNbPortes()
+{
+	return nbPortes;
+}
+
 void Bell::add(Maze * maze, float centerX, float centerY, float radius, float alpha, float radiusSpeed, float alphaSpeed, bool drawCircle)
 {
 	soundwaves_.emplace_back(maze, centerX, centerY);
