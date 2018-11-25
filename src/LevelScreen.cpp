@@ -115,7 +115,7 @@ std::unique_ptr<Screen> LevelScreen::execute()
 			}
 			else
 			{
-				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl+1)), std::make_unique<LevelScreen>(window_, lvl+1));
+				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl+1)), false, std::make_unique<LevelScreen>(window_, lvl+1));
 			}
 			
 

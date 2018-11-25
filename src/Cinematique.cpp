@@ -119,7 +119,7 @@ std::unique_ptr<Screen> Cinematique::execute()
 
 
             currentTime += globalClock::getClock().restart();
-            std::cout << currentTime.asSeconds() << std::endl;
+            //std::cout << currentTime.asSeconds() << std::endl;
 
             window_.display();
         }
