@@ -1,6 +1,7 @@
 #include "Cinematique.h"
 #include "RessourceLoader.hpp"
 #include "globalClock.hpp"
+#include <filesystem>
 
 std::filesystem::path strip_root(const std::filesystem::path& p)
 {
