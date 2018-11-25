@@ -1,8 +1,10 @@
 #include "Chandelier.h"
+#include "RessourceLoader.hpp"
 #include <fstream>
 
 
-Chandelier::Chandelier(sf::Vector2i debut, sf::Vector2i fin)
+Chandelier::Chandelier(sf::Vector2i debut, sf::Vector2i fin):
+    sprite{FLAMING, AnimatedSprite{4, sf::milliseconds(250), RessourceLoader::getTexture("sprites/sprites_chandelier.png"), sf::IntRect{0, 0, 120, 120}}}
 {
     debut_ = debut;
     fin_   = fin;
@@ -10,11 +12,12 @@ Chandelier::Chandelier(sf::Vector2i debut, sf::Vector2i fin)
     objet_.setPosition({static_cast<float>(debut.x), static_cast<float>(debut.y)});
     objet_.setFillColor(sf::Color::Yellow);
     sens_ = true;
+    sprite.setScale(0.5, 0.5);
 }
 
 std::vector<Chandelier> Chandelier::createChandeliers(std::filesystem::path path)
 {
-    std::ifstream file(path.c_str(), std::ios::in);
+    std::ifstream file(RessourceLoader::getPath(path.u8string()), std::ios::in);
     if(!file.is_open())
         throw std::runtime_error("Can't open from :" + path.u8string());
 
@@ -28,7 +31,7 @@ std::vector<Chandelier> Chandelier::createChandeliers(std::filesystem::path path
 
 std::vector<Chandelier> Chandelier::createChandeliers(std::filesystem::path path, int ratio)
 {
-    std::ifstream file(path.c_str(), std::ios::in);
+    std::ifstream file(RessourceLoader::getPath(path.u8string()), std::ios::in);
     if(!file.is_open())
         throw std::runtime_error("Can't open from :" + path.u8string());
 
@@ -71,6 +74,13 @@ void Chandelier::gestion(sf::Time elapsedTime)
         }
         else { sens_ = !sens_; }
     }
+    
+    sprite.setPosition(objet_.getPosition());
 }
 
-void Chandelier::draw(sf::RenderWindow& window) const { window.draw(objet_); }
+void Chandelier::draw(sf::RenderWindow& window) { sprite.draw(window); }
+
+void Chandelier::setMaze(Maze* m)
+{
+    maze_ = m;
+}

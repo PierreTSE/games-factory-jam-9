@@ -16,6 +16,8 @@ LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber) :
     sf::Vector2f pos(tot.x, tot.y);
     pos /= (float)env.getDepart().size();
     player.setInitialPosition(pos*(float)PIXEL_SIZE + sf::Vector2f(PIXEL_SIZE/2, PIXEL_SIZE/2));
+    
+    chandeliers = Chandelier::createChandeliers("map/map"+std::to_string(levelNumber)+".txt", PIXEL_SIZE);
 }
 
 std::unique_ptr<Screen> LevelScreen::execute()
