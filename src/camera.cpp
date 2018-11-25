@@ -20,5 +20,5 @@ sf::View scrollCamera(Environment& env, Player& player)
         centerY = std::clamp(centerY, WINDOW_SIZE_Y / 2.0, env.height_ * PIXEL_SIZE - WINDOW_SIZE_Y / 2.0);
     }
     
-    return sf::View({(float)centerX, (float)centerY}, {WINDOW_SIZE_X, WINDOW_SIZE_Y});
+    return sf::View({(float)centerX, (float)centerY}, {(float)WINDOW_SIZE_X, (float)WINDOW_SIZE_Y});
 }
