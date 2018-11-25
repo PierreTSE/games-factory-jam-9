@@ -20,13 +20,26 @@ LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber) :
     pos /= (float) env.getDepart().size();
     player.setInitialPosition(pos * (float) PIXEL_SIZE + sf::Vector2f(PIXEL_SIZE / 2, PIXEL_SIZE / 2));
 
-    sf::Vector2i tot1 = std::accumulate(env.getArrivee().begin(), env.getArrivee().end(), sf::Vector2i(0, 0));
-    sf::Vector2f pos1(tot1.x, tot1.y);
-    pos1 /= (float) env.getArrivee().size();
-    sortie.setPosition(pos1.x * PIXEL_SIZE, pos1.y * PIXEL_SIZE);
-    chandeliers = Chandelier::createChandeliers("map/map" + std::to_string(levelNumber) + ".txt", PIXEL_SIZE);
-    for(auto& c : chandeliers)
-        c.setMaze(&maze);
+	sf::Vector2i tot1 = std::accumulate(env.getArrivee().begin(), env.getArrivee().end(), sf::Vector2i(0, 0));
+	sf::Vector2f pos1(tot1.x, tot1.y);
+	pos1 /= (float)env.getArrivee().size();
+	sortie.setPosition(pos1.x * PIXEL_SIZE, pos1.y * PIXEL_SIZE);
+
+    chandeliers = Chandelier::createChandeliers("map/map"+std::to_string(levelNumber)+".txt", PIXEL_SIZE);
+	for (auto& c : chandeliers) {
+		c.setMaze(&maze);
+		c.setSortie(&sortie);
+	}
+
+	sf::Vector2i tot2 = std::accumulate(env.getDalles().begin(), env.getDalles().end(), sf::Vector2i(0, 0));
+	sf::Vector2f pos2(tot2.x, tot2.y);
+	pos2 /= (float)env.getDalles().size();
+
+	lucioles.emplace_back(&maze, &sortie);
+	lucioles.back().set_coordd(pos2.x * PIXEL_SIZE, pos2.y * PIXEL_SIZE);
+	lucioles.back().set_coordf(pos1.x * PIXEL_SIZE, pos1.y * PIXEL_SIZE);
+	
+		
 }
 
 std::unique_ptr<Screen> LevelScreen::execute()
@@ -76,12 +89,6 @@ std::unique_ptr<Screen> LevelScreen::execute()
                                     });
 
                         break;
-                    case sf::Keyboard::L:
-                        lucioles.emplace_back(&maze, &sortie);
-                        lucioles.back().set_coordd(player.getPosition().x, player.getPosition().y);
-                        lucioles.back().set_coordf(Utils::random(env.width * PIXEL_SIZE),
-                                                   Utils::random(env.height * PIXEL_SIZE));
-                        break;
                 }
             }
         }
@@ -100,8 +107,6 @@ std::unique_ptr<Screen> LevelScreen::execute()
 
         sf::View view = scrollCamera(env, player);
 
-        for(Luciole& lu : lucioles)
-            lu.mouv();
         for(Chandelier& chand : chandeliers)
             chand.gestion(globalClock::getClock().frameTime());
 
@@ -117,8 +122,12 @@ std::unique_ptr<Screen> LevelScreen::execute()
         player.draw(window_);
         for(Chandelier& chand : chandeliers)
             chand.draw(window_);
-        for(Luciole& lu : lucioles)
-            lu.draw(window_);
+		for (Luciole& lu : lucioles)
+		{
+			lu.checkColision(player.getHitbox());
+			lu.draw(window_);
+		}
+            
 
         lucioles.erase(std::remove_if(lucioles.begin(),
                                       lucioles.end(),

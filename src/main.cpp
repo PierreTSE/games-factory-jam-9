@@ -111,8 +111,6 @@ void mainTestChandelier()
     {
         globalClock::getClock().restart();
 
-        //std::cout << globalClock::getClock().frameTime().asMilliseconds() << std::endl;
-
         window.clear();
 
         window.draw(map);
