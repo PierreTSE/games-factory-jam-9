@@ -17,6 +17,7 @@ class LevelScreen : public Screen
     
     private:
         Environment env;
+		sf::RectangleShape fond;
         std::vector<Luciole> lucioles;
         std::vector<Chandelier> chandeliers;
         Maze maze;

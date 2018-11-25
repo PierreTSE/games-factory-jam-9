@@ -17,6 +17,9 @@ struct RessourceReference
     RessourceReference& operator=(T* pt) { data = pt; return *this; }
     
     operator T&() { return *data; }
+	operator T*() { return data; }
+
+	T* operator->() { return data; }
     
     T* data = nullptr;
 };
