@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <filesystem>
+#include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
 struct Pillar
@@ -160,8 +161,14 @@ public :
         obstacles_ = maze_;
         updatePillars();
     }
+    
+    Environment() {}
+    
+    explicit Environment(std::filesystem::path path) {
+        load(std::move(path));
+    }
 
-    std::vector<std::vector<bool>> getObstacles() const { return obstacles_; }
+    std::vector<std::vector<bool>> const& getObstacles() const { return obstacles_; }
 
     bool is_in_depart(sf::Vector2f inputPos) const
     {
@@ -216,6 +223,10 @@ public :
         pillars_.at(i).isUp_ = !pillars_.at(i).isUp_;
         updatePillars();
     }
+
+    std::vector<sf::Vector2i>const & getDepart() const { return depart_; }
+
+    std::vector<sf::Vector2i>const& getArrivee() const { return arrivee_; }
 
     void drawObstacles(sf::RenderWindow& window, float ratio, sf::Vector2f origin = {1.f, 1.f}) const
     {

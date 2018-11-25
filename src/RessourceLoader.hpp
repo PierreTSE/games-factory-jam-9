@@ -26,10 +26,11 @@ class RessourceLoader
 {
     public:
         static RessourceReference<sf::Texture> getTexture(std::string const& name);
+        static std::string getPath(std::string const& name);
     
     private:
         RessourceReference<sf::Texture> loadTexture(std::string const& name);
-        std::string getPath(std::string const& name);
+        
     
         bool wdSet = false;
         std::map<std::string, std::unique_ptr<sf::Texture>> loadedTextures;
@@ -37,6 +38,8 @@ class RessourceLoader
 };
 
 static RessourceLoader ressourceLoaderInstance;
+
+
 
 
 #endif // RESSOURCELOADER_HPP

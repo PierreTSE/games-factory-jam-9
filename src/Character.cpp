@@ -1,13 +1,16 @@
 #include "Character.h"
 #include<iostream>
+#include <cmath>
 #include "constantes.hpp"
 #include "RessourceLoader.hpp"
 #include "globalClock.hpp"
+#include "Bell.h"
 
 
-Player::Player() :
+Player::Player(Maze* maze) :
     sprite(IDLE_DOWN, AnimatedSprite(1, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_down.png"),
-                                     sf::IntRect{340, 0, 340, 600}))
+                                     sf::IntRect{340, 0, 340, 600})),
+     maze_{maze}
 {
     sprite.setup(IDLE_UP,
                  AnimatedSprite(1, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_up.png"),
@@ -46,50 +49,72 @@ Player::Player() :
                  AnimatedSprite(2, sf::milliseconds(250), RessourceLoader::getTexture("sprites/ringing_right.png"),
                                 sf::IntRect{0, 0, 340, 600}));
 
+    
+    
+    sprite.setScale(SPRITE_RATIO, SPRITE_RATIO);
 
-    hitbox_.width = 50;
-    hitbox_.height = 50;
-
-    sprite.setScale(0.5, 0.5);
+    hitbox_.width = 3*PIXEL_SIZE;
+    hitbox_.height = 3*PIXEL_SIZE;
+    hitbox_.left = (TARGET_SPRITE_WIDTH - hitbox_.width) / 2;
+    hitbox_.top = TARGET_SPRITE_HEIGHT - hitbox_.height;
 
     orientation = Orientation::DOWN;
     animation = Animation::IDLE;
 }
+ 
 
-
-void Player::movement(sf::RenderWindow& window, const sf::Time& elapsedTime)
+void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>> const& map)
 {
     if(!canMove)
         return;
+    
+    sf::Vector2f nextPos = position_;
+    
+    Animation prev = animation;
 
     if(sf::Keyboard::isKeyPressed(
         sf::Keyboard::Right) /*&& (position_.x + form_.getGlobalBounds().width) < WINDOW_SIZE_X*/)
     {
         setOrientation(Orientation::RIGHT);
         setAnimation(Animation::WALKING);
-        position_.x += speed_ * elapsedTime.asSeconds();
+        nextPos.x += speed_ * elapsedTime.asSeconds();
     }
-    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && position_.x > 0)
+    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         setOrientation(Orientation::LEFT);
         setAnimation(Animation::WALKING);
-        position_.x -= speed_ * elapsedTime.asSeconds();
+        nextPos.x -= speed_ * elapsedTime.asSeconds();
     }
-    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && position_.y > 0)
+    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
         setOrientation(Orientation::UP);
         setAnimation(Animation::WALKING);
-        position_.y -= speed_ * elapsedTime.asSeconds();
+        nextPos.y -= speed_ * elapsedTime.asSeconds();
     }
     else if(sf::Keyboard::isKeyPressed(
         sf::Keyboard::Down) /*&& (position_.y + form_.getGlobalBounds().height) < WINDOW_SIZE_Y*/)
     {
         setOrientation(Orientation::DOWN);
         setAnimation(Animation::WALKING);
-        position_.y += speed_ * elapsedTime.asSeconds();
+        nextPos.y += speed_ * elapsedTime.asSeconds();
     }
     else
     {
+        setAnimation(Animation::IDLE);
+    }
+    
+    wallDetectionCooldown += elapsedTime;
+    
+    if(collision(map, nextPos) || !collision(map, position_))
+        position_ = nextPos;
+    else
+    {
+        if(wallDetectionCooldown > sf::seconds(0.75))
+        {
+            Bell::getInstance().add(maze_, position_.x + hitbox_.left + hitbox_.width / 2.0,
+                                    position_.y + hitbox_.top + hitbox_.height / 2.0, 0, 255, 600, 4500, false);
+            wallDetectionCooldown = sf::Time::Zero;
+        }
         setAnimation(Animation::IDLE);
     }
 
@@ -97,10 +122,21 @@ void Player::movement(sf::RenderWindow& window, const sf::Time& elapsedTime)
 }
 
 
-bool Player::collision(std::vector<std::vector<bool>> const& map)
+bool Player::collision(std::vector<std::vector<bool>> const& map, sf::Vector2f pos)
 {
-    hitbox_.left = position_.x + 10;
-    hitbox_.top = position_.y + 10;
+    double factor = PIXEL_SIZE;
+    sf::Vector2f min = sf::Vector2f{hitbox_.left, hitbox_.top} + pos;
+    sf::Vector2f max = min + sf::Vector2f{hitbox_.width, hitbox_.height};
+    
+    for(int i = floor(min.x/factor); i <= floor(max.x/factor); i++) {
+        for(int j = floor(min.y/factor); j <= floor(max.y/factor); j++)
+        {
+            if(j < 0 || j >= map.size() || i < 0 || i >= map[j].size())
+                return false;
+            if(map[j][i])
+                return false;
+        }
+    }
 
     return true;
 }
@@ -141,17 +177,11 @@ void Player::setCanMove(bool b)
     canMove = b;
 }
 
-void Player::ring()
+void Player::setInitialPosition(sf::Vector2f pos)
 {
-    if(!canMove) // Bandit
-        return;
-    setAnimation(Animation::RINGING);
-    setCanMove(false);
-    globalClock::getClock().executeIn(sf::seconds(0.74), [&]()
-    {
-        setAnimation(Animation::IDLE);
-        setCanMove(true);
-    });
+    pos.x -= hitbox_.left + hitbox_.width / 2.0;
+    pos.y -= hitbox_.top + hitbox_.height / 2.0;
+    position_ = pos;
 }
 
 

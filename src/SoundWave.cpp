@@ -1,6 +1,6 @@
 #include "SoundWave.h"
 
-SoundWave::SoundWave()
+SoundWave::SoundWave(Maze *maze) : echo_(maze)
 {
 	wave_.setFillColor({ 0, 0, 0, 0 });
 	wave_.setPointCount(1000);
@@ -15,7 +15,7 @@ SoundWave::SoundWave()
 	timer_ = sf::Time::Zero;
 }
 
-SoundWave::SoundWave(float x, float y)
+SoundWave::SoundWave(Maze *maze, float x, float y) : echo_(maze)
 {
 	center_.x = x;
 	center_.y = y;

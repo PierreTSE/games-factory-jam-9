@@ -2,8 +2,10 @@
 #define SOUNDWAVE_H
 
 #include <SFML/Graphics.hpp>
+#include "Maze.h"
 #include "Echolocation.h"
 #include "globalClock.hpp"
+#include "constantes.hpp"
 
 #include <vector>
 
@@ -19,8 +21,8 @@ class SoundWave
 		sf::Time timer_;
 		bool drawCircle = true;
 	public:
-		SoundWave();
-		SoundWave(float x, float y);
+		SoundWave(Maze *maze);
+		SoundWave(Maze *maze, float x, float y);
 		void setCenter(float x, float y);
 		void update();
 		void setRadiusSpeed(float sp);
