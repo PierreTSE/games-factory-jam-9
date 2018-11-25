@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-void Echolocation::detectHorizontalBorder(sf::Vector2f center, float radius, float border)
+void Echolocation::detectHorizontalBorder(sf::Vector2f center, float radius, float j, float border)
 {
 	if ((center.y - radius < border && center.y > border) ||
 		(center.y + radius > border && center.y < border))
@@ -11,8 +11,8 @@ void Echolocation::detectHorizontalBorder(sf::Vector2f center, float radius, flo
 		float x1 = center.x + largeur;
 		float x2 = center.x - largeur;
 
-		x1 = Utils::min(x1, obstacle_.left + obstacle_.width);
-		x2 = Utils::max(x2, obstacle_.left);
+		x1 = Utils::min(x1, (j+1) * PIXEL_SIZE);
+		x2 = Utils::max(x2, j*PIXEL_SIZE);
 
 		if (x1 - x2 > 0)
 		{
@@ -27,7 +27,7 @@ void Echolocation::detectHorizontalBorder(sf::Vector2f center, float radius, flo
 	
 }
 
-void Echolocation::detectVerticalBorder(sf::Vector2f center, float radius, float border)
+void Echolocation::detectVerticalBorder(sf::Vector2f center, float radius, float i, float border)
 {
 	if ((center.x - radius < border && center.x > border) ||
 		(center.x + radius > border && center.x < border))
@@ -36,8 +36,8 @@ void Echolocation::detectVerticalBorder(sf::Vector2f center, float radius, float
 		float y1 = center.y + largeur;
 		float y2 = center.y - largeur;
 
-		y1 = Utils::min(y1, obstacle_.top + obstacle_.height);
-		y2 = Utils::max(y2, obstacle_.top);
+		y1 = Utils::min(y1, (i+1)*PIXEL_SIZE);
+		y2 = Utils::max(y2, i*PIXEL_SIZE);
 
 		if (y1 - y2 > 0)
 		{
@@ -51,20 +51,17 @@ void Echolocation::detectVerticalBorder(sf::Vector2f center, float radius, float
 	}
 }
 
-Echolocation::Echolocation()
+Echolocation::Echolocation(Maze *maze)
 {
-	obstacle_.left = 100;
-	obstacle_.top = 100;
-	obstacle_.width = 400;
-	obstacle_.height = 200;
-
 	sortie.setPosition(200, 200);
 
 	alpha_ = 255;
 	dead_ = false;
 
 	layout_.reset(new sf::RenderTexture);
-	layout_->create(800, 600);
+	layout_->create(1200, 720);
+
+	maze_ = maze;
 }
 
 void Echolocation::detect(sf::Vector2f center, float radius)
@@ -73,11 +70,21 @@ void Echolocation::detect(sf::Vector2f center, float radius)
 
 	if (radius > 0)
 	{
-		detectHorizontalBorder(center, radius, obstacle_.top + obstacle_.height);
-		detectHorizontalBorder(center, radius, obstacle_.top);
+		for (size_t i = 0; i < maze_->getWidth(); i++)
+		{
+			for (size_t j = 0; j < maze_->getHeight(); j++)
+			{
+				if(maze_->getWall(i, j).bot)
+					detectHorizontalBorder(center, radius, j, (i+1) * PIXEL_SIZE);
+				if (maze_->getWall(i, j).top)
+					detectHorizontalBorder(center, radius, j, i * PIXEL_SIZE);
 
-		detectVerticalBorder(center, radius, obstacle_.left + obstacle_.width);
-		detectVerticalBorder(center, radius, obstacle_.left);
+				if (maze_->getWall(i, j).right)
+					detectVerticalBorder(center, radius, i, (j+1) * PIXEL_SIZE);
+				if (maze_->getWall(i, j).left)
+					detectVerticalBorder(center, radius, i, j * PIXEL_SIZE);
+			}
+		}
 
 		if (sortie.isInCircle(center, radius))
 			sortie.discover();
@@ -85,16 +92,6 @@ void Echolocation::detect(sf::Vector2f center, float radius)
 		alpha_ = 255;
 	}
 	
-}
-
-void Echolocation::drawObstacle(sf::RenderWindow & window)
-{
-	sf::RectangleShape obs;
-	obs.setSize({ obstacle_.width, obstacle_.height });
-	obs.setPosition(obstacle_.left, obstacle_.left);
-	obs.setFillColor(sf::Color::Red);
-
-	window.draw(obs);
 }
 
 void Echolocation::drawLayout(sf::RenderWindow & window)

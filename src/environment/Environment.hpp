@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <filesystem>
+#include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
 struct Pillar

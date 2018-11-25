@@ -8,6 +8,7 @@
 class Luciole
 {
 private:
+	Maze *maze_;
 	float abs ;
 	float ord ;
 	float solx;
@@ -21,7 +22,7 @@ private:
 	sf::RectangleShape obj;
 	std::vector<SoundWave> lights;
 public:
-	Luciole();
+	Luciole(Maze *maze);
 	float distance();
 	float angle();
 	void mouv();

@@ -53,7 +53,7 @@ void Luciole::draw(sf::RenderWindow & window)
 		abs += vitesse * tps*cos(dir);
 		ord += vitesse * tps*sin(dir);
 
-		lights.emplace_back(abs + 10, ord + 10);
+		lights.emplace_back(maze_, abs + 10, ord + 10);
 		lights.back().setAlphaSpeed(600);
 		lights.back().setAlpha(255);
 		lights.back().setRadiusSpeed(0);
@@ -94,9 +94,9 @@ void Luciole::set_coordf(float X, float Y)
 
 
 
-Luciole::Luciole() :
+Luciole::Luciole(Maze *maze) :
 	sprite(FLAMING, AnimatedSprite(4, sf::milliseconds(200), RessourceLoader::getTexture("sprites/sprites_feufollet.png")))
 {
-
+	maze_ = maze;
 	sprite.setScale(0.5, 0.5);
 }

@@ -2,28 +2,29 @@
 #define ECHOLOCATION_H
 
 #include <SFML/Graphics.hpp>
+#include <memory>
 #include <cmath>
+
 #include "Utils.h"
 #include "Item.h"
+#include "Maze.h"
 
-#include <SFML/Graphics.hpp>
-#include <memory>
+constexpr size_t PIXEL_SIZE = 32;
 
 class Echolocation
 {
 	private:
-		sf::FloatRect obstacle_;
+		Maze *maze_;
 		std::unique_ptr<sf::RenderTexture> layout_;
 		float alpha_;
 		bool dead_;
 		Item sortie;
 
-		void detectHorizontalBorder(sf::Vector2f center, float raduis, float border);
-		void detectVerticalBorder(sf::Vector2f center, float raduis, float border);
+		void detectHorizontalBorder(sf::Vector2f center, float raduis, float j, float border);
+		void detectVerticalBorder(sf::Vector2f center, float raduis, float i, float border);
 	public:
-		Echolocation();
+		Echolocation(Maze *maze);
 		void detect(sf::Vector2f center, float radius);
-		void drawObstacle(sf::RenderWindow &window);
 		void drawLayout(sf::RenderWindow &window);
 		void update(sf::Time elpasedTime);
 		bool isDead();

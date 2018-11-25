@@ -7,6 +7,7 @@
 #include "Luciole.h"
 #include "RessourceLoader.hpp"
 #include "SoundWave.h"
+#include "Maze.h"
 
 #include <filesystem>
 #include <SFML/Graphics.hpp>
@@ -126,9 +127,7 @@ void mainTestChandelier()
 
 int main()
 {
-    //mainTestEnvironment();
-
-    mainTestChandelier();
+   // mainTestEnvironment(rc);
 
 
     // Ce code peux servir à faire des changements automatiques sur les sprites, à garder
@@ -157,10 +156,15 @@ int main()
     //    img2.saveToFile(path);
     //}
 
+	const fs::path rc = "../../rc";
+	Environment environment;
+	environment.load(rc / "map" / "map10.png");
 
     Player monPerso;
 
-	Luciole luciole;
+	Maze maze(environment);
+
+	Luciole luciole(&maze);
 	luciole.set_coordd(100, 100);
 	luciole.set_coordf(500, 500);
 
@@ -169,7 +173,7 @@ int main()
     std::vector<SoundWave> waves;
 
     //Création de la fenetre du jeux
-    sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y),
+    sf::RenderWindow window(sf::VideoMode(1200, 720),
                             "SUPER BIZUT",
                             sf::Style::Default,
                             sf::ContextSettings(0, 0, 8));
@@ -194,8 +198,12 @@ int main()
                     case sf::Keyboard::Space :
                         monPerso.ring();
                         if((waves.size() == 0 || waves.back().getTime() > sf::milliseconds(500)))
-                            waves.emplace_back(monPerso.getPosition().x, monPerso.getPosition().y);
+                            waves.emplace_back(&maze, monPerso.getPosition().x, monPerso.getPosition().y);
                         break;
+					case sf::Keyboard::Return:
+						environment.switchPillars();
+						maze.parseWall(environment);
+						break;
                 }
             }
         }
@@ -209,8 +217,8 @@ int main()
 
         monPerso.draw(window);
 
-        luciole.mouv();
-        luciole.draw(window);
+        //luciole.mouv();
+        //luciole.draw(window);
 
         for(size_t i = 0 ; i < waves.size() ; i++)
         {
