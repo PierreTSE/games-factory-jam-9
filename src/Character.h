@@ -48,6 +48,7 @@ public:
 	sf::FloatRect getHitbox();
 
     int getLife() const {return life_;}
+	void setFullLife();
 
 private:
 	enum States

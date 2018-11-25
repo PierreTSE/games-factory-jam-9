@@ -76,6 +76,8 @@ public :
 
     std::vector<sf::Vector2i> const& getArrivee() const { return arrivee_; }
 
+	std::vector<sf::Vector2i> const& getBonus() const { return bonus_; }
+
     std::vector<sf::Vector2i> const& getDalles() const { return dallesLuciole_; }
 
     int getMapLife() const { return nbRingMap_; }

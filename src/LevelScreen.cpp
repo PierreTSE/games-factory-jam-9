@@ -11,7 +11,8 @@ LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber) :
     Screen{win},
     env{RessourceLoader::getPath("map/map" + std::to_string(levelNumber) + ".png")},
     maze{env},
-    sortie(0, 0),
+    sortie(PORTE),
+	sablier(SABLIER),
     player{&maze, &sortie, env.getMapLife()}
 {
     lvl = levelNumber;
@@ -38,6 +39,11 @@ LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber) :
 	lucioles.emplace_back(&maze, &sortie);
 	lucioles.back().set_coordd(pos2.x * PIXEL_SIZE, pos2.y * PIXEL_SIZE);
 	lucioles.back().set_coordf(pos1.x * PIXEL_SIZE, pos1.y * PIXEL_SIZE);
+
+	sf::Vector2i tot3 = std::accumulate(env.getBonus().begin(), env.getBonus().end(), sf::Vector2i(0, 0));
+	sf::Vector2f pos3(tot3.x, tot3.y);
+	pos3 /= (float)env.getArrivee().size();
+	sablier.setPosition(pos3.x * PIXEL_SIZE, pos3.y * PIXEL_SIZE);
 	
 		
 }
@@ -122,6 +128,15 @@ std::unique_ptr<Screen> LevelScreen::execute()
 			
         }
 
+		if (sablier.touchPlayer(player.getHitbox()))
+		{
+			sablier.kill();
+			player.setFullLife();
+		}
+
+
+        sf::View view = scrollCamera(env, player);
+
         for(Chandelier& chand : chandeliers)
             chand.gestion(globalClock::getClock().frameTime());
 					
@@ -170,7 +185,10 @@ std::unique_ptr<Screen> LevelScreen::execute()
 		sortie.update();
 		sortie.draw(window_);
 
-		window_.display();
+		sablier.update();
+		sablier.draw(window_);
+
+        window_.display();
 
 
 		sf::sleep(sf::milliseconds(10));

@@ -21,6 +21,7 @@ class LevelScreen : public Screen
         std::vector<Chandelier> chandeliers;
         Maze maze;
 		Item sortie;
+		Item sablier;
         Player player;
 		int lvl;
 };
