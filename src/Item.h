@@ -7,26 +7,36 @@
 #include "AnimatedEntity.hpp"
 #include "RessourceLoader.hpp"
 
+enum ItemType {
+	PORTE, SABLIER
+};
+
 class Item
 {
-	private :
-		float x_, y_;
-		float angle_;
-		int sens_;
-		float hue_;
-		float alpha_;
+	public:
 		enum States {
 			FLOATING
 		};
-		AnimatedEntity<States> sprite_;
-	public:
-		Item(float x, float y);
+		Item(ItemType type);
 		void setPosition(float x, float y);
 		void discover();
 		bool isInCircle(sf::Vector2f center, float radius);
 		bool touchPlayer(sf::FloatRect box);
 		void update();
 		void draw(sf::RenderWindow &window);
+		void kill();
+
+	private :
+		float x_, y_;
+		float angle_;
+		int sens_;
+		float hue_;
+		float alpha_;
+		ItemType type_;
+		bool dead_ = false;
+		
+		AnimatedEntity<States> sprite_;
+	
 };
 
 #endif // !1

@@ -119,6 +119,12 @@ void Environment::switchPillar(size_t i)
     updatePillars();
 }
 
+void Environment::drawPillars(sf::RenderWindow & window)
+{
+	for (auto& p : pillars_)
+		window.draw(p.isUp_ ? p.up_ : p.down_);
+}
+
 void Environment::drawObstacles(sf::RenderWindow& window, float ratio, sf::Vector2f origin) const
 {
     for(int i = 0 ; i < height ; ++i)

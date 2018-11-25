@@ -4,6 +4,8 @@
 #include <vector>
 #include <filesystem>
 #include <SFML/Graphics.hpp>
+#include "../RessourceLoader.hpp"
+#include "../constantes.hpp"
 
 struct Pillar
 {
@@ -11,10 +13,21 @@ struct Pillar
 
     bool isUp_ = true;
 
+	sf::Sprite up_;
+	sf::Sprite down_;
+
     Pillar(sf::Vector2i pos, bool isUp = true)
     {
+		up_ = sf::Sprite(RessourceLoader::getTexture("sprites/sprite_bascule_fermee.png"));
+		down_ = sf::Sprite(RessourceLoader::getTexture("sprites/sprite_bascule_ouverte.png"));
         pos_  = pos;
         isUp_ = isUp;
+
+		up_.setPosition(((pos_.x-0.5) * PIXEL_SIZE - 10), ((pos_.y-0.5) * PIXEL_SIZE - 10));
+		down_.setPosition(((pos_.x-0.5) * PIXEL_SIZE - 10)-4, ((pos_.y-0.5) * PIXEL_SIZE - 10));
+
+		up_.setScale(0.7f, 0.7f);
+		down_.setScale(0.7f, 0.7f);
     }
 };
 
@@ -76,6 +89,8 @@ public :
 
     std::vector<sf::Vector2i> const& getArrivee() const { return arrivee_; }
 
+	std::vector<sf::Vector2i> const& getBonus() const { return bonus_; }
+
     std::vector<sf::Vector2i> const& getDalles() const { return dallesLuciole_; }
 
     int getMapLife() const { return nbRingMap_; }
@@ -93,6 +108,8 @@ public :
 
     template<typename T>
     bool is_in_dalle(sf::Vector2<T> inputPos) const;
+
+	void drawPillars(sf::RenderWindow &render);
 
     //méthodes de test, ne sont pas dans le jeu
 

@@ -206,6 +206,12 @@ sf::FloatRect Player::getHitbox()
 	return res;
 }
 
+void Player::setFullLife()
+{
+	life_ = nbRing_;
+	sprite.setColor(sf::Color(255, 255, 255, 255 * (life_ / static_cast<double>(nbRing_))));
+}
+
 void Player::setCanMove(bool b) { canMove = b; }
 
 void Player::setInitialPosition(sf::Vector2f pos)
