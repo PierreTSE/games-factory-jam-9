@@ -9,7 +9,6 @@
 #include "SoundWave.h"
 #include "Maze.h"
 #include "camera.hpp"
-#include "Cinematique.h"
 #include "Bell.h"
 #include "Screen.hpp"
 #include "LevelScreen.hpp"
@@ -17,6 +16,7 @@
 #include <filesystem>
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "Cinematique.hpp"
 
 namespace fs = std::filesystem;
 
@@ -139,11 +139,14 @@ int main()
                             sf::Style::Default,
                             sf::ContextSettings(0, 0, 8));
 
-    //todo à enlever test cinématique
-    //Cinematique cine(RessourceLoader::getPath("flashback"));
-    //cine.animation(window);
 
-    std::unique_ptr<Screen> screen(new LevelScreen(window, 3));
+    // cinématiques d'abord
+    std::unique_ptr<Screen> screen(new Cinematique(window, RessourceLoader::getPath("flashback"), std::make_unique<LevelScreen>(window, 3)));
+    
+    // direct sur le jeu
+    //std::unique_ptr<Screen> screen(std::make_unique<LevelScreen>(window,3));
+
+
     while(screen)
         screen = screen->execute();
 

@@ -4,6 +4,7 @@
 #include "camera.hpp"
 #include "constantes.hpp"
 #include <numeric>
+#include "Cinematique.hpp"
 
 
 LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber) :
@@ -89,6 +90,9 @@ std::unique_ptr<Screen> LevelScreen::execute()
 			lucioles.end());
 
         window_.display();
+
+        if(player.getLife() == 0)
+            return std::make_unique<Cinematique>(window_, RessourceLoader::getPath("gameOver"));
 
         sf::sleep(sf::milliseconds(10));
     }

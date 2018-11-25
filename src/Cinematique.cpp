@@ -1,4 +1,4 @@
-#include "Cinematique.h"
+#include "Cinematique.hpp"
 #include "RessourceLoader.hpp"
 #include "globalClock.hpp"
 #include <iostream>
@@ -12,8 +12,15 @@ std::filesystem::path strip_root(const std::filesystem::path& p)
         return strip_root(parent_path) / p.filename();
 }
 
-Cinematique::Cinematique(std::filesystem::path dirPath)
+Cinematique::
+Cinematique(sf::RenderWindow& win, std::filesystem::path dirPath, std::unique_ptr<Screen> nextScreen) : Screen{win},
+                                                                                                        nextScreen_{
+                                                                                                            std::
+                                                                                                            move(nextScreen)
+                                                                                                        }
 {
+    dirPath = dirPath.parent_path() / std::filesystem::path("cinematiques") / dirPath.filename();
+
     if(!is_directory(dirPath))
         throw std::runtime_error("Not a directory" + dirPath.u8string());
 
@@ -27,6 +34,12 @@ Cinematique::Cinematique(std::filesystem::path dirPath)
     rect_.setFillColor(sf::Color(0, 0, 0, 0));
 }
 
+std::unique_ptr<Screen> Cinematique::execute()
+{
+    animation(window_);
+    return std::move(nextScreen_);
+}
+
 void Cinematique::animation(sf::RenderWindow& window)
 {
     sf::Event event{};
@@ -36,22 +49,28 @@ void Cinematique::animation(sf::RenderWindow& window)
         sf::Time currentTime = sf::milliseconds(1);
         globalClock::getClock().restart();
 
-        bool skipped      = false;
-        bool animateFrame = true;
+        bool skippingAsked = false;
+        bool skipped       = false;
+        bool animateFrame  = true;
         while(animateFrame)
         {
             while(window.pollEvent(event))
             {
-                if(event.type == sf::Event::KeyPressed && currentTime > fadeInTime_ && !skipped)
+                if(event.type == sf::Event::KeyPressed && currentTime <= fadeInTime_ + frameTime_ && !skippingAsked)
                 {
                     switch(event.key.code)
                     {
                         case sf::Keyboard::Space :
-                            currentTime = fadeInTime_ + frameTime_;
-                            skipped     = true;
+                            skippingAsked = true;
                             break;
                     }
                 }
+            }
+
+            if(skippingAsked && currentTime > fadeInTime_ && !skipped)
+            {
+                currentTime = fadeInTime_ + frameTime_;
+                skipped     = true;
             }
 
             window.clear();

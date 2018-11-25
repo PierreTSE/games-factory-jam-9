@@ -5,10 +5,22 @@
 #include <filesystem>
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Time.hpp>
+#include "Screen.hpp"
 
 
-class Cinematique
+class Cinematique : public Screen
 {
+public:
+    Cinematique(sf::RenderWindow& win, std::filesystem::path dirPath, std::unique_ptr<Screen> nextScreen = std::unique_ptr<Screen>());
+
+    std::unique_ptr<Screen> execute() override;    
+
+    void setFadeInTime(sf::Time fadeInTime) { fadeInTime_ = fadeInTime; }
+
+    void setFadeOutTime(sf::Time fadeOutTime) {fadeOutTime_ = fadeOutTime; }
+
+    void setFrameTime(sf::Time frameTime) { frameTime_ = frameTime; }
+
 private:
     std::vector<sf::Sprite> images_;
 
@@ -30,17 +42,8 @@ private:
     sf::RectangleShape rect_ = sf::
             RectangleShape({static_cast<float>(WINDOW_SIZE_X), static_cast<float>(WINDOW_SIZE_Y)});
 
-public:
-    Cinematique(std::filesystem::path dirPath);
-
-    void fondu(sf::RenderWindow& window);
-
     void animation(sf::RenderWindow& window);
 
-    void setFadeInTime(sf::Time fadeInTime) { fadeInTime_ = fadeInTime; }
-
-    void setFadeOutTime(sf::Time fadeOutTime) {fadeOutTime_ = fadeOutTime; }
-
-    void setFrameTime(sf::Time frameTime) { frameTime_ = frameTime; }
+    std::unique_ptr<Screen> nextScreen_;
 };
 #endif // CINEMATIQUE_H

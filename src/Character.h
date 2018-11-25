@@ -44,6 +44,8 @@ public:
 
     sf::Vector2f getPosition();
 
+    int getLife() const {return life_;}
+
 private:
     enum States
     {
@@ -99,15 +101,10 @@ void Player::ring(CB&& callback)
     setCanMove(false);
 
     //gestion vie
-    if(nbRing_ > 0)
-    {
-        if(life_ == 0) //todo mort
-            throw std::runtime_error("DEAD");
-        else
-        {
-            sprite.setColor(sf::Color(255, 255, 255, 255 * (life_-- / static_cast<double>(nbRing_))));
-            std::cout << life_ << std::endl;
-        }
+    if(nbRing_ > 0 && life_ > 0)
+    {        
+        sprite.setColor(sf::Color(255, 255, 255, 255 * (--life_ / static_cast<double>(nbRing_))));
+        std::cout << life_ << std::endl;
     }
 
     canRing = false;
