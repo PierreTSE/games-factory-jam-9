@@ -127,7 +127,7 @@ void mainTestChandelier()
 
 int main()
 {
-   // mainTestEnvironment(rc);
+   // mainTestEnvironment();
 
 
     // Ce code peux servir à faire des changements automatiques sur les sprites, à garder
@@ -156,9 +156,8 @@ int main()
     //    img2.saveToFile(path);
     //}
 
-	const fs::path rc = "../../rc";
 	Environment environment;
-	environment.load(rc / "map" / "map10.png");
+	environment.load(RessourceLoader::getPath("map/map10.png"));
 
     Player monPerso;
 
