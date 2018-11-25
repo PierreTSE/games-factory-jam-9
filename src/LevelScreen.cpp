@@ -55,121 +55,100 @@ std::unique_ptr<Screen> LevelScreen::execute()
 			auto result = gestionEvent(event);
 			if (result)
 				return std::move(*result);
-
 			if (event.type == sf::Event::JoystickButtonPressed)
-			{
+			{	
+				switch (event.joystickButton.button)
 				{
-					switch (event.key.code)
-					{
-					case sf::Keyboard::A:
-						player.ring([this]() {
-							Bell::getInstance().add(&maze, &sortie, player.getPosition().x, player.getPosition().y);
+					case 0:
+						player.ring([this]()
+						{
+							Bell::getInstance().add(&maze, &sortie, player.getPosition().x,
+								player.getPosition().y);
 							env.switchPillars();
 							maze.parseWall(env);
 						});
 
-						if (event.type == sf::Event::JoystickButtonPressed)
+						break;
+				}				
+			}
+
+			if (event.type == sf::Event::KeyPressed)
+			{
+				switch (event.key.code)
+				{
+					case sf::Keyboard::Space:
+						player.ring([this]()
 						{
-							{
-								switch (event.joystickButton.button)
-								{
-								case 0:
-									player.ring([this]()
-									{
-										Bell::getInstance().add(&maze, &sortie, player.getPosition().x,
-											player.getPosition().y);
-										env.switchPillars();
-										maze.parseWall(env);
-									});
+							Bell::getInstance().add(&maze, &sortie, player.getPosition().x,
+								player.getPosition().y);
+							env.switchPillars();
+							maze.parseWall(env);
+						});
 
-									break;
-								}
-							}
-						}
+						break;
+					case sf::Keyboard::L:
+						lucioles.emplace_back(&maze, &sortie);
+						lucioles.back().set_coordd(player.getPosition().x, player.getPosition().y);
+						lucioles.back().set_coordf(Utils::random(env.width * PIXEL_SIZE),
+							Utils::random(env.height * PIXEL_SIZE));
+						break;
+				}
+			}
+		}
 
-						if (event.type == sf::Event::KeyPressed)
-						{
-							switch (event.key.code)
-							{
-							case sf::Keyboard::Space:
-								player.ring([this]()
-								{
-									Bell::getInstance().add(&maze, &sortie, player.getPosition().x,
-										player.getPosition().y);
-									env.switchPillars();
-									maze.parseWall(env);
-								});
-
-								break;
-							case sf::Keyboard::L:
-								lucioles.emplace_back(&maze, &sortie);
-								lucioles.back().set_coordd(player.getPosition().x, player.getPosition().y);
-								lucioles.back().set_coordf(Utils::random(env.width * PIXEL_SIZE),
-									Utils::random(env.height * PIXEL_SIZE));
-								break;
-							}
-						}
-					}
-
-					globalClock::getClock().restart();
+		globalClock::getClock().restart();
 
 
-					player.movement(globalClock::getClock().frameTime(), env.getObstacles()); //Mouvement du personnage
+		player.movement(globalClock::getClock().frameTime(), env.getObstacles()); //Mouvement du personnage
 
-					if (sortie.touchPlayer(player.getHitbox()))
-					{
-						Bell::getInstance().clear();
-						return std::unique_ptr<Screen>(new LevelScreen(window_, lvl + 1));
-					}
+		if (sortie.touchPlayer(player.getHitbox()))
+		{
+			Bell::getInstance().clear();
+			return std::unique_ptr<Screen>(new LevelScreen(window_, lvl + 1));
+		}
 
 
         for(Chandelier& chand : chandeliers)
             chand.gestion(globalClock::getClock().frameTime());
-					sf::View view = scrollCamera(env, player);
+					
+		sf::View view = scrollCamera(env, player);
 
-					for (Luciole& lu : lucioles)
-						lu.mouv();
-					for (Chandelier& chand : chandeliers)
-						chand.gestion(globalClock::getClock().frameTime());
+		for (Luciole& lu : lucioles)
+			lu.mouv();
+		for (Chandelier& chand : chandeliers)
+			chand.gestion(globalClock::getClock().frameTime());
 
 
-					window_.setView(view);
+		window_.setView(view);
 
-					if (player.getLife() == 0)
-						return std::make_unique<Cinematique>(window_, RessourceLoader::getPath("gameOver"));
-        player.draw(window_);
-        for(Chandelier& chand : chandeliers)
-            chand.draw(window_);
+		if (player.getLife() == 0)
+			return std::make_unique<Cinematique>(window_, RessourceLoader::getPath("gameOver"));
+            
+
+		window_.clear();
+		Bell::getInstance().draw(window_); // Draw visible walls
+
+		player.draw(window_);
+		for (Chandelier& chand : chandeliers)
+			chand.draw(window_);
 		for (Luciole& lu : lucioles)
 		{
 			lu.checkColision(player.getHitbox());
 			lu.draw(window_);
 		}
-            
 
-					window_.clear();
-					Bell::getInstance().draw(window_); // Draw visible walls
+		lucioles.erase(std::remove_if(lucioles.begin(),
+			lucioles.end(),
+			[](auto& elem) { return elem.isDead(); }),
+			lucioles.end());
 
-					player.draw(window_);
-					for (Chandelier& chand : chandeliers)
-						chand.draw(window_);
-					for (Luciole& lu : lucioles)
-						lu.draw(window_);
+		sortie.update();
+		sortie.draw(window_);
 
-					lucioles.erase(std::remove_if(lucioles.begin(),
-						lucioles.end(),
-						[](auto& elem) { return elem.isDead(); }),
-						lucioles.end());
-
-					sortie.update();
-					sortie.draw(window_);
-
-					window_.display();
+		window_.display();
 
 
-					sf::sleep(sf::milliseconds(10));
-				}
-			}
-		}
+		sf::sleep(sf::milliseconds(10));
+		
 	}
 }

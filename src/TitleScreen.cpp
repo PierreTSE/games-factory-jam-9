@@ -80,8 +80,8 @@ bool TitleScreen::spawnTitle()
                 return false;
         }
         
-        // TODO Utiliser les boutons
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && time > sf::seconds(3))
+      
+        if((sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || (sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0,1))) && time > sf::seconds(3))
             return true;
         
         globalClock::getClock().restart();
@@ -91,7 +91,7 @@ bool TitleScreen::spawnTitle()
         double progression = (time-sf::seconds(1)) / sf::seconds(2);
         progression = std::clamp(progression, 0.0, 1.0);
         
-        title.setColor(sf::Color(255, 255, 255, progression*255));
+        title.setFillColor(sf::Color(255, 255, 255, progression*255));
         
         window_.clear();
         window_.draw(bg);
