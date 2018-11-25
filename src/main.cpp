@@ -141,10 +141,10 @@ int main()
 
 
     // cinématiques d'abord
-    std::unique_ptr<Screen> screen(new Cinematique(window, RessourceLoader::getPath("flashback"), std::make_unique<LevelScreen>(window, 3)));
+    //std::unique_ptr<Screen> screen(new Cinematique(window, RessourceLoader::getPath("flashback"), std::make_unique<LevelScreen>(window, 3)));
     
     // direct sur le jeu
-    //std::unique_ptr<Screen> screen(std::make_unique<LevelScreen>(window,3));
+    std::unique_ptr<Screen> screen(std::make_unique<LevelScreen>(window,3));
 
 
     while(screen)

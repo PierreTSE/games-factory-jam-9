@@ -36,12 +36,6 @@ Cinematique(sf::RenderWindow& win, std::filesystem::path dirPath, std::unique_pt
 
 std::unique_ptr<Screen> Cinematique::execute()
 {
-    animation(window_);
-    return std::move(nextScreen_);
-}
-
-void Cinematique::animation(sf::RenderWindow& window)
-{
     sf::Event event{};
 
     for(auto& image : images_)
@@ -54,8 +48,12 @@ void Cinematique::animation(sf::RenderWindow& window)
         bool animateFrame  = true;
         while(animateFrame)
         {
-            while(window.pollEvent(event))
+            while(window_.pollEvent(event))
             {
+                auto result = gestionEvent(event);
+                if(result)
+                    return std::move(*result);
+
                 if(event.type == sf::Event::KeyPressed && currentTime <= fadeInTime_ + frameTime_ && !skippingAsked)
                 {
                     switch(event.key.code)
@@ -73,18 +71,18 @@ void Cinematique::animation(sf::RenderWindow& window)
                 skipped     = true;
             }
 
-            window.clear();
-            window.draw(image);
+            window_.clear();
+            window_.draw(image);
 
             if(currentTime < fadeInTime_)
             {
                 rect_.setFillColor(sf::Color(0, 0, 0, 255 * ((fadeInTime_ - currentTime) / fadeInTime_)));
-                window.draw(rect_);
+                window_.draw(rect_);
             }
             else if(currentTime >= fadeInTime_ + frameTime_)
             {
                 rect_.setFillColor(sf::Color(0, 0, 0, 255 * ((currentTime - frameTime_ - fadeInTime_) / fadeOutTime_)));
-                window.draw(rect_);
+                window_.draw(rect_);
             }
 
             if(currentTime >= fadeInTime_ + frameTime_ + fadeOutTime_) { animateFrame = false; }
@@ -93,7 +91,9 @@ void Cinematique::animation(sf::RenderWindow& window)
             currentTime += globalClock::getClock().restart();
             //std::cout << currentTime.asSeconds() << std::endl;
 
-            window.display();
+            window_.display();
         }
     }
+
+    return std::move(nextScreen_);
 }
