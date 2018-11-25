@@ -8,6 +8,7 @@
 #include"Luciole.h"
 #include"constantes.hpp"
 #include "Chandelier.h"
+#include "Cinematique.h"
 #include "SoundWave.h"
 
 #include <filesystem>
@@ -102,13 +103,13 @@ int main()
 
 
     Player monPerso;
-
+	Cinematique cine = Cinematique();
 	Luciole luciole;
 	luciole.set_coordd(100, 100);
 	luciole.set_coordf(500, 500);
 
 	Chandelier chand = Chandelier({ 10,10 }, { 50,10 });
-
+	
     std::vector<SoundWave> waves;
 
     //Création de la fenetre du jeux
@@ -169,6 +170,8 @@ int main()
 		chand.gestion(globalClock::getClock().frameTime());
 		window.draw(chand.objet);
 
+		
+		cine.animation(window);
         window.display();
 
         sf::sleep(sf::milliseconds(10));
