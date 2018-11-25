@@ -8,7 +8,6 @@
 #include "Utils.h"
 #include "Item.h"
 #include "Maze.h"
-#include "Bell.h"
 
 
 class Echolocation

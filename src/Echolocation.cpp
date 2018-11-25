@@ -1,13 +1,15 @@
 #include "Echolocation.h"
 #include "constantes.hpp"
 #include <iostream>
+#include "Bell.h"
+
 
 void Echolocation::detectHorizontalBorder(sf::Vector2f center, float radius, float j, float border)
 {
 	if ((center.y - radius < border && center.y > border) ||
 		(center.y + radius > border && center.y < border))
 	{
-		float largeur = abs(radius * cos(asin((center.y - border) / radius)));
+		float largeur = std::abs(radius * cos(asin((center.y - border) / radius)));
 		float x1 = center.x + largeur;
 		float x2 = center.x - largeur;
 
