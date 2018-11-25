@@ -29,6 +29,8 @@ class Player
         template<typename CB>
         void ring(CB&& callback); // Test
         
+        void setInitialPosition(sf::Vector2f);
+        
         void setOrientation(Orientation o);
         void setAnimation(Animation a);
 

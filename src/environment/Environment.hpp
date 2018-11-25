@@ -168,7 +168,7 @@ public :
         load(std::move(path));
     }
 
-    std::vector<std::vector<bool>> getObstacles() const { return obstacles_; }
+    std::vector<std::vector<bool>> const& getObstacles() const { return obstacles_; }
 
     bool is_in_depart(sf::Vector2f inputPos) const
     {
@@ -224,9 +224,9 @@ public :
         updatePillars();
     }
 
-    std::vector<sf::Vector2i> getDepart() const { return depart_; }
+    std::vector<sf::Vector2i>const & getDepart() const { return depart_; }
 
-    std::vector<sf::Vector2i> getArrivee() const { return arrivee_; }
+    std::vector<sf::Vector2i>const& getArrivee() const { return arrivee_; }
 
     void drawObstacles(sf::RenderWindow& window, float ratio, sf::Vector2f origin = {1.f, 1.f}) const
     {

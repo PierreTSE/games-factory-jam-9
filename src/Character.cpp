@@ -130,8 +130,12 @@ bool Player::collision(std::vector<std::vector<bool>> const& map, sf::Vector2f p
     
     for(int i = floor(min.x/factor); i <= floor(max.x/factor); i++) {
         for(int j = floor(min.y/factor); j <= floor(max.y/factor); j++)
+        {
+            if(j < 0 || j >= map.size() || i < 0 || i >= map[j].size())
+                return false;
             if(map[j][i])
                 return false;
+        }
     }
 
     return true;
@@ -171,6 +175,13 @@ sf::Vector2f Player::getPosition()
 void Player::setCanMove(bool b)
 {
     canMove = b;
+}
+
+void Player::setInitialPosition(sf::Vector2f pos)
+{
+    pos.x -= hitbox_.left + hitbox_.width / 2.0;
+    pos.y -= hitbox_.top + hitbox_.height / 2.0;
+    position_ = pos;
 }
 
 

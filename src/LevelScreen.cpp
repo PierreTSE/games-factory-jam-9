@@ -2,6 +2,7 @@
 #include "RessourceLoader.hpp"
 #include "Bell.h"
 #include "camera.hpp"
+#include "constantes.hpp"
 
 
 LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber) :
@@ -10,7 +11,10 @@ LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber) :
     maze{env},
     player{&maze}
 {
-
+    sf::Vector2i tot = std::accumulate(env.getDepart().begin(), env.getDepart().end(), sf::Vector2i(0, 0));
+    sf::Vector2f pos(tot.x, tot.y);
+    pos /= (float)env.getDepart().size();
+    player.setInitialPosition(pos*(float)PIXEL_SIZE + sf::Vector2f(PIXEL_SIZE/2, PIXEL_SIZE/2));
 }
 
 std::unique_ptr<Screen> LevelScreen::execute()
