@@ -8,9 +8,6 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 
-
-
-
 template<typename StateType>
     class AnimatedEntity : public sf::Transformable
 {
@@ -49,8 +46,8 @@ template<typename StateType>
 inline sf::Vector2f AnimatedEntity<StateType>::getSize()
 {
 	sf::Vector2f res;
-	res.x = sprites.front().getGlobalBounds().width;
-	res.y = sprites.front().getGlobalBounds().height;
+	res.x = sprites.front().getGlobalBounds().width / (float)sprites.front().getNbFrame();
+	res.y = sprites.front().getGlobalBounds().height / (float)sprites.front().getNbFrame();
 	return res;
 }
 

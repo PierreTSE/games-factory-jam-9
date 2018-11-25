@@ -1,20 +1,27 @@
 #include "Item.h"
+#include "globalClock.hpp"
 
-Item::Item()
+#include <iostream>
+
+Item::Item(float x, float y) :
+	sprite_(FLOATING, AnimatedSprite(4, sf::milliseconds(200), RessourceLoader::getTexture("sprites/sprites_sortie.png")))
 {
-	angle_ = 45;
 	alpha_ = 0;
 	hue_ = 0;
 	sens_ = 1;
 
-	shape_.setSize({ 20, 20 });
-	shape_.setOrigin(10, 10);
+	sprite_.setScale(0.8f, 0.8f);
+
+	auto size = sprite_.getSize();
+	
+	x_ = x - size.x / 2.f;
+	y_ = y - size.y / 2.f;
 }
 
 void Item::setPosition(float x, float y)
 {
-	x_ = x;
-	y_ = y;
+	x_ = x - 42;
+	y_ = y - 48;
 }
 
 void Item::discover()
@@ -28,9 +35,10 @@ bool Item::isInCircle(sf::Vector2f center, float radius)
 	return sqrt(diff.x*diff.x + diff.y*diff.y) < radius;
 }
 
-void Item::update(sf::Time elapsedTime)
+void Item::update()
 {
 	if (alpha_ > 0) {
+		sf::Time elapsedTime = globalClock::getClock().frameTime();
 		hue_ += 100 * elapsedTime.asSeconds();
 		alpha_ -= 100 * elapsedTime.asSeconds();
 		angle_ += sens_ * 70 * elapsedTime.asSeconds();
@@ -43,10 +51,9 @@ void Item::draw(sf::RenderWindow &window)
 {
 	if (alpha_ > 0)
 	{
-		shape_.setRotation(angle_);
-		shape_.setPosition(x_, y_);
-		shape_.setFillColor(Utils::makeHSV(hue_, 0.6f, 1.f, alpha_));
-		window.draw(shape_);
+		sprite_.setPosition(x_, y_);
+		sprite_.setColor(Utils::makeHSV(hue_, 0.6f, 1.f, alpha_));
+		sprite_.draw(window);
 	}
 	
 }

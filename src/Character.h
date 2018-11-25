@@ -6,6 +6,7 @@
 #include "AnimatedEntity.hpp"
 #include "Maze.h"
 #include "globalClock.hpp"
+#include "Item.h"
 
 
 enum class Orientation {
@@ -19,7 +20,7 @@ enum class Animation {
 class Player
 {
     public:
-        Player(Maze* maze);
+        Player(Maze* maze, Item *sortie);
         bool collision(std::vector<std::vector<bool>> const& map, sf::Vector2f pos);
         void movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>> const& map);
         void draw(sf::RenderTarget& target);
@@ -53,8 +54,8 @@ class Player
         bool canMove = true;
         bool canRing = true;
         Maze* maze_;
+		Item* sortie_;
         sf::Time wallDetectionCooldown = sf::Time::Zero;
-
 };
 
 

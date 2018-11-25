@@ -53,17 +53,15 @@ void Echolocation::detectVerticalBorder(sf::Vector2f center, float radius, float
 	}
 }
 
-Echolocation::Echolocation(Maze *maze)
+Echolocation::Echolocation(Maze *maze, Item *sortie)
 {
-	sortie.setPosition(200, 200);
-
 	alpha_ = 255;
 	dead_ = false;
-	triggered_ = false;
 
 	layout_.reset(new sf::RenderTexture);
 	layout_->create(maze->getWidth()*PIXEL_SIZE, maze->getHeight()*PIXEL_SIZE);
 
+	sortie_ = sortie;
 	maze_ = maze;
 }
 
@@ -89,13 +87,9 @@ void Echolocation::detect(sf::Vector2f center, float radius)
 			}
 		}
 
-		if (sortie.isInCircle(center, radius)) {
-			if (Bell::getInstance().getNbPortes() == 0)
-			{
-				sortie.discover();
-				Bell::getInstance().incPorte();
-				triggered_ = true;
-			}
+		if (sortie_->isInCircle(center, radius)) {
+			sortie_->discover();
+
 			
 		}
 		alpha_ = 255;
@@ -112,18 +106,14 @@ void Echolocation::drawLayout(sf::RenderWindow & window)
 	render.setScale(1, -1);
 	render.setColor({ 255, 255, 255, (sf::Uint8)alpha_ });
 	window.draw(render);
-	sortie.draw(window);
 }
 
 void Echolocation::update(sf::Time elapsedTime)
 {
-	sortie.update(elapsedTime);
 	alpha_ -= 100 * elapsedTime.asSeconds();
 	if (alpha_ < 0) {
 		alpha_ = 0;
 		dead_ = true;
-		if (triggered_)
-			Bell::getInstance().decPorte();
 	}		
 }
 

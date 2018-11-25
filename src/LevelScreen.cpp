@@ -10,12 +10,18 @@ LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber) :
     Screen{win},
     env{RessourceLoader::getPath("map/map"+std::to_string(levelNumber)+".png")},
     maze{env},
-    player{&maze}
+	sortie(0,0),
+    player{&maze, &sortie}
 {
     sf::Vector2i tot = std::accumulate(env.getDepart().begin(), env.getDepart().end(), sf::Vector2i(0, 0));
     sf::Vector2f pos(tot.x, tot.y);
     pos /= (float)env.getDepart().size();
     player.setInitialPosition(pos*(float)PIXEL_SIZE + sf::Vector2f(PIXEL_SIZE/2, PIXEL_SIZE/2));
+
+	sf::Vector2i tot1 = std::accumulate(env.getArrivee().begin(), env.getArrivee().end(), sf::Vector2i(0, 0));
+	sf::Vector2f pos1(tot1.x, tot1.y);
+	pos1 /= (float)env.getArrivee().size();
+	sortie.setPosition(pos1.x * PIXEL_SIZE, pos1.y * PIXEL_SIZE);
 }
 
 std::unique_ptr<Screen> LevelScreen::execute()
@@ -39,14 +45,14 @@ std::unique_ptr<Screen> LevelScreen::execute()
                 {
                     case sf::Keyboard::Space :
                         player.ring([this]() {
-                            Bell::getInstance().add(&maze, player.getPosition().x, player.getPosition().y);
+                            Bell::getInstance().add(&maze, &sortie, player.getPosition().x, player.getPosition().y);
                             env.switchPillars();
                             maze.parseWall(env);
                         });
                         
                         break;
 					case sf::Keyboard::L:
-						lucioles.emplace_back(&maze);
+						lucioles.emplace_back(&maze, &sortie);
 						lucioles.back().set_coordd(player.getPosition().x, player.getPosition().y);
 						lucioles.back().set_coordf(Utils::random(env.width_ * PIXEL_SIZE), Utils::random(env.height_ * PIXEL_SIZE));
 						break;
@@ -84,6 +90,9 @@ std::unique_ptr<Screen> LevelScreen::execute()
 			lucioles.end(),
 			[](auto& elem) { return elem.isDead(); }),
 			lucioles.end());
+
+		sortie.update();
+		sortie.draw(window_);
 
         window_.display();
 
