@@ -23,11 +23,11 @@ struct Pillar
         pos_  = pos;
         isUp_ = isUp;
 
-		up_.setPosition(pos_.x * PIXEL_SIZE - 10, pos_.y * PIXEL_SIZE - 10);
-		down_.setPosition(pos_.x * PIXEL_SIZE - 10, pos_.y * PIXEL_SIZE - 10);
+		up_.setPosition(((pos_.x-0.5) * PIXEL_SIZE - 10), ((pos_.y-0.5) * PIXEL_SIZE - 10));
+		down_.setPosition(((pos_.x-0.5) * PIXEL_SIZE - 10)-4, ((pos_.y-0.5) * PIXEL_SIZE - 10));
 
-		up_.setScale(0.5f, 0.5f);
-		down_.setScale(0.5f, 0.5f);
+		up_.setScale(0.7f, 0.7f);
+		down_.setScale(0.7f, 0.7f);
     }
 };
 
