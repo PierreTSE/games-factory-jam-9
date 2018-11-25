@@ -35,6 +35,11 @@ void AnimatedSprite::update()
     setTextureRect(frameSize);
 }
 
+int AnimatedSprite::getNbFrame()
+{
+	return numFrame;
+}
+
 void AnimatedSprite::reset()
 {
     animationProgress = sf::Time::Zero;

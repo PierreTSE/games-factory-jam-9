@@ -35,6 +35,9 @@ private:
     std::vector<sf::Vector2i> bonus_;
     std::vector<sf::Vector2i> dallesLuciole_;
 
+    //Player elements
+    int nbRingMap_;
+
     //Methods
 
     template<typename T>
@@ -57,7 +60,7 @@ public :
 
     Environment() = default;
 
-    explicit Environment(std::filesystem::path path) { load(std::move(path)); }    
+    explicit Environment(std::filesystem::path path) { load(std::move(path)); }
 
     //switch binary doors
 
@@ -74,6 +77,8 @@ public :
     std::vector<sf::Vector2i> const& getArrivee() const { return arrivee_; }
 
     std::vector<sf::Vector2i> const& getDalles() const { return dallesLuciole_; }
+
+    int getMapLife() const { return nbRingMap_; }
 
     // testers
 

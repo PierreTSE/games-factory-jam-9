@@ -10,6 +10,7 @@
 using namespace std;
 
 
+
 float Luciole::distance()
 {
     double dx = solx - abs;
@@ -27,8 +28,8 @@ void Luciole::mouv()
 {
     double dir = angle();
     double tps = globalClock::getClock().frameTime().asSeconds();
-    abs += vitesse * tps * cos(dir);
-    ord += vitesse * tps * sin(dir);
+    //abs += vitesse * tps * cos(dir);
+    //ord += vitesse * tps * sin(dir);
 }
 
 void Luciole::draw(sf::RenderWindow& window)
@@ -51,7 +52,7 @@ void Luciole::draw(sf::RenderWindow& window)
 		}
 		else if (color < 128)
 		{
-			sens = 1;
+			sens = -sens;
 		}
 			
 
@@ -60,7 +61,7 @@ void Luciole::draw(sf::RenderWindow& window)
 
 		if (color == 255)
 		{
-			Bell::getInstance().add(maze_, abs + sprite.getSize().x / 2, ord + sprite.getSize().y / 2, 0, 255, 100, 255);
+			Bell::getInstance().add(maze_, sortie_, abs + 30, ord + 30, 0, 255, 100, 255);
 			timer_ = sf::Time::Zero;
 		}
 	}
@@ -95,9 +96,10 @@ bool Luciole::isDead()
 
 
 
-Luciole::Luciole(Maze *maze) :
+Luciole::Luciole(Maze *maze, Item *sortie) :
 	sprite(FLAMING, AnimatedSprite(4, sf::milliseconds(200), RessourceLoader::getTexture("sprites/sprites_feufollet.png")))
 {
 	maze_ = maze;
+	sortie_ = sortie;
 	sprite.setScale(0.5, 0.5);
 }

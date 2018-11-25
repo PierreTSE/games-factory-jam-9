@@ -12,19 +12,23 @@ class Cinematique
 private:
     std::vector<sf::Sprite> images_;
 
-    sf::Time temps_      = sf::Time::Zero;
-    sf::Time degradTime_ = sf::Time::Zero;
+    /**
+     * temps du fondu en début d'image
+     */
+    sf::Time fadeInTime_ = sf::seconds(2);
 
     /**
-     * temps d'affichage d'une image de la cinématique
+     * temps du fondu en fin d'image
+     */
+    sf::Time fadeOutTime_ = sf::seconds(2);
+
+    /**
+     * temps d'affichage d'une image de la cinématique, avant le fondu
      */
     sf::Time frameTime_ = sf::seconds(5);
 
-    sf::RectangleShape rect_ = sf::RectangleShape({static_cast<float>(WINDOW_SIZE_X), static_cast<float>(WINDOW_SIZE_Y)});
-
-    size_t currentImg_ = 0;
-    bool   first_      = true;
-    size_t count_      = 0;
+    sf::RectangleShape rect_ = sf::
+            RectangleShape({static_cast<float>(WINDOW_SIZE_X), static_cast<float>(WINDOW_SIZE_Y)});
 
 public:
     Cinematique(std::filesystem::path dirPath);
@@ -32,5 +36,11 @@ public:
     void fondu(sf::RenderWindow& window);
 
     void animation(sf::RenderWindow& window);
+
+    void setFadeInTime(sf::Time fadeInTime) { fadeInTime_ = fadeInTime; }
+
+    void setFadeOutTime(sf::Time fadeOutTime) {fadeOutTime_ = fadeOutTime; }
+
+    void setFrameTime(sf::Time frameTime) { frameTime_ = frameTime; }
 };
 #endif // CINEMATIQUE_H

@@ -36,7 +36,7 @@ std::vector<Chandelier> Chandelier::createChandeliers(std::filesystem::path path
 {
     std::ifstream file(RessourceLoader::getPath(path.u8string()), std::ios::in);
     if(!file.is_open())
-        throw std::runtime_error("Can't open from :" + path.u8string());
+        return std::vector<Chandelier>();
 
     std::vector<Chandelier> out;
 
@@ -85,7 +85,7 @@ void Chandelier::gestion(sf::Time elapsedTime)
     if(timer_ > sf::seconds(1)) {
         colorDir = !colorDir;
         if(colorDir)
-            Bell::getInstance().add(maze_, objet_.getPosition().x + 30, objet_.getPosition().y + 30, 0, 255, 100, 255);
+            Bell::getInstance().add(maze_, sortie_, objet_.getPosition().x + 30, objet_.getPosition().y + 30, 0, 255, 100, 255);
         timer_ -= sf::seconds(1);
     }
     
