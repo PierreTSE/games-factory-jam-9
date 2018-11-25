@@ -48,7 +48,7 @@ std::unique_ptr<Screen> LevelScreen::execute()
 					case sf::Keyboard::L:
 						lucioles.emplace_back(&maze);
 						lucioles.back().set_coordd(player.getPosition().x, player.getPosition().y);
-						lucioles.back().set_coordf(Utils::random(env.width_ * PIXEL_SIZE), Utils::random(env.height_ * PIXEL_SIZE));
+						lucioles.back().set_coordf(Utils::random(env.width * PIXEL_SIZE), Utils::random(env.height * PIXEL_SIZE));
 						break;
                 }
             }

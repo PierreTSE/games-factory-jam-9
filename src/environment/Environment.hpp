@@ -4,7 +4,6 @@
 #include <vector>
 #include <filesystem>
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/Texture.hpp>
 
 struct Pillar
 {
@@ -49,10 +48,9 @@ private:
 
     void updatePillars();
 
-
 public :
-    size_t width_  = 0;
-    size_t height_ = 0;
+    size_t width  = 0;
+    size_t height = 0;
 
     // Methods
     void load(std::filesystem::path path);

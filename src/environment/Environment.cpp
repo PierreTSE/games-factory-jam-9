@@ -47,11 +47,11 @@ void Environment::load(std::filesystem::path path)
     if(!img.loadFromFile(path.u8string()))
         throw std::runtime_error("Can't load image from path :" + path.u8string());
 
-    width_  = img.getSize().x;
-    height_ = img.getSize().y;
+    width  = img.getSize().x;
+    height = img.getSize().y;
 
     //initialize
-    maze_ = std::vector<std::vector<bool>>(width_, std::vector<bool>(height_, false));
+    maze_ = std::vector<std::vector<bool>>(width, std::vector<bool>(height, false));
     depart_.clear();
     arrivee_.clear();
 
@@ -108,9 +108,9 @@ void Environment::switchPillar(size_t i)
 
 void Environment::drawObstacles(sf::RenderWindow& window, float ratio, sf::Vector2f origin) const
 {
-    for(int i = 0 ; i < height_ ; ++i)
+    for(int i = 0 ; i < height ; ++i)
     {
-        for(int j = 0 ; j < height_ ; ++j)
+        for(int j = 0 ; j < height ; ++j)
         {
             const sf::Vector2i pos(j, i);
 
@@ -136,9 +136,9 @@ void Environment::drawObstacles(sf::RenderWindow& window, float ratio, sf::Vecto
 
 void Environment::drawColorized(sf::RenderWindow& window, float ratio, sf::Vector2f origin) const
 {
-    for(int i = 0 ; i < height_ ; ++i)
+    for(int i = 0 ; i < height ; ++i)
     {
-        for(int j = 0 ; j < height_ ; ++j)
+        for(int j = 0 ; j < height ; ++j)
         {
             const sf::Vector2i pos(j, i);
 
