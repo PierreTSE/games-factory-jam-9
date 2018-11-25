@@ -12,9 +12,9 @@ std::unique_ptr<Screen> TitleScreen::execute()
     title.setString("Bell me your Dream");
     title.setCharacterSize(90);
     
-    bg_t.loadFromFile(RessourceLoader::getPath("flashback/ecran_titre_fond.png"));
-    bed_t.loadFromFile(RessourceLoader::getPath("flashback/ecran_titre_lit.png"));
-    win_t.loadFromFile(RessourceLoader::getPath("flashback/ecran_titre_fenetre.png"));
+    bg_t.loadFromFile(RessourceLoader::getPath("titlescreen/ecran_titre_fond.png"));
+    bed_t.loadFromFile(RessourceLoader::getPath("titlescreen/ecran_titre_lit.png"));
+    win_t.loadFromFile(RessourceLoader::getPath("titlescreen/ecran_titre_fenetre.png"));
     
     bg.setTexture(bg_t);
     bed.setTexture(bed_t);
