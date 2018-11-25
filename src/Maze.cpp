@@ -31,21 +31,24 @@ void Maze::parseWall(Environment & env)
 		{
 			if (i == 0 || j == 0 || i == env.height - 1 || j == env.width - 1)
 			{
-				walls_[i][j].top = false;
-				walls_[i][j].bot = false;
-				walls_[i][j].left = false;
-				walls_[i][j].right = false;
-
-				if (i != j && !(i == 0 && j == env.width - 1) && !(i == env.height - 1 && j == 0))
+				if (vect[i][j])
 				{
-					if (i == 0 && !vect[i + 1][j])
-						walls_[i][j].bot = true;
-					if (j == 0 && !vect[i][j + 1])
-						walls_[i][j].right = true;
-					if (i == env.height - 1 && !vect[i - 1][j])
-						walls_[i][j].top = true;
-					if (j == env.width - 1 && !vect[i][j - 1])
-						walls_[i][j].left = true;
+					walls_[i][j].top = false;
+					walls_[i][j].bot = false;
+					walls_[i][j].left = false;
+					walls_[i][j].right = false;
+
+					if (i != j && !(i == 0 && j == env.width - 1) && !(i == env.height - 1 && j == 0))
+					{
+						if (i == 0 && !vect[i + 1][j])
+							walls_[i][j].bot = true;
+						if (j == 0 && !vect[i][j + 1])
+							walls_[i][j].right = true;
+						if (i == env.height - 1 && !vect[i - 1][j])
+							walls_[i][j].top = true;
+						if (j == env.width - 1 && !vect[i][j - 1])
+							walls_[i][j].left = true;
+					}
 				}
 			}
 			else

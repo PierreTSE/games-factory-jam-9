@@ -40,10 +40,16 @@ LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber) :
 	lucioles.back().set_coordd(pos2.x * PIXEL_SIZE, pos2.y * PIXEL_SIZE);
 	lucioles.back().set_coordf(pos1.x * PIXEL_SIZE, pos1.y * PIXEL_SIZE);
 
-	sf::Vector2i tot3 = std::accumulate(env.getBonus().begin(), env.getBonus().end(), sf::Vector2i(0, 0));
-	sf::Vector2f pos3(tot3.x, tot3.y);
-	pos3 /= (float)env.getArrivee().size();
-	sablier.setPosition(pos3.x * PIXEL_SIZE, pos3.y * PIXEL_SIZE);
+	if (env.getBonus().size() != 0)
+	{
+		sf::Vector2i tot3 = std::accumulate(env.getBonus().begin(), env.getBonus().end(), sf::Vector2i(0, 0));
+		sf::Vector2f pos3(tot3.x, tot3.y);
+		pos3 /= (float)env.getArrivee().size();
+		sablier.setPosition(pos3.x * PIXEL_SIZE, pos3.y * PIXEL_SIZE);
+	}
+	else
+		sablier.kill();
+	
 	
 	
 	fond.setSize({ 2000, 2000 });
