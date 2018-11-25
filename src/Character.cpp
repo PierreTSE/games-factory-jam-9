@@ -73,7 +73,7 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
     Animation prev = animation;
 
     if(sf::Keyboard::isKeyPressed(
-        sf::Keyboard::Right) /*&& (position_.x + form_.getGlobalBounds().width) < WINDOW_SIZE_X*/)
+        sf::Keyboard::Right) && (position_.x + hitbox_.width) < WINDOW_SIZE_X)
     {
         setOrientation(Orientation::RIGHT);
         setAnimation(Animation::WALKING);
@@ -92,7 +92,7 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
         nextPos.y -= speed_ * elapsedTime.asSeconds();
     }
     else if(sf::Keyboard::isKeyPressed(
-        sf::Keyboard::Down) /*&& (position_.y + form_.getGlobalBounds().height) < WINDOW_SIZE_Y*/)
+        sf::Keyboard::Down) && (position_.y + hitbox_.height) < WINDOW_SIZE_Y)
     {
         setOrientation(Orientation::DOWN);
         setAnimation(Animation::WALKING);

@@ -23,7 +23,7 @@ namespace fs = std::filesystem;
 void mainTestEnvironment()
 {
     Environment environment;
-    environment.load(RessourceLoader::getPath("map/map10.png"));
+    environment.load(RessourceLoader::getPath("map/map7.png"));
 
     const float window_x = 800.f, window_y = 700.f;
 
@@ -79,7 +79,7 @@ void mainTestEnvironment()
 
         window.display();
 
-        sf::sleep(sf::milliseconds(10));
+       // sf::sleep(sf::milliseconds(10));
     }
 }
 
@@ -95,7 +95,7 @@ void mainTestChandelier()
     const float ratio = 10.f;
 
     sf::Texture text;
-    text.loadFromFile(RessourceLoader::getPath("map/map10.png"));
+    text.loadFromFile(RessourceLoader::getPath("map/map7.png"));
     sf::Sprite map(text);
     map.scale(ratio, ratio);
 
