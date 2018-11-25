@@ -2,14 +2,14 @@
 #include "RessourceLoader.hpp"
 #include "globalClock.hpp"
 
-std::filesystem::path strip_root(const std::filesystem::path& p) {
+std::filesystem::path strip_root(const std::filesystem::path& p)
+{
     const std::filesystem::path& parent_path = p.parent_path();
-    if (parent_path.empty() || parent_path.string() == "/")
+    if(parent_path.empty() || parent_path.string() == "/")
         return std::filesystem::path();
     else
         return strip_root(parent_path) / p.filename();
 }
-
 
 Cinematique::Cinematique(std::filesystem::path dirPath)
 {
@@ -31,14 +31,14 @@ void Cinematique::animation(sf::RenderWindow& window)
     bool continuer = true;
     while(count_ < images_.size())
     {
-        //Création d'un objet récupérant les événements (touche clavier et autre)
+        // Création d'un objet récupérant les événements (touche clavier et autre)
         sf::Event event{};
 
         temps_ += globalClock::getClock().frameTime();
         window.clear();
         window.draw(images_.at(currentImg_));
 
-        //Boucle des évennements
+        // Boucle des événements
         while(window.pollEvent(event))
         {
             if(event.type == sf::Event::KeyPressed)
@@ -46,14 +46,16 @@ void Cinematique::animation(sf::RenderWindow& window)
                 switch(event.key.code)
                 {
                     case sf::Keyboard::Space :
-                        temps_ = sf::seconds(5);
+                        temps_ = sf::seconds(frameTime_.asSeconds());
                         break;
                 }
             }
         }
 
         globalClock::getClock().restart();
-        if(temps_ > sf::seconds(5)) { fondu(window); }
+
+        if(temps_ >= sf::seconds(frameTime_.asSeconds())) { fondu(window); }
+
         window.display();
     }
 }

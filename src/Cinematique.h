@@ -15,6 +15,11 @@ private:
     sf::Time temps_      = sf::Time::Zero;
     sf::Time degradTime_ = sf::Time::Zero;
 
+    /**
+     * temps d'affichage d'une image de la cinématique
+     */
+    sf::Time frameTime_ = sf::seconds(5);
+
     sf::RectangleShape rect_ = sf::RectangleShape({static_cast<float>(WINDOW_SIZE_X), static_cast<float>(WINDOW_SIZE_Y)});
 
     size_t currentImg_ = 0;
