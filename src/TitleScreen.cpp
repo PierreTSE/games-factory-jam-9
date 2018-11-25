@@ -4,6 +4,7 @@
 #include "constantes.hpp"
 #include "LevelScreen.hpp"
 #include "Utils.h"
+#include "Cinematique.hpp"
 
 std::unique_ptr<Screen> TitleScreen::execute()
 {
@@ -45,7 +46,7 @@ std::unique_ptr<Screen> TitleScreen::execute()
     continu = fade();
     if(!continu)
         return std::unique_ptr<Screen>(nullptr);
-    return std::unique_ptr<Screen>(new LevelScreen(window_, 3));
+    return std::make_unique<Cinematique>(window_, RessourceLoader::getPath("1"), false, std::make_unique<LevelScreen>(window_, 3));
 }
 
 TitleScreen::TitleScreen(sf::RenderWindow& window) : Screen(window)
