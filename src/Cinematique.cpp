@@ -2,6 +2,7 @@
 #include "RessourceLoader.hpp"
 #include "globalClock.hpp"
 #include "Utils.h"
+#include <iostream>
 
 std::filesystem::path strip_root(const std::filesystem::path& p)
 {
@@ -13,11 +14,13 @@ std::filesystem::path strip_root(const std::filesystem::path& p)
 }
 
 Cinematique::
-Cinematique(sf::RenderWindow& win, std::filesystem::path dirPath, std::unique_ptr<Screen> nextScreen) : Screen{win},
-                                                                                                        nextScreen_{
-                                                                                                            std::
-                                                                                                            move(nextScreen)
-                                                                                                        }
+Cinematique(sf::RenderWindow&       win,
+            std::filesystem::path   dirPath,
+            bool                    waitForSkip,
+            std::unique_ptr<Screen> nextScreen) :
+    Screen{win},
+    waitForSkip_{waitForSkip},
+    nextScreen_{std::move(nextScreen)}
 {
     dirPath = dirPath.parent_path() / std::filesystem::path("cinematiques") / dirPath.filename();
 
@@ -34,13 +37,19 @@ Cinematique(sf::RenderWindow& win, std::filesystem::path dirPath, std::unique_pt
     }
 }
 
-Cinematique::Cinematique(sf::RenderWindow & win, std::filesystem::path dirPath, std::vector<sf::Text> texts, std::unique_ptr<Screen> nextScreen) : Cinematique{win, dirPath, std::move(nextScreen)}
+Cinematique::Cinematique(sf::RenderWindow&       win,
+                         std::filesystem::path   dirPath,
+                         std::vector<sf::Text>   texts,
+                         bool                    waitForSkip,
+                         std::unique_ptr<Screen> nextScreen) : Cinematique{
+    win,
+    dirPath,
+    waitForSkip,
+    std::move(nextScreen)
+}
 {
     texts_ = texts;
-    for(auto& text : texts_)
-    {
-        centerOrigin(text);
-    }
+    for(auto& text : texts_) { centerOrigin(text); }
 }
 
 std::unique_ptr<Screen> Cinematique::execute()
@@ -65,7 +74,7 @@ std::unique_ptr<Screen> Cinematique::execute()
                 if(result)
                     return std::move(*result);
 
-                if(event.type == sf::Event::KeyPressed && currentTime <= fadeInTime_ + frameTime_ && !skippingAsked)
+                if(event.type == sf::Event::KeyPressed && ((currentTime <= fadeInTime_ + frameTime_ && !skippingAsked) || waitForSkip_))
                 {
                     switch(event.key.code)
                     {
@@ -85,10 +94,7 @@ std::unique_ptr<Screen> Cinematique::execute()
             window_.clear();
             window_.draw(image);
 
-            for(auto& text : texts_)
-            {
-                window_.draw(text);
-            }
+            for(auto& text : texts_) { window_.draw(text); }
 
             if(currentTime < fadeInTime_)
             {
@@ -97,15 +103,23 @@ std::unique_ptr<Screen> Cinematique::execute()
             }
             else if(currentTime >= fadeInTime_ + frameTime_)
             {
-                rect_.setFillColor(sf::Color(0, 0, 0, 255 * ((currentTime - frameTime_ - fadeInTime_) / fadeOutTime_)));
-                window_.draw(rect_);
+                if(waitForSkip_ && !skipped)
+                    currentTime = fadeInTime_ + frameTime_;
+                else
+                {
+                    rect_.setFillColor(sf::Color(0,
+                                                 0,
+                                                 0,
+                                                 255 * ((currentTime - frameTime_ - fadeInTime_) / fadeOutTime_)));
+                    window_.draw(rect_);
+                }
             }
 
             if(currentTime >= fadeInTime_ + frameTime_ + fadeOutTime_) { animateFrame = false; }
 
 
             currentTime += globalClock::getClock().restart();
-            //std::cout << currentTime.asSeconds() << std::endl;
+            std::cout << currentTime.asSeconds() << std::endl;
 
             window_.display();
         }

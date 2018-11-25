@@ -11,15 +11,22 @@
 class Cinematique : public Screen
 {
 public:
-    Cinematique(sf::RenderWindow& win, std::filesystem::path dirPath, std::unique_ptr<Screen> nextScreen = std::unique_ptr<Screen>());
+    Cinematique(sf::RenderWindow&       win,
+                std::filesystem::path   dirPath,
+                bool                    waitForSkip = false,
+                std::unique_ptr<Screen> nextScreen  = std::unique_ptr<Screen>());
 
-    Cinematique(sf::RenderWindow& win, std::filesystem::path dirPath, std::vector<sf::Text> texts, std::unique_ptr<Screen> nextScreen = std::unique_ptr<Screen>());
+    Cinematique(sf::RenderWindow&       win,
+                std::filesystem::path   dirPath,
+                std::vector<sf::Text>   texts,
+                bool                    waitForSkip = false,
+                std::unique_ptr<Screen> nextScreen  = std::unique_ptr<Screen>());
 
-    std::unique_ptr<Screen> execute() override;    
+    std::unique_ptr<Screen> execute() override;
 
     void setFadeInTime(sf::Time fadeInTime) { fadeInTime_ = fadeInTime; }
 
-    void setFadeOutTime(sf::Time fadeOutTime) {fadeOutTime_ = fadeOutTime; }
+    void setFadeOutTime(sf::Time fadeOutTime) { fadeOutTime_ = fadeOutTime; }
 
     void setFrameTime(sf::Time frameTime) { frameTime_ = frameTime; }
 
@@ -27,6 +34,8 @@ private:
     std::vector<sf::Sprite> images_;
 
     std::vector<sf::Text> texts_;
+
+    bool waitForSkip_ = false;
 
     /**
      * temps du fondu en début d'image
