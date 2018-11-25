@@ -14,6 +14,8 @@ private:
     sf::Vector2i fin_;
 
     bool sens_;
+    
+    bool colorDir;
 
     const float vitesse_ = 0.05;
 

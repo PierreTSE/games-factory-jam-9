@@ -1,5 +1,7 @@
 #include "Chandelier.h"
 #include "RessourceLoader.hpp"
+#include "globalClock.hpp"
+#include "Bell.h"
 #include <fstream>
 
 
@@ -13,6 +15,7 @@ Chandelier::Chandelier(sf::Vector2i debut, sf::Vector2i fin):
     objet_.setFillColor(sf::Color::Yellow);
     sens_ = true;
     sprite.setScale(0.5, 0.5);
+    objet_.move(10, 10);
 }
 
 std::vector<Chandelier> Chandelier::createChandeliers(std::filesystem::path path)
@@ -76,6 +79,24 @@ void Chandelier::gestion(sf::Time elapsedTime)
     }
     
     sprite.setPosition(objet_.getPosition());
+    
+    timer_ += globalClock::getClock().frameTime();
+    
+    if(timer_ > sf::seconds(1)) {
+        colorDir = !colorDir;
+        if(colorDir)
+            Bell::getInstance().add(maze_, objet_.getPosition().x + 30, objet_.getPosition().y + 30, 0, 255, 100, 255);
+        timer_ -= sf::seconds(1);
+    }
+    
+    double val;
+    
+    if(colorDir) {
+        val = 150 + 105 * (1 - timer_.asSeconds());
+    } else {
+        val = 150 + 105 * timer_.asSeconds();
+    }
+    sprite.setColor(sf::Color(val, val, val));
 }
 
 void Chandelier::draw(sf::RenderWindow& window) { sprite.draw(window); }
