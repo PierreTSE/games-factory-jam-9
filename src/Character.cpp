@@ -7,73 +7,99 @@
 #include "Bell.h"
 
 
-Player::Player(Maze* maze) :
-    sprite(IDLE_DOWN, AnimatedSprite(1, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_down.png"),
-                                     sf::IntRect{340, 0, 340, 600})),
-     maze_{maze}
+Player::Player(Maze* maze, int nbRing) : nbRing_{nbRing},
+                                         life_{nbRing},
+                                         sprite(IDLE_DOWN,
+                                                AnimatedSprite(1,
+                                                               sf::milliseconds(250),
+                                                               RessourceLoader::getTexture("sprites/walking_down.png"),
+                                                               sf::IntRect{340, 0, 340, 600})),
+                                         maze_{maze}
 {
     sprite.setup(IDLE_UP,
-                 AnimatedSprite(1, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_up.png"),
+                 AnimatedSprite(1,
+                                sf::milliseconds(250),
+                                RessourceLoader::getTexture("sprites/walking_up.png"),
                                 sf::IntRect{340, 0, 340, 600}));
     sprite.setup(IDLE_LEFT,
-                 AnimatedSprite(1, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_left.png"),
+                 AnimatedSprite(1,
+                                sf::milliseconds(250),
+                                RessourceLoader::getTexture("sprites/walking_left.png"),
                                 sf::IntRect{340, 0, 340, 600}));
     sprite.setup(IDLE_RIGHT,
-                 AnimatedSprite(1, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_right.png"),
+                 AnimatedSprite(1,
+                                sf::milliseconds(250),
+                                RessourceLoader::getTexture("sprites/walking_right.png"),
                                 sf::IntRect{340, 0, 340, 600}));
 
     sprite.setup(WALKING_DOWN,
-                 AnimatedSprite(4, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_down.png"),
+                 AnimatedSprite(4,
+                                sf::milliseconds(250),
+                                RessourceLoader::getTexture("sprites/walking_down.png"),
                                 sf::IntRect{0, 0, 340, 600}));
     sprite.setup(WALKING_UP,
-                 AnimatedSprite(4, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_up.png"),
+                 AnimatedSprite(4,
+                                sf::milliseconds(250),
+                                RessourceLoader::getTexture("sprites/walking_up.png"),
                                 sf::IntRect{0, 0, 340, 600}));
     sprite.setup(WALKING_LEFT,
-                 AnimatedSprite(4, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_left.png"),
+                 AnimatedSprite(4,
+                                sf::milliseconds(250),
+                                RessourceLoader::getTexture("sprites/walking_left.png"),
                                 sf::IntRect{0, 0, 340, 600}));
     sprite.setup(WALKING_RIGHT,
-                 AnimatedSprite(4, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_right.png"),
+                 AnimatedSprite(4,
+                                sf::milliseconds(250),
+                                RessourceLoader::getTexture("sprites/walking_right.png"),
                                 sf::IntRect{0, 0, 340, 600}));
 
 
     sprite.setup(RINGING_DOWN,
-                 AnimatedSprite(2, sf::milliseconds(250), RessourceLoader::getTexture("sprites/ringing_down.png"),
+                 AnimatedSprite(2,
+                                sf::milliseconds(250),
+                                RessourceLoader::getTexture("sprites/ringing_down.png"),
                                 sf::IntRect{0, 0, 340, 600}));
     sprite.setup(RINGING_UP,
-                 AnimatedSprite(2, sf::milliseconds(250), RessourceLoader::getTexture("sprites/ringing_up.png"),
+                 AnimatedSprite(2,
+                                sf::milliseconds(250),
+                                RessourceLoader::getTexture("sprites/ringing_up.png"),
                                 sf::IntRect{0, 0, 340, 600}));
     sprite.setup(RINGING_LEFT,
-                 AnimatedSprite(2, sf::milliseconds(250), RessourceLoader::getTexture("sprites/ringing_left.png"),
+                 AnimatedSprite(2,
+                                sf::milliseconds(250),
+                                RessourceLoader::getTexture("sprites/ringing_left.png"),
                                 sf::IntRect{0, 0, 340, 600}));
     sprite.setup(RINGING_RIGHT,
-                 AnimatedSprite(2, sf::milliseconds(250), RessourceLoader::getTexture("sprites/ringing_right.png"),
+                 AnimatedSprite(2,
+                                sf::milliseconds(250),
+                                RessourceLoader::getTexture("sprites/ringing_right.png"),
                                 sf::IntRect{0, 0, 340, 600}));
 
-    
-    
+
     sprite.setScale(SPRITE_RATIO, SPRITE_RATIO);
 
-    hitbox_.width = 3*PIXEL_SIZE;
-    hitbox_.height = 3*PIXEL_SIZE;
-    hitbox_.left = (TARGET_SPRITE_WIDTH - hitbox_.width) / 2;
-    hitbox_.top = TARGET_SPRITE_HEIGHT - hitbox_.height;
+    hitbox_.width  = 3 * PIXEL_SIZE;
+    hitbox_.height = 3 * PIXEL_SIZE;
+    hitbox_.left   = (TARGET_SPRITE_WIDTH - hitbox_.width) / 2;
+    hitbox_.top    = TARGET_SPRITE_HEIGHT - hitbox_.height;
 
     orientation = Orientation::DOWN;
-    animation = Animation::IDLE;
+    animation   = Animation::IDLE;
 }
- 
+
 
 void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>> const& map)
 {
     if(!canMove)
         return;
-    
+
     sf::Vector2f nextPos = position_;
-    
+
     Animation prev = animation;
 
     if(sf::Keyboard::isKeyPressed(
-        sf::Keyboard::Right) /*&& (position_.x + form_.getGlobalBounds().width) < WINDOW_SIZE_X*/)
+                                  sf::Keyboard::Right)
+        /*&& (position_.x + form_.getGlobalBounds().width) < WINDOW_SIZE_X*/)
     {
         setOrientation(Orientation::RIGHT);
         setAnimation(Animation::WALKING);
@@ -92,27 +118,31 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
         nextPos.y -= speed_ * elapsedTime.asSeconds();
     }
     else if(sf::Keyboard::isKeyPressed(
-        sf::Keyboard::Down) /*&& (position_.y + form_.getGlobalBounds().height) < WINDOW_SIZE_Y*/)
+                                       sf::Keyboard::Down)
+        /*&& (position_.y + form_.getGlobalBounds().height) < WINDOW_SIZE_Y*/)
     {
         setOrientation(Orientation::DOWN);
         setAnimation(Animation::WALKING);
         nextPos.y += speed_ * elapsedTime.asSeconds();
     }
-    else
-    {
-        setAnimation(Animation::IDLE);
-    }
-    
+    else { setAnimation(Animation::IDLE); }
+
     wallDetectionCooldown += elapsedTime;
-    
+
     if(collision(map, nextPos) || !collision(map, position_))
         position_ = nextPos;
     else
     {
         if(wallDetectionCooldown > sf::seconds(0.75))
         {
-            Bell::getInstance().add(maze_, position_.x + hitbox_.left + hitbox_.width / 2.0,
-                                    position_.y + hitbox_.top + hitbox_.height / 2.0, 0, 255, 600, 4500, false);
+            Bell::getInstance().add(maze_,
+                                    position_.x + hitbox_.left + hitbox_.width / 2.0,
+                                    position_.y + hitbox_.top + hitbox_.height / 2.0,
+                                    0,
+                                    255,
+                                    600,
+                                    4500,
+                                    false);
             wallDetectionCooldown = sf::Time::Zero;
         }
         setAnimation(Animation::IDLE);
@@ -124,12 +154,13 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
 
 bool Player::collision(std::vector<std::vector<bool>> const& map, sf::Vector2f pos)
 {
-    double factor = PIXEL_SIZE;
-    sf::Vector2f min = sf::Vector2f{hitbox_.left, hitbox_.top} + pos;
-    sf::Vector2f max = min + sf::Vector2f{hitbox_.width, hitbox_.height};
-    
-    for(int i = floor(min.x/factor); i <= floor(max.x/factor); i++) {
-        for(int j = floor(min.y/factor); j <= floor(max.y/factor); j++)
+    double       factor = PIXEL_SIZE;
+    sf::Vector2f min    = sf::Vector2f{hitbox_.left, hitbox_.top} + pos;
+    sf::Vector2f max    = min + sf::Vector2f{hitbox_.width, hitbox_.height};
+
+    for(int i = floor(min.x / factor) ; i <= floor(max.x / factor) ; i++)
+    {
+        for(int j = floor(min.y / factor) ; j <= floor(max.y / factor) ; j++)
         {
             if(j < 0 || j >= map.size() || i < 0 || i >= map[j].size())
                 return false;
@@ -146,10 +177,7 @@ Player::States Player::combineStates(Orientation ori, Animation ani)
     return static_cast<States>(static_cast<int>(ori) + 4 * static_cast<int>(ani));
 }
 
-void Player::draw(sf::RenderTarget& target)
-{
-    sprite.draw(target);
-}
+void Player::draw(sf::RenderTarget& target) { sprite.draw(target); }
 
 void Player::setOrientation(Orientation o)
 {
@@ -167,15 +195,9 @@ void Player::setAnimation(Animation a)
     sprite.setState(combineStates(orientation, animation));
 }
 
-sf::Vector2f Player::getPosition()
-{
-	return position_ + sprite.getSize()/2.f;
-}
+sf::Vector2f Player::getPosition() { return position_ + sprite.getSize() / 2.f; }
 
-void Player::setCanMove(bool b)
-{
-    canMove = b;
-}
+void Player::setCanMove(bool b) { canMove = b; }
 
 void Player::setInitialPosition(sf::Vector2f pos)
 {
@@ -183,6 +205,3 @@ void Player::setInitialPosition(sf::Vector2f pos)
     pos.y -= hitbox_.top + hitbox_.height / 2.0;
     position_ = pos;
 }
-
-
-

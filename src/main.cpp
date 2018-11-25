@@ -139,10 +139,11 @@ int main()
                             sf::Style::Default,
                             sf::ContextSettings(0, 0, 8));
 
-    Cinematique cine(RessourceLoader::getPath("flashback"));
-    cine.animation(window);
+    //todo à enlever test cinématique
+    //Cinematique cine(RessourceLoader::getPath("flashback"));
+    //cine.animation(window);
 
-    std::unique_ptr<Screen> screen(new LevelScreen(window, 10));
+    std::unique_ptr<Screen> screen(new LevelScreen(window, 3));
     while(screen)
         screen = screen->execute();
 

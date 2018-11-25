@@ -36,7 +36,7 @@ std::vector<Chandelier> Chandelier::createChandeliers(std::filesystem::path path
 {
     std::ifstream file(RessourceLoader::getPath(path.u8string()), std::ios::in);
     if(!file.is_open())
-        throw std::runtime_error("Can't open from :" + path.u8string());
+        return std::vector<Chandelier>();
 
     std::vector<Chandelier> out;
 

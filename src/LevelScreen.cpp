@@ -10,12 +10,12 @@ LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber) :
     Screen{win},
     env{RessourceLoader::getPath("map/map"+std::to_string(levelNumber)+".png")},
     maze{env},
-    player{&maze}
+    player{&maze, env.getMapLife()}
 {
     sf::Vector2i tot = std::accumulate(env.getDepart().begin(), env.getDepart().end(), sf::Vector2i(0, 0));
     sf::Vector2f pos(tot.x, tot.y);
-    pos /= (float)env.getDepart().size();
-    player.setInitialPosition(pos*(float)PIXEL_SIZE + sf::Vector2f(PIXEL_SIZE/2, PIXEL_SIZE/2));
+    pos /= static_cast<float>(env.getDepart().size());
+    player.setInitialPosition(pos*static_cast<float>(PIXEL_SIZE) + sf::Vector2f(PIXEL_SIZE/2, PIXEL_SIZE/2));
     
     chandeliers = Chandelier::createChandeliers("map/map"+std::to_string(levelNumber)+".txt", PIXEL_SIZE);
     for(auto& c : chandeliers)
@@ -26,11 +26,10 @@ std::unique_ptr<Screen> LevelScreen::execute()
 {
     while(window_.isOpen())
     {
-        //Création d'un objet récupérant les événements (touche clavier et autre)
+        // Création d'un objet récupérant les événements (touche clavier et autre)
         sf::Event event{};
 
-
-        //Boucle des évennements
+        //Boucle des événements
         while(window_.pollEvent(event))
         {
             auto result = gestionEvent(event);
