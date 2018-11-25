@@ -69,8 +69,8 @@ bool TitleScreen::spawnTitle()
                 return false;
         }
         
-        // TODO Utiliser les boutons
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && time > sf::seconds(3))
+      
+        if((sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || (sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0,1))) && time > sf::seconds(3))
             return true;
         
         globalClock::getClock().restart();
