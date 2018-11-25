@@ -1,5 +1,5 @@
 #include "Echolocation.h"
-
+#include "constantes.hpp"
 #include <iostream>
 
 void Echolocation::detectHorizontalBorder(sf::Vector2f center, float radius, float j, float border)
@@ -59,7 +59,7 @@ Echolocation::Echolocation(Maze *maze)
 	dead_ = false;
 
 	layout_.reset(new sf::RenderTexture);
-	layout_->create(1200, 720);
+	layout_->create(maze->getWidth()*PIXEL_SIZE, maze->getHeight()*PIXEL_SIZE);
 
 	maze_ = maze;
 }

@@ -15,7 +15,7 @@ private:
 
 public:
 
-    //TODO devra être remplacé par un sf::Sprite
+    //TODO devra Ãªtre remplacÃ© par un sf::Sprite
     sf::RectangleShape objet_;
 
     Chandelier(sf::Vector2i debut, sf::Vector2i fin);

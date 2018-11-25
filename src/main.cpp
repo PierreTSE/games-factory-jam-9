@@ -8,6 +8,7 @@
 #include "RessourceLoader.hpp"
 #include "SoundWave.h"
 #include "Maze.h"
+#include "camera.hpp"
 #include "Bell.h"
 
 #include <filesystem>
@@ -163,7 +164,6 @@ int main()
     Player monPerso;
     
     
-    
     Chandelier chand({50, 50}, {150, 50});
 
 	Maze maze(environment);
@@ -173,15 +173,13 @@ int main()
 	luciole.set_coordf(500, 500);
 
     //Création de la fenetre du jeux
-    sf::RenderWindow window(sf::VideoMode(1200, 720),
+    sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y),
                             "SUPER BIZUT",
                             sf::Style::Default,
                             sf::ContextSettings(0, 0, 8));
     
     
     
-    sf::Sprite testDegueu(RessourceLoader::getTexture("sprites/test.png"));
-    testDegueu.setScale(15, 15);
 
     //Tant que l'on joue (fenetre ouverte)
     while(window.isOpen())
@@ -217,10 +215,13 @@ int main()
 
         monPerso.movement(globalClock::getClock().frameTime(), environment.getObstacles()); //Mouvement du personnage
 
-        window.clear();
-        window.draw(testDegueu);
-
         
+        sf::View view = scrollCamera(environment, monPerso);
+        
+        window.setView(view);
+        
+        window.clear();
+       
 
         //luciole.mouv();
         //luciole.draw(window);

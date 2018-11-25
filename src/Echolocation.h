@@ -9,7 +9,6 @@
 #include "Item.h"
 #include "Maze.h"
 
-constexpr size_t PIXEL_SIZE = 32;
 
 class Echolocation
 {

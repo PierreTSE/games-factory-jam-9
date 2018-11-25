@@ -47,16 +47,14 @@ Player::Player() :
                  AnimatedSprite(2, sf::milliseconds(250), RessourceLoader::getTexture("sprites/ringing_right.png"),
                                 sf::IntRect{0, 0, 340, 600}));
 
-
-    hitbox_.width = 45;
-    hitbox_.height = 45;
-    hitbox_.left = 20;
-    hitbox_.top = 110;
     
-    // TODO Remove
-    position_ = {-27.5+45,-115+15*5};
+    
+    sprite.setScale(SPRITE_RATIO, SPRITE_RATIO);
 
-    sprite.setScale(0.25, 0.25);
+    hitbox_.width = 3*PIXEL_SIZE;
+    hitbox_.height = 3*PIXEL_SIZE;
+    hitbox_.left = (TARGET_SPRITE_WIDTH - hitbox_.width) / 2;
+    hitbox_.top = TARGET_SPRITE_HEIGHT - hitbox_.height;
 
     orientation = Orientation::DOWN;
     animation = Animation::IDLE;
@@ -101,7 +99,7 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
         setAnimation(Animation::IDLE);
     }
     
-    if(collision(map, nextPos))
+    if(collision(map, nextPos) || !collision(map, position_))
         position_ = nextPos;
     else 
         setAnimation(Animation::IDLE);
@@ -112,7 +110,7 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
 
 bool Player::collision(std::vector<std::vector<bool>> const& map, sf::Vector2f pos)
 {
-    double factor = 600/40;
+    double factor = PIXEL_SIZE;
     sf::Vector2f min = sf::Vector2f{hitbox_.left, hitbox_.top} + pos;
     sf::Vector2f max = min + sf::Vector2f{hitbox_.width, hitbox_.height};
     
