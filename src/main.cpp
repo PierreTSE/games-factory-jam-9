@@ -10,6 +10,8 @@
 #include "Maze.h"
 #include "camera.hpp"
 #include "Bell.h"
+#include "Screen.hpp"
+#include "LevelScreen.hpp"
 
 #include <filesystem>
 #include <SFML/Graphics.hpp>
@@ -158,87 +160,17 @@ int main()
     //    img2.saveToFile(path);
     //}
 
-	Environment environment;
-	environment.load(RessourceLoader::getPath("map/map10.png"));
-
-    Player monPerso;
-    
-    
-    Chandelier chand({50, 50}, {150, 50});
-
-	Maze maze(environment);
-
-	Luciole luciole(&maze);
-	luciole.set_coordd(100, 100);
-	luciole.set_coordf(500, 500);
-
     //Création de la fenetre du jeux
     sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y),
                             "SUPER BIZUT",
                             sf::Style::Default,
                             sf::ContextSettings(0, 0, 8));
     
+    std::unique_ptr<Screen> screen(new LevelScreen(window, 10));
+    while(screen)
+        screen = screen->execute();
     
-    
-
-    //Tant que l'on joue (fenetre ouverte)
-    while(window.isOpen())
-    {
-        //Création d'un objet récupérant les événements (touche clavier et autre)
-        sf::Event event{};
-
-
-        //Boucle des évennements
-        while(window.pollEvent(event))
-        {
-            //Evenement de fermeture de la fenetre : on ferme le jeux
-            if(event.type == sf::Event::Closed)
-                window.close();
-            if(event.type == sf::Event::KeyPressed)
-            {
-                switch(event.key.code)
-                {
-                    case sf::Keyboard::Space :
-                        monPerso.ring();
-                        if(Bell::getInstance().checkReady(sf::seconds(1000)))
-                            Bell::getInstance().add(&maze, monPerso.getPosition().x, monPerso.getPosition().y);
-                        break;
-					case sf::Keyboard::Return:
-						environment.switchPillars();
-						maze.parseWall(environment);
-						break;
-                }
-            }
-        }
-
-        globalClock::getClock().restart();
-
-        monPerso.movement(globalClock::getClock().frameTime(), environment.getObstacles()); //Mouvement du personnage
-
-        
-        sf::View view = scrollCamera(environment, monPerso);
-        
-        window.setView(view);
-        
-        window.clear();
-       
-
-        //luciole.mouv();
-        //luciole.draw(window);
-
-		Bell::getInstance().draw(window);
-
-		monPerso.draw(window);
-
-		//test chandelier
-		chand.gestion(globalClock::getClock().frameTime());
-		window.draw(chand.objet_);
-
-        window.display();
-
-        sf::sleep(sf::milliseconds(10));
-    }
-
+   
 
     return 0;
 }

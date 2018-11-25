@@ -161,6 +161,12 @@ public :
         obstacles_ = maze_;
         updatePillars();
     }
+    
+    Environment() {}
+    
+    explicit Environment(std::filesystem::path path) {
+        load(std::move(path));
+    }
 
     std::vector<std::vector<bool>> getObstacles() const { return obstacles_; }
 
