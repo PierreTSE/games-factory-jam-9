@@ -226,7 +226,7 @@ int main()
         //luciole.mouv();
         //luciole.draw(window);
 
-		bell.getInstance().draw(window);
+		Bell::getInstance().draw(window);
 
 		monPerso.draw(window);
 
