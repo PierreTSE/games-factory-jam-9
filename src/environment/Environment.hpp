@@ -4,6 +4,8 @@
 #include <vector>
 #include <filesystem>
 #include <SFML/Graphics.hpp>
+#include "../RessourceLoader.hpp"
+#include "../constantes.hpp"
 
 struct Pillar
 {
@@ -11,10 +13,21 @@ struct Pillar
 
     bool isUp_ = true;
 
+	sf::Sprite up_;
+	sf::Sprite down_;
+
     Pillar(sf::Vector2i pos, bool isUp = true)
     {
+		up_ = sf::Sprite(RessourceLoader::getTexture("sprites/sprite_bascule_fermee.png"));
+		down_ = sf::Sprite(RessourceLoader::getTexture("sprites/sprite_bascule_ouverte.png"));
         pos_  = pos;
         isUp_ = isUp;
+
+		up_.setPosition(pos_.x * PIXEL_SIZE - 10, pos_.y * PIXEL_SIZE - 10);
+		down_.setPosition(pos_.x * PIXEL_SIZE - 10, pos_.y * PIXEL_SIZE - 10);
+
+		up_.setScale(0.5f, 0.5f);
+		down_.setScale(0.5f, 0.5f);
     }
 };
 
@@ -95,6 +108,8 @@ public :
 
     template<typename T>
     bool is_in_dalle(sf::Vector2<T> inputPos) const;
+
+	void drawPillars(sf::RenderWindow &render);
 
     //méthodes de test, ne sont pas dans le jeu
 

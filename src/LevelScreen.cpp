@@ -139,8 +139,7 @@ std::unique_ptr<Screen> LevelScreen::execute()
 
         for(Chandelier& chand : chandeliers)
             chand.gestion(globalClock::getClock().frameTime());
-					
-		sf::View view = scrollCamera(env, player);
+			
 
 		for (Luciole& lu : lucioles)
 			lu.mouv();
@@ -167,6 +166,10 @@ std::unique_ptr<Screen> LevelScreen::execute()
         
         window_.clear();
         Bell::getInstance().draw(window_); // Draw visible walls
+
+		window_.clear();
+		Bell::getInstance().draw(window_); // Draw visible walls
+		env.drawPillars(window_);
 
 		player.draw(window_);
 		for (Chandelier& chand : chandeliers)
