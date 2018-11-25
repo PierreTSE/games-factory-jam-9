@@ -22,6 +22,7 @@ class LevelScreen : public Screen
         Maze maze;
 		Item sortie;
         Player player;
+		int lvl;
 };
 
 

@@ -14,14 +14,14 @@ Item::Item(float x, float y) :
 
 	auto size = sprite_.getSize();
 	
-	x_ = x - size.x / 2.f;
-	y_ = y - size.y / 2.f;
+	x_ = x - 42;
+	y_ = y - 48;
 }
 
 void Item::setPosition(float x, float y)
 {
-	x_ = x - 42;
-	y_ = y - 48;
+	x_ = x;
+	y_ = y;
 }
 
 void Item::discover()
@@ -33,6 +33,11 @@ bool Item::isInCircle(sf::Vector2f center, float radius)
 {
 	sf::Vector2f diff = center - sf::Vector2f(x_, y_);
 	return sqrt(diff.x*diff.x + diff.y*diff.y) < radius;
+}
+
+bool Item::touchPlayer(sf::FloatRect box)
+{
+	return box.contains(sf::Vector2f(x_, y_));
 }
 
 void Item::update()
@@ -51,7 +56,7 @@ void Item::draw(sf::RenderWindow &window)
 {
 	if (alpha_ > 0)
 	{
-		sprite_.setPosition(x_, y_);
+		sprite_.setPosition(x_ - 42, y_ - 48);
 		sprite_.setColor(Utils::makeHSV(hue_, 0.6f, 1.f, alpha_));
 		sprite_.draw(window);
 	}

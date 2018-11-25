@@ -191,6 +191,14 @@ void Player::setAnimation(Animation a)
 
 sf::Vector2f Player::getPosition() { return position_ + sprite.getSize() / 2.f; }
 
+sf::FloatRect Player::getHitbox()
+{
+	sf::FloatRect res(hitbox_);
+	res.left += position_.x;
+	res.top += position_.y;
+	return res;
+}
+
 void Player::setCanMove(bool b) { canMove = b; }
 
 void Player::setInitialPosition(sf::Vector2f pos)

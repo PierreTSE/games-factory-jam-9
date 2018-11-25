@@ -13,6 +13,7 @@ LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber) :
 	sortie(0,0),
     player{&maze, &sortie, env.getMapLife()}
 {
+	lvl = levelNumber;
     sf::Vector2i tot = std::accumulate(env.getDepart().begin(), env.getDepart().end(), sf::Vector2i(0, 0));
     sf::Vector2f pos(tot.x, tot.y);
     pos /= (float)env.getDepart().size();
@@ -68,6 +69,12 @@ std::unique_ptr<Screen> LevelScreen::execute()
         
         player.movement(globalClock::getClock().frameTime(), env.getObstacles()); //Mouvement du personnage
 
+		if (sortie.touchPlayer(player.getHitbox()))
+		{
+			Bell::getInstance().clear();
+			return std::unique_ptr<Screen>(new LevelScreen(window_, lvl + 1));
+		}
+			
 
         sf::View view = scrollCamera(env, player);
 

@@ -24,6 +24,7 @@ class Item
 		void setPosition(float x, float y);
 		void discover();
 		bool isInCircle(sf::Vector2f center, float radius);
+		bool touchPlayer(sf::FloatRect box);
 		void update();
 		void draw(sf::RenderWindow &window);
 };

@@ -45,6 +45,8 @@ public:
 
 	sf::Vector2f getPosition();
 
+	sf::FloatRect getHitbox();
+
 private:
 	enum States
 	{

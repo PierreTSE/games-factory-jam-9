@@ -17,6 +17,7 @@ class Bell
 		static Bell& getInstance();
 		bool checkReady(sf::Time cooldown);
 		void draw(sf::RenderWindow &window);
+		void clear();
 		void add(Maze *maze, Item *item, float centerX, float centerY, float radius = 0, float alpha = 255, float radiusSpeed = 600, float alphaSpeed = 600, bool drawCircle = true);
 };
 
