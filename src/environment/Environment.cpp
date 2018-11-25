@@ -1,4 +1,5 @@
 #include "Environment.hpp"
+#include  <fstream>
 
 void Environment::updatePillars()
 {
@@ -43,6 +44,18 @@ void Environment::updatePillars()
 
 void Environment::load(std::filesystem::path path)
 {
+    //load map life
+    std::ifstream lifeFile((path.parent_path() / "lifefile.txt").c_str(), std::ios::in);
+    if(!lifeFile.is_open())
+        throw std::runtime_error("Can't open :" + (path.parent_path() / "nbCoups.txt").u8string());
+
+    std::string str = path.filename().string();
+    str.erase(std::remove_if(str.begin(), str.end(), [](char c){return !isdigit(c);}), str.end());
+
+    for(size_t i = 0 ; i < std::stoi(str) ; ++i) { lifeFile >> nbRingMap_; }
+    lifeFile.close();
+
+    //load map image
     sf::Image img;
     if(!img.loadFromFile(path.u8string()))
         throw std::runtime_error("Can't load image from path :" + path.u8string());
@@ -291,4 +304,3 @@ bool Environment::is_in_dalle(sf::Vector2<T> inputPos) const
     return isDalleOrigin(inputPos) || isDalleOrigin(inputPos + sf::Vector2<T>({-1, 0})) ||
             isDalleOrigin(inputPos + sf::Vector2<T>({0, -1})) || isDalleOrigin(inputPos + sf::Vector2<T>({-1, -1}));
 }
-
