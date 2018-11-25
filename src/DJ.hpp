@@ -1,30 +1,29 @@
 #ifndef DJ_HPP
 #define DJ_HPP
-#include <SFML/Audio.hpp>
-#include<vector>
-#include<string>
+
+#include <filesystem>
 #include <map>
+#include <SFML/Audio.hpp>
+#include <string>
+#include <vector>
 
+class DJ
+{
+public :
+    DJ();
 
-//class Track {
-//private : 
-//	sf::Sound sound_;
-//public :
-//	Track(sf::SoundBuffer& buff);
-//	void play();
-//};
-//
-//class DJ 
-//{
-//private : 
-//	std::map<std::string, Track> AllTrack_;
-//	sf::Music& music_;
-//public :
-//	DJ(sf::Music& m);
-//	std::vector<Track>& getAllTrack(){ return AllTrack_; }
-//	void playMusicForever(std::string path);
-//	void play(size_t n, bool forced = false);
-//
-//};
+    static DJ& getInstance();
+
+    void playSound(const std::string& name);
+    void playMusic(const std::string& name);
+    void stopMusic(const std::string& name);
+
+private :
+    std::vector<sf::SoundBuffer>                      soundBuffers_;
+    std::map<std::string, sf::Sound>                  sounds_;
+    std::map<std::string, std::unique_ptr<sf::Music>> musics_;
+};
+
+static DJ DJInstance;
 
 #endif //DJ_HPP

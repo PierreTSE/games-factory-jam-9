@@ -20,10 +20,27 @@
 #include "Cinematique.hpp"
 #include "FinaleLevelScreen.hpp"
 
+void testSon()
+{
+    sf::SoundBuffer sb;
+    sb.loadFromFile(RessourceLoader::getPath("audio/cloche.wav"));
+
+    sf::Sound sound(sb);
+    sound.play();
+
+    while(sound.getStatus() == sf::Sound::Status::Playing)
+    {
+        
+    }
+
+}
+
 
 namespace fs = std::filesystem;
 int main()
 {
+    //testSon();
+
     // mainTestEnvironment();
 
     // Création de la fenêtre du jeu
@@ -34,10 +51,10 @@ int main()
 
 
     //title screen
-    std::unique_ptr<Screen> screen(new TitleScreen(window));
+    //std::unique_ptr<Screen> screen(new TitleScreen(window));
 
     // cinématiques d'abord
-    //std::unique_ptr<Screen> screen(new Cinematique(window, RessourceLoader::getPath("1"), true, std::make_unique<LevelScreen>(window, 3)));
+    std::unique_ptr<Screen> screen(new Cinematique(window, RessourceLoader::getPath("1"), "cinematique.ogg", false, std::make_unique<LevelScreen>(window, 3)));
     
     // direct sur le jeu
     //std::unique_ptr<Screen> screen(std::make_unique<LevelScreen>(window,3));
