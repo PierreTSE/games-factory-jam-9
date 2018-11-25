@@ -72,27 +72,32 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
     
     Animation prev = animation;
 
+
+	float px = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+	float py = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+
+
     if(sf::Keyboard::isKeyPressed(
-        sf::Keyboard::Right) && (position_.x + hitbox_.width) < WINDOW_SIZE_X)
+        sf::Keyboard::Right) || px > 50)
     {
         setOrientation(Orientation::RIGHT);
         setAnimation(Animation::WALKING);
         nextPos.x += speed_ * elapsedTime.asSeconds();
     }
-    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || px < -50)
     {
         setOrientation(Orientation::LEFT);
         setAnimation(Animation::WALKING);
         nextPos.x -= speed_ * elapsedTime.asSeconds();
     }
-    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || py < -50)
     {
         setOrientation(Orientation::UP);
         setAnimation(Animation::WALKING);
         nextPos.y -= speed_ * elapsedTime.asSeconds();
     }
     else if(sf::Keyboard::isKeyPressed(
-        sf::Keyboard::Down) && (position_.y + hitbox_.height) < WINDOW_SIZE_Y)
+        sf::Keyboard::Down) || py > 50)
     {
         setOrientation(Orientation::DOWN);
         setAnimation(Animation::WALKING);

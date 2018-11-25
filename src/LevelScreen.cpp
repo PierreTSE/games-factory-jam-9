@@ -37,6 +37,23 @@ std::unique_ptr<Screen> LevelScreen::execute()
             if(result)
                 return std::move(*result);
             
+			if (event.type == sf::Event::JoystickButtonPressed)
+			{
+				{
+					switch (event.key.code)
+					{
+					case sf::Keyboard::A:
+						player.ring([this]() {
+							Bell::getInstance().add(&maze, player.getPosition().x, player.getPosition().y);
+							env.switchPillars();
+							maze.parseWall(env);
+						});
+
+						break;
+					}
+				}
+			}
+
             if(event.type == sf::Event::KeyPressed)
             {
                 switch(event.key.code)
