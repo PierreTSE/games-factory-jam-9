@@ -34,3 +34,19 @@ std::string RessourceLoader::getPath(std::string const& name)
     }
     return "rc/"+name;
 }
+
+RessourceReference<sf::SoundBuffer> RessourceLoader::getSound(std::string const& name)
+{
+    if(ressourceLoaderInstance.loadedSound.find(name) != ressourceLoaderInstance.loadedSound.end())
+        return ressourceLoaderInstance.loadedSound[name].get();
+    else
+        return ressourceLoaderInstance.loadSound(name);
+}
+
+RessourceReference<sf::SoundBuffer> RessourceLoader::loadSound(std::string const& name)
+{
+    std::string path = getPath(name);
+    auto snd = std::make_unique<sf::SoundBuffer>();
+    snd->loadFromFile(path);
+    return loadedSound.insert({name, std::move(snd)}).first->second.get();
+}

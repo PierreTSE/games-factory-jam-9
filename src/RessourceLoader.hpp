@@ -26,10 +26,12 @@ class RessourceLoader
 {
     public:
         static RessourceReference<sf::Texture> getTexture(std::string const& name);
+        static RessourceReference<sf::SoundBuffer> getSound(std::string const& name);
         static std::string getPath(std::string const& name);
     
     private:
         RessourceReference<sf::Texture> loadTexture(std::string const& name);
+        RessourceReference<sf::SoundBuffer> loadSound(std::string const& name);
         
     
         bool wdSet = false;
