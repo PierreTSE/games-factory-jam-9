@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <random>
+#include "constantes.hpp"
 
 
 class Utils {
@@ -57,5 +58,12 @@ inline sf::Color Utils::makeHSV(int hue, float sat, float val, float alpha)
 	case 5: return sf::Color(val * 255, p * 255, q * 255, alpha);
 	}
 }
+
+template<typename T>
+void centerOrigin(T& t) {
+    t.setOrigin(t.getLocalBounds().width/2.0, t.getLocalBounds().height/2.0);
+}
+
+void fit(sf::Sprite& s);
 
 #endif // !UTILS_H

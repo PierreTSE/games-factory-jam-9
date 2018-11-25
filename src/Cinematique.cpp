@@ -1,7 +1,7 @@
 #include "Cinematique.hpp"
 #include "RessourceLoader.hpp"
 #include "globalClock.hpp"
-#include <iostream>
+#include "Utils.h"
 
 std::filesystem::path strip_root(const std::filesystem::path& p)
 {
@@ -27,15 +27,26 @@ Cinematique(sf::RenderWindow& win, std::filesystem::path dirPath, std::unique_pt
     for(auto& file : std::filesystem::directory_iterator(dirPath))
     {
         images_.emplace_back(RessourceLoader::getTexture(strip_root(file.path()).u8string()));
-        images_.back().scale(WINDOW_SIZE_X / images_.back().getGlobalBounds().width,
-                             WINDOW_SIZE_Y / images_.back().getGlobalBounds().height);
-    }
 
-    rect_.setFillColor(sf::Color(0, 0, 0, 0));
+        centerOrigin(images_.back());
+        images_.back().setPosition(WINDOW_SIZE_X / 2.0, WINDOW_SIZE_Y / 2.0);
+        fit(images_.back());
+    }
+}
+
+Cinematique::Cinematique(sf::RenderWindow & win, std::filesystem::path dirPath, std::vector<sf::Text> texts, std::unique_ptr<Screen> nextScreen) : Cinematique{win, dirPath, std::move(nextScreen)}
+{
+    texts_ = texts;
+    for(auto& text : texts_)
+    {
+        centerOrigin(text);
+    }
 }
 
 std::unique_ptr<Screen> Cinematique::execute()
 {
+    window_.setView(sf::View({0, 0, static_cast<float>(WINDOW_SIZE_X), static_cast<float>(WINDOW_SIZE_Y)}));
+
     sf::Event event{};
 
     for(auto& image : images_)
@@ -73,6 +84,11 @@ std::unique_ptr<Screen> Cinematique::execute()
 
             window_.clear();
             window_.draw(image);
+
+            for(auto& text : texts_)
+            {
+                window_.draw(text);
+            }
 
             if(currentTime < fadeInTime_)
             {

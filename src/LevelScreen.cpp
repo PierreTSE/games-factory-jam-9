@@ -109,7 +109,19 @@ std::unique_ptr<Screen> LevelScreen::execute()
         window_.setView(view);
 
         if(player.getLife() == 0)
-            return std::make_unique<Cinematique>(window_, RessourceLoader::getPath("gameOver"));
+        {
+            sf::Text text;
+            text.setFont(RessourceLoader::getFont("font/Dry Brush.ttf"));
+            text.setString("On a Donelly demain :'(");
+            text.setCharacterSize(90);
+            text.setPosition(WINDOW_SIZE_X/2.0, 600);
+
+            std::vector<sf::Text> v;
+            v.push_back(text);
+
+            return std::make_unique<Cinematique>(window_, RessourceLoader::getPath("gameOver"), v);
+        }
+            
         
         window_.clear();
         Bell::getInstance().draw(window_); // Draw visible walls

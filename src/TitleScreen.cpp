@@ -3,23 +3,11 @@
 #include "globalClock.hpp"
 #include "constantes.hpp"
 #include "LevelScreen.hpp"
-
-
-template<typename T>
-void centerOrigin(T& t) {
-    t.setOrigin(t.getLocalBounds().width/2.0, t.getLocalBounds().height/2.0);
-}
-
-void fit(sf::Sprite& s) {
-    double ratio = std::max(s.getTexture()->getSize().x / (double)WINDOW_SIZE_X, s.getTexture()->getSize().y / (double)WINDOW_SIZE_Y);
-    s.setScale(1.0/ratio, 1.0/ratio);
-}
-
+#include "Utils.h"
 
 std::unique_ptr<Screen> TitleScreen::execute()
 {
-    font.loadFromFile(RessourceLoader::getPath("font/Dry Brush.ttf"));
-    title.setFont(font);
+    title.setFont(RessourceLoader::getFont("font/Dry Brush.ttf"));
     title.setString("Bell me your Dream");
     title.setCharacterSize(90);
     
@@ -91,7 +79,7 @@ bool TitleScreen::spawnTitle()
         double progression = (time-sf::seconds(1)) / sf::seconds(2);
         progression = std::clamp(progression, 0.0, 1.0);
         
-        title.setColor(sf::Color(255, 255, 255, progression*255));
+        title.setFillColor(sf::Color(255, 255, 255, progression*255));
         
         window_.clear();
         window_.draw(bg);

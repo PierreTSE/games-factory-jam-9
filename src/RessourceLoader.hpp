@@ -1,12 +1,11 @@
 #ifndef RESSOURCELOADER_HPP
 #define RESSOURCELOADER_HPP
 
-
-#include <vector>
 #include <memory>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <map>
+#include <SFML/Graphics/Font.hpp>
 
 
 template<typename T>
@@ -25,14 +24,18 @@ struct RessourceReference
 class RessourceLoader
 {
     public:
+        static RessourceReference<sf::Font> getFont(std::string const& name);
         static RessourceReference<sf::Texture> getTexture(std::string const& name);
         static std::string getPath(std::string const& name);
     
     private:
         RessourceReference<sf::Texture> loadTexture(std::string const& name);
+        RessourceReference<sf::Font> loadFont(std::string const& name);
         
     
         bool wdSet = false;
+
+        std::map<std::string, std::unique_ptr<sf::Font>> loadedFonts;
         std::map<std::string, std::unique_ptr<sf::Texture>> loadedTextures;
         std::map<std::string, std::unique_ptr<sf::SoundBuffer>> loadedSound;
 };

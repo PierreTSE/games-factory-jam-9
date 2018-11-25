@@ -14,3 +14,9 @@ int Utils::random(int max)
 {
     return random(0, max);
 }
+
+void fit(sf::Sprite & s)
+{
+    const double ratio = std::max(s.getTexture()->getSize().x / static_cast<double>(WINDOW_SIZE_X), s.getTexture()->getSize().y / static_cast<double>(WINDOW_SIZE_Y));
+    s.setScale(1.0/ratio, 1.0/ratio);
+}

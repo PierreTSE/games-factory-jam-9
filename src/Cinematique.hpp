@@ -13,6 +13,8 @@ class Cinematique : public Screen
 public:
     Cinematique(sf::RenderWindow& win, std::filesystem::path dirPath, std::unique_ptr<Screen> nextScreen = std::unique_ptr<Screen>());
 
+    Cinematique(sf::RenderWindow& win, std::filesystem::path dirPath, std::vector<sf::Text> texts, std::unique_ptr<Screen> nextScreen = std::unique_ptr<Screen>());
+
     std::unique_ptr<Screen> execute() override;    
 
     void setFadeInTime(sf::Time fadeInTime) { fadeInTime_ = fadeInTime; }
@@ -23,6 +25,8 @@ public:
 
 private:
     std::vector<sf::Sprite> images_;
+
+    std::vector<sf::Text> texts_;
 
     /**
      * temps du fondu en début d'image
@@ -41,8 +45,6 @@ private:
 
     sf::RectangleShape rect_ = sf::
             RectangleShape({static_cast<float>(WINDOW_SIZE_X), static_cast<float>(WINDOW_SIZE_Y)});
-
-    void animation(sf::RenderWindow& window);
 
     std::unique_ptr<Screen> nextScreen_;
 };
