@@ -4,6 +4,8 @@
 
 #include <SFML/Graphics.hpp>
 #include "AnimatedEntity.hpp"
+#include "Maze.h"
+#include "globalClock.hpp"
 
 
 enum class Orientation {
@@ -17,14 +19,15 @@ enum class Animation {
 class Player
 {
     public:
-        Player();
+        Player(Maze* maze);
         bool collision(std::vector<std::vector<bool>> const& map, sf::Vector2f pos);
         void movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>> const& map);
         void draw(sf::RenderTarget& target);
         
         void setCanMove(bool b);
         
-        void ring(); // Test
+        template<typename CB>
+        void ring(CB&& callback); // Test
         
         void setOrientation(Orientation o);
         void setAnimation(Animation a);
@@ -47,8 +50,32 @@ class Player
         sf::FloatRect hitbox_;
         bool canMove = true;
         bool canRing = true;
+        Maze* maze_;
+        sf::Time wallDetectionCooldown = sf::Time::Zero;
 
 };
+
+
+
+template<typename CB>
+void Player::ring(CB&& callback)
+{
+    if(!canRing)
+        return;
+    setAnimation(Animation::RINGING);
+    setCanMove(false);
+    canRing = false;
+    globalClock::getClock().executeIn(sf::seconds(0.74), [&]()
+    {
+        setAnimation(Animation::IDLE);
+        setCanMove(true);
+    });
+    globalClock::getClock().executeIn(sf::seconds(1), [&]()
+    {
+        canRing = true;
+    });
+    std::forward<CB>(callback)();
+}
 
 
 #endif // !CHARACTER_H

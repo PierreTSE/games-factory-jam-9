@@ -134,31 +134,7 @@ int main()
    // mainTestEnvironment();
 
 
-    // Ce code peux servir à faire des changements automatiques sur les sprites, à garder
-    //for(auto path : {"../../rc/sprites/ringing_left.png"})
-    //{
-    //    sf::Image img, img2;
-    //    img.loadFromFile(path);
-    //    img2.create(img.getSize().x, img.getSize().y, sf::Color::Transparent);
-    //
-    //    int n = img.getSize().x / 340;
-    //
-    //    for(int i = 0; i < n - 1; i++)
-    //    {
-    //        for(int j = 0; j < 340; j++)
-    //        {
-    //            for(int k = 0; k < 600; k++)
-    //                img2.setPixel(i * 340 + j, k, img.getPixel((i + 1) * 340 + j, k));
-    //        }
-    //    }
-    //    for(int j = 0; j < 340; j++)
-    //    {
-    //        for(int k = 0; k < 600; k++)
-    //            img2.setPixel((n - 1) * 340 + j, k, img.getPixel(j, k));
-    //    }
-    //
-    //    img2.saveToFile(path);
-    //}
+
 
     //Création de la fenetre du jeux
     sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y),

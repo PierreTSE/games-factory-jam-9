@@ -7,8 +7,8 @@
 LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber) :
     Screen{win},
     env{RessourceLoader::getPath("map/map"+std::to_string(levelNumber)+".png")},
-    player{},
-    maze{env}
+    maze{env},
+    player{&maze}
 {
 
 }
@@ -33,13 +33,12 @@ std::unique_ptr<Screen> LevelScreen::execute()
                 switch(event.key.code)
                 {
                     case sf::Keyboard::Space :
-                        player.ring();
-                        if(Bell::getInstance().checkReady(sf::seconds(1000)))
+                        player.ring([this]() {
                             Bell::getInstance().add(&maze, player.getPosition().x, player.getPosition().y);
-                        break;
-                    case sf::Keyboard::Return:
-                        env.switchPillars();
-                        maze.parseWall(env);
+                            env.switchPillars();
+                            maze.parseWall(env);
+                        });
+                        
                         break;
                 }
             }

@@ -4,11 +4,13 @@
 #include "constantes.hpp"
 #include "RessourceLoader.hpp"
 #include "globalClock.hpp"
+#include "Bell.h"
 
 
-Player::Player() :
+Player::Player(Maze* maze) :
     sprite(IDLE_DOWN, AnimatedSprite(1, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_down.png"),
-                                     sf::IntRect{340, 0, 340, 600}))
+                                     sf::IntRect{340, 0, 340, 600})),
+     maze_{maze}
 {
     sprite.setup(IDLE_UP,
                  AnimatedSprite(1, sf::milliseconds(250), RessourceLoader::getTexture("sprites/walking_up.png"),
@@ -59,7 +61,7 @@ Player::Player() :
     orientation = Orientation::DOWN;
     animation = Animation::IDLE;
 }
-
+ 
 
 void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>> const& map)
 {
@@ -67,6 +69,8 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
         return;
     
     sf::Vector2f nextPos = position_;
+    
+    Animation prev = animation;
 
     if(sf::Keyboard::isKeyPressed(
         sf::Keyboard::Right) /*&& (position_.x + form_.getGlobalBounds().width) < WINDOW_SIZE_X*/)
@@ -99,10 +103,20 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
         setAnimation(Animation::IDLE);
     }
     
+    wallDetectionCooldown += elapsedTime;
+    
     if(collision(map, nextPos) || !collision(map, position_))
         position_ = nextPos;
-    else 
+    else
+    {
+        if(wallDetectionCooldown > sf::seconds(0.75))
+        {
+            Bell::getInstance().add(maze_, position_.x + hitbox_.left + hitbox_.width / 2.0,
+                                    position_.y + hitbox_.top + hitbox_.height / 2.0, 0, 255, 600, 4500, false);
+            wallDetectionCooldown = sf::Time::Zero;
+        }
         setAnimation(Animation::IDLE);
+    }
 
     sprite.setPosition(position_);
 }
@@ -157,24 +171,6 @@ sf::Vector2f Player::getPosition()
 void Player::setCanMove(bool b)
 {
     canMove = b;
-}
-
-void Player::ring()
-{
-    if(!canRing)
-        return;
-    setAnimation(Animation::RINGING);
-    setCanMove(false);
-    canRing = false;
-    globalClock::getClock().executeIn(sf::seconds(0.74), [&]()
-    {
-        setAnimation(Animation::IDLE);
-        setCanMove(true);
-    });
-    globalClock::getClock().executeIn(sf::seconds(1), [&]()
-    {
-        canRing = true;
-    });
 }
 
 

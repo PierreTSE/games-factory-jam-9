@@ -16,10 +16,10 @@ class LevelScreen : public Screen
     
     private:
         Environment env;
-        Player player;
         std::vector<Luciole> lucioles;
         std::vector<Chandelier> chandeliers;
         Maze maze;
+        Player player;
 };
 
 
