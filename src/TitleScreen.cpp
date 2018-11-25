@@ -46,7 +46,7 @@ std::unique_ptr<Screen> TitleScreen::execute()
     continu = fade();
     if(!continu)
         return std::unique_ptr<Screen>(nullptr);
-    return std::make_unique<Cinematique>(window_, RessourceLoader::getPath("1"), false, std::make_unique<LevelScreen>(window_, 1));
+    return std::make_unique<LevelScreen>(window_, 1);
 }
 
 TitleScreen::TitleScreen(sf::RenderWindow& window) : Screen(window)
