@@ -45,7 +45,11 @@ LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber) :
 	pos3 /= (float)env.getArrivee().size();
 	sablier.setPosition(pos3.x * PIXEL_SIZE, pos3.y * PIXEL_SIZE);
 	
-		
+	
+	fond.setSize({ 2000, 2000 });
+	fond.setPosition(-400, -400);
+	fond.setTexture(RessourceLoader::getTexture("sprites/fond_noir_9.png"));
+	RessourceLoader::getTexture("sprites/fond_noir_9.png")->setRepeated(true);
 }
 
 std::unique_ptr<Screen> LevelScreen::execute()
@@ -136,6 +140,7 @@ std::unique_ptr<Screen> LevelScreen::execute()
 
 
         sf::View view = scrollCamera(env, player);
+		view.setViewport(window_.getView().getViewport());
 
         for(Chandelier& chand : chandeliers)
             chand.gestion(globalClock::getClock().frameTime());
@@ -153,22 +158,22 @@ std::unique_ptr<Screen> LevelScreen::execute()
         {
             sf::Text text;
             text.setFont(RessourceLoader::getFont("font/Dry Brush.ttf"));
-            text.setString("On a Donelly demain :'(");
+            text.setString("Game Over");
             text.setCharacterSize(90);
             text.setPosition(WINDOW_SIZE_X/2.0, 600);
 
             std::vector<sf::Text> v;
             v.push_back(text);
 
-            return std::make_unique<Cinematique>(window_, RessourceLoader::getPath("gameOver"), v);
+            return std::make_unique<Cinematique>(window_, RessourceLoader::getPath("gameOver"), v, false, std::make_unique<LevelScreen>(window_, lvl));
         }
             
         
         window_.clear();
+		window_.draw(fond);
+
         Bell::getInstance().draw(window_); // Draw visible walls
 
-		window_.clear();
-		Bell::getInstance().draw(window_); // Draw visible walls
 		env.drawPillars(window_);
 
 		player.draw(window_);
