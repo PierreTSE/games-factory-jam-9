@@ -24,9 +24,10 @@ void Bell::draw(sf::RenderWindow &window)
 									 soundwaves_.end());
 }
 
-void Bell::add(Maze * maze, float centerX, float centerY, float radius, float alpha, float radiusSpeed, float alphaSpeed, bool drawCircle)
+
+void Bell::add(Maze * maze, Item *sortie, float centerX, float centerY, float radius, float alpha, float radiusSpeed, float alphaSpeed, bool drawCircle)
 {
-	soundwaves_.emplace_back(maze, centerX, centerY);
+	soundwaves_.emplace_back(maze, sortie, centerX, centerY);
 	soundwaves_.back().setAlphaSpeed(alphaSpeed);
 	soundwaves_.back().setAlpha(alpha);
 	soundwaves_.back().setRadiusSpeed(radiusSpeed);

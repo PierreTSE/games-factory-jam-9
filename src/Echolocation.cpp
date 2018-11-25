@@ -1,13 +1,15 @@
 #include "Echolocation.h"
 #include "constantes.hpp"
 #include <iostream>
+#include "Bell.h"
+
 
 void Echolocation::detectHorizontalBorder(sf::Vector2f center, float radius, float j, float border)
 {
 	if ((center.y - radius < border && center.y > border) ||
 		(center.y + radius > border && center.y < border))
 	{
-		float largeur = abs(radius * cos(asin((center.y - border) / radius)));
+		float largeur = std::abs(radius * cos(asin((center.y - border) / radius)));
 		float x1 = center.x + largeur;
 		float x2 = center.x - largeur;
 
@@ -51,16 +53,15 @@ void Echolocation::detectVerticalBorder(sf::Vector2f center, float radius, float
 	}
 }
 
-Echolocation::Echolocation(Maze *maze)
+Echolocation::Echolocation(Maze *maze, Item *sortie)
 {
-	sortie.setPosition(200, 200);
-
 	alpha_ = 255;
 	dead_ = false;
 
 	layout_.reset(new sf::RenderTexture);
 	layout_->create(maze->getWidth()*PIXEL_SIZE, maze->getHeight()*PIXEL_SIZE);
 
+	sortie_ = sortie;
 	maze_ = maze;
 }
 
@@ -86,9 +87,11 @@ void Echolocation::detect(sf::Vector2f center, float radius)
 			}
 		}
 
-		if (sortie.isInCircle(center, radius))
-			sortie.discover();
+		if (sortie_->isInCircle(center, radius)) {
+			sortie_->discover();
 
+			
+		}
 		alpha_ = 255;
 	}
 	
@@ -103,12 +106,10 @@ void Echolocation::drawLayout(sf::RenderWindow & window)
 	render.setScale(1, -1);
 	render.setColor({ 255, 255, 255, (sf::Uint8)alpha_ });
 	window.draw(render);
-	sortie.draw(window);
 }
 
 void Echolocation::update(sf::Time elapsedTime)
 {
-	sortie.update(elapsedTime);
 	alpha_ -= 100 * elapsedTime.asSeconds();
 	if (alpha_ < 0) {
 		alpha_ = 0;

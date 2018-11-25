@@ -7,14 +7,14 @@
 #include "Bell.h"
 
 
-Player::Player(Maze* maze, int nbRing) : nbRing_{nbRing},
+Player::Player(Maze* maze, Item *sortie, int nbRing) : nbRing_{nbRing},
                                          life_{nbRing},
                                          sprite(IDLE_DOWN,
                                                 AnimatedSprite(1,
                                                                sf::milliseconds(250),
                                                                RessourceLoader::getTexture("sprites/walking_down.png"),
                                                                sf::IntRect{340, 0, 340, 600})),
-                                         maze_{maze}
+                                         maze_{maze}, sortie_{sortie}
 {
     sprite.setup(IDLE_UP,
                  AnimatedSprite(1,
@@ -135,14 +135,8 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
     {
         if(wallDetectionCooldown > sf::seconds(0.75))
         {
-            Bell::getInstance().add(maze_,
-                                    position_.x + hitbox_.left + hitbox_.width / 2.0,
-                                    position_.y + hitbox_.top + hitbox_.height / 2.0,
-                                    0,
-                                    255,
-                                    600,
-                                    4500,
-                                    false);
+            Bell::getInstance().add(maze_, sortie_, position_.x + hitbox_.left + hitbox_.width / 2.0,
+                                    position_.y + hitbox_.top + hitbox_.height / 2.0, 0, 255, 600, 4500, false);
             wallDetectionCooldown = sf::Time::Zero;
         }
         setAnimation(Animation::IDLE);

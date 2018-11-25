@@ -5,6 +5,7 @@
 #include <filesystem>
 #include "AnimatedEntity.hpp"
 #include "Maze.h"
+#include "Item.h"
 
 
 class Chandelier
@@ -24,6 +25,7 @@ private:
     };
     AnimatedEntity<States> sprite;
     Maze *maze_;
+	Item *sortie_;
     sf::Time timer_;
 
 public:

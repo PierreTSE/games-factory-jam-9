@@ -5,6 +5,7 @@
 #include "environment/Environment.hpp"
 #include "Character.h"
 #include "Luciole.h"
+#include "Item.h"
 #include "Chandelier.h"
 
 
@@ -19,6 +20,7 @@ class LevelScreen : public Screen
         std::vector<Luciole> lucioles;
         std::vector<Chandelier> chandeliers;
         Maze maze;
+		Item sortie;
         Player player;
 };
 
