@@ -23,7 +23,7 @@ void adapt_viewport(sf::RenderWindow& window)
     auto size = window.getSize();
 
     float ratio = (float)size.x / size.y;
-    float wanted_ratio = 800.0f / 600.0f;
+    float wanted_ratio = 1200.0f / 720.0f;
 
     if(ratio > wanted_ratio)
     {

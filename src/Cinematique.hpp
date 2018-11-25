@@ -25,7 +25,7 @@ private:
     std::vector<sf::Sprite> images_;
 
     /**
-     * temps du fondu en début d'image
+     * temps du fondu en dÃ©but d'image
      */
     sf::Time fadeInTime_ = sf::seconds(2);
 
@@ -35,7 +35,7 @@ private:
     sf::Time fadeOutTime_ = sf::seconds(2);
 
     /**
-     * temps d'affichage d'une image de la cinématique, avant le fondu
+     * temps d'affichage d'une image de la cinÃ©matique, avant le fondu
      */
     sf::Time frameTime_ = sf::seconds(5);
 

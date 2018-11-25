@@ -98,8 +98,8 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
     Animation prev = animation;
 
 
-	float px = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-	float py = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+    float px = sf::Joystick::isConnected(0) && sf::Joystick::hasAxis(0, sf::Joystick::Axis::X) ? sf::Joystick::getAxisPosition(0, sf::Joystick::X) : 0;
+    float py = sf::Joystick::isConnected(0) && sf::Joystick::hasAxis(0, sf::Joystick::Axis::Y) ? sf::Joystick::getAxisPosition(0, sf::Joystick::Y) : 0;
 
 
     if(sf::Keyboard::isKeyPressed(
