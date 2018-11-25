@@ -1,6 +1,7 @@
 #include "Cinematique.h"
 #include "RessourceLoader.hpp"
 #include "globalClock.hpp"
+#include <iostream>
 
 std::filesystem::path strip_root(const std::filesystem::path& p)
 {
@@ -28,63 +29,50 @@ Cinematique::Cinematique(std::filesystem::path dirPath)
 
 void Cinematique::animation(sf::RenderWindow& window)
 {
-    bool continuer = true;
-    while(count_ < images_.size())
+    sf::Event event{};
+
+    for(auto& image : images_)
     {
-        // Création d'un objet récupérant les événements (touche clavier et autre)
-        sf::Event event{};
-
-        temps_ += globalClock::getClock().frameTime();
-        window.clear();
-        window.draw(images_.at(currentImg_));
-
-        // Boucle des événements
-        while(window.pollEvent(event))
-        {
-            if(event.type == sf::Event::KeyPressed)
-            {
-                switch(event.key.code)
-                {
-                    case sf::Keyboard::Space :
-                        temps_ = sf::seconds(frameTime_.asSeconds());
-                        break;
-                }
-            }
-        }
-
+        sf::Time currentTime = sf::milliseconds(1);
         globalClock::getClock().restart();
 
-        if(temps_ >= sf::seconds(frameTime_.asSeconds())) { fondu(window); }
-
-        window.display();
-    }
-}
-
-void Cinematique::fondu(sf::RenderWindow& window)
-{
-    degradTime_ += globalClock::getClock().frameTime();
-    if(degradTime_ < sf::seconds(2) && count_ + 1 < images_.size())
-    {
-        if(degradTime_ < sf::seconds(1))
+        bool animateFrame = true;
+        while(animateFrame)
         {
-            rect_.setFillColor(sf::Color(0, 0, 0, 255 * (degradTime_.asMilliseconds() / 1000.0)));
-        }
-        else
-        {
-            if(first_ && currentImg_ + 1 < images_.size())
+            while(window.pollEvent(event))
             {
-                first_ = false;
-                currentImg_ += 1;
+                if(event.type == sf::Event::KeyPressed)
+                {
+                    switch(event.key.code)
+                    {
+                        case sf::Keyboard::Space :
+                            currentTime = sf::seconds(frameTime_.asSeconds());
+                            break;
+                    }
+                }
             }
-            rect_.setFillColor(sf::Color(0, 0, 0, 255 - 255 * ((degradTime_.asMilliseconds() - 1000.0) / 1000.0)));
+
+            window.clear();
+            window.draw(image);
+
+            if(currentTime < fadeInTime_)
+            {
+                rect_.setFillColor(sf::Color(0, 0, 0, 255 / (fadeInTime_ / (fadeInTime_ - currentTime))));
+                window.draw(rect_);
+            }
+            else if(currentTime >= fadeInTime_ + frameTime_)
+            {
+                rect_.setFillColor(sf::Color(0, 0, 0, 255 * ((currentTime - frameTime_ - fadeInTime_) / fadeOutTime_)));
+                window.draw(rect_);
+            }
+
+            if(currentTime >= fadeInTime_ + frameTime_ + fadeOutTime_) { animateFrame = false; }
+
+
+            currentTime += globalClock::getClock().restart();
+            //std::cout << currentTime.asSeconds() << std::endl;
+
+            window.display();
         }
-        window.draw(rect_);
-    }
-    else
-    {
-        first_ = true;
-        count_ += 1;
-        degradTime_ = sf::Time::Zero;
-        temps_      = sf::Time::Zero;
     }
 }
