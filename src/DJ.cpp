@@ -1,6 +1,7 @@
 #include"DJ.hpp"
 #include <filesystem>
 #include "RessourceLoader.hpp"
+#include <iostream>
 
 DJ::DJ()
 {
@@ -14,7 +15,8 @@ DJ::DJ()
         if(file.path().extension() == ".wav")
         {
             soundBuffers_.emplace_back();
-            soundBuffers_.back().loadFromFile(file.path().string());
+            if(!soundBuffers_.back().loadFromFile(file.path().string()))
+                std::cerr << file.path().u8string() << std::endl;
 
             sounds_[file.path().filename().string()] = sf::Sound(soundBuffers_.back());
         }

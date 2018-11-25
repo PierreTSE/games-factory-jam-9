@@ -127,9 +127,28 @@ void mainTestChandelier()
     }
 }
 
+void testSon()
+{
+    sf::SoundBuffer sb;
+    sb.loadFromFile(RessourceLoader::getPath("audio/cloche.wav"));
+
+    sf::Sound sound(sb);
+    sound.play();
+
+    while(sound.getStatus() == sf::Sound::Status::Playing)
+    {
+        
+    }
+
+}
+
 
 int main()
 {
+    //testSon();
+
+    system("pause");
+
     // mainTestEnvironment();
 
     // Création de la fenêtre du jeu
