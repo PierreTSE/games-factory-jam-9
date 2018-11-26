@@ -13,7 +13,7 @@ class Cinematique : public Screen
 public:
     Cinematique(sf::RenderWindow&       win,
                 std::filesystem::path   dirPath,
-                std::unique_ptr<Screen> nextScreen  = std::unique_ptr<Screen>());
+                std::unique_ptr<Screen> nextScreen = std::unique_ptr<Screen>());
 
     Cinematique(sf::RenderWindow&       win,
                 std::filesystem::path   dirPath,
@@ -28,13 +28,13 @@ public:
 
     Cinematique(sf::RenderWindow&       win,
                 std::filesystem::path   dirPath,
-                std::string             musicName,
+                const std::string&      musicName,
                 bool                    waitForSkip = false,
                 std::unique_ptr<Screen> nextScreen  = std::unique_ptr<Screen>());
 
     Cinematique(sf::RenderWindow&       win,
                 std::filesystem::path   dirPath,
-                std::string             musicName,
+                const std::string&      musicName,
                 std::vector<sf::Text>   texts       = std::vector<sf::Text>(),
                 bool                    waitForSkip = false,
                 std::unique_ptr<Screen> nextScreen  = std::unique_ptr<Screen>());

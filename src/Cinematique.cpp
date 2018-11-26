@@ -58,17 +58,14 @@ Cinematique::Cinematique(sf::RenderWindow&       win,
 
 Cinematique::Cinematique(sf::RenderWindow&       win,
                          std::filesystem::path   dirPath,
-                         std::string             musicName,
+                         const std::string&      musicName,
                          bool                    waitForSkip,
                          std::unique_ptr<Screen> nextScreen) :
-    Cinematique{win, dirPath, waitForSkip, std::move(nextScreen)}
-{
-    musicName_ = musicName;
-}
+    Cinematique{win, dirPath, waitForSkip, std::move(nextScreen)} { musicName_ = musicName; }
 
 Cinematique::Cinematique(sf::RenderWindow&       win,
                          std::filesystem::path   dirPath,
-                         std::string             musicName,
+                         const std::string&      musicName,
                          std::vector<sf::Text>   texts,
                          bool                    waitForSkip,
                          std::unique_ptr<Screen> nextScreen) :
