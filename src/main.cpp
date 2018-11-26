@@ -1,3 +1,4 @@
+#include "Cinematique.hpp"
 #include "constantes.hpp"
 #include "LevelScreen.hpp"
 #include "Screen.hpp"
@@ -6,10 +7,8 @@
 
 #include <filesystem>
 #include <SFML/Graphics.hpp>
-#include "Cinematique.hpp"
 
 
-namespace fs = std::filesystem;
 int main()
 {
     // Création de la fenêtre du jeu
@@ -18,10 +17,10 @@ int main()
                             sf::Style::Default,
                             sf::ContextSettings(0, 0, 8));
 
-	sf::Image icone;
+    sf::Image icone;
 
-	icone.loadFromFile(RessourceLoader::getPath("sprites/logo_64.png"));
-	window.setIcon(icone.getSize().x, icone.getSize().y, icone.getPixelsPtr());
+    icone.loadFromFile(RessourceLoader::getPath("sprites/logo_64.png"));
+    window.setIcon(icone.getSize().x, icone.getSize().y, icone.getPixelsPtr());
 
 
     //title screen
@@ -29,12 +28,11 @@ int main()
 
     // cinématiques d'abord
     //std::unique_ptr<Screen> screen(new Cinematique(window, RessourceLoader::getPath("4"), "cinematique.ogg", false, std::make_unique<LevelScreen>(window, 3)));
-    
+
     // direct sur le jeu
-    //std::unique_ptr<Screen> screen(std::make_unique<LevelScreen>(window, 10));
+    //std::unique_ptr<Screen> screen(std::make_unique<LevelScreen>(window, 10, "lastinghope.ogg"));
 
-
-    //final level
+    // final level
     //std::unique_ptr<Screen> screen(std::make_unique<FinalLevelScreen>(window, "seeker.ogg"));
 
     while(screen)

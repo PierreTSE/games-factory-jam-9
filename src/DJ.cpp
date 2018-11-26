@@ -26,6 +26,7 @@ DJ::DJ()
         {
             musics_[file.path().filename().string()] = std::make_unique<sf::Music>();
             musics_[file.path().filename().string()]->openFromFile(file.path().string());
+            musics_[file.path().filename().string()]->setLoop(true);
         }
     }
 }

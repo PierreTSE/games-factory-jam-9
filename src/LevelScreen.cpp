@@ -154,7 +154,7 @@ std::unique_ptr<Screen> LevelScreen::execute()
                                                      RessourceLoader::getPath(std::to_string(lvl + 1)),
                                                      "seeker.ogg",
                                                      false,
-                                                     std::make_unique<FinalLevelScreen>(window_, "seeker.ogg", false));
+                                                     std::make_unique<FinalLevelScreen>(window_, "seeker.ogg", true));
             }
         }
 
