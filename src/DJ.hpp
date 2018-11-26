@@ -20,11 +20,8 @@ public :
     void stopAllMusic();
 
 private :
-    std::vector<sf::SoundBuffer>                      soundBuffers_;
     std::map<std::string, sf::Sound>                  sounds_;
     std::map<std::string, std::unique_ptr<sf::Music>> musics_;
 };
-
-static DJ DJInstance;
 
 #endif //DJ_HPP
