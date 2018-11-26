@@ -5,6 +5,8 @@
 #include "Cinematique.hpp"
 #include <numeric>
 #include "Item.h"
+#include "TitleScreen.hpp"
+
 
 FinaleLevelScreen::FinaleLevelScreen(sf::RenderWindow& win):
     Screen{win},
@@ -51,8 +53,8 @@ std::unique_ptr<Screen> FinaleLevelScreen::execute()
         if(sortie.touchPlayer(player.getHitbox()))
         {
             Bell::getInstance().clear();
-            // TODO Affichier l'image de fin
-            return std::unique_ptr<Screen>(nullptr);
+            return std::make_unique<Cinematique>(window_, RessourceLoader::getPath("12"), true, 
+                        std::make_unique<Cinematique>(window_, RessourceLoader::getPath("credit"), true, std::make_unique<TitleScreen>(window_)));
         }
 
 
