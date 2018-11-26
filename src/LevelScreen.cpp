@@ -217,7 +217,7 @@ std::unique_ptr<Screen> LevelScreen::execute()
         sortie.update();
         sortie.draw(window_);
 
-        sf::View view = scrollCamera(env, player);
+
 		view.setViewport(window_.getView().getViewport());
         window_.setView(view);
         sablier.update();
