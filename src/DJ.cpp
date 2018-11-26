@@ -1,57 +1,53 @@
 #include"DJ.hpp"
-#include "constantes.hpp"
+#include <filesystem>
+#include "RessourceLoader.hpp"
+#include <iostream>
 
+DJ::DJ()
+{
+    std::filesystem::path dirPath = RessourceLoader::getPath("audio");
 
-//Track::Track() 
-//{
-//}
-//
-//void Track::setTrack(std::string filepath, std::string name) 
-//{
-//	buffer_.loadFromFile(filepath);
-//	sound_.setBuffer(buffer_);
-//	name_ = name;
-//}
-//
-//DJ::DJ(sf::Music& m) : music_(m)
-//{
-//	AllTrack_.resize(20);
-//	AllTrack_[0].setTrack(location "sound/decompte.wav", "decompte");
-//	//AllTrack_[1].setTrack("", ""); free space
-//	AllTrack_[2].setTrack(location "sound/Defeat.wav", "defeat2");
-//	AllTrack_[3].setTrack(location "sound/Hit.wav", "Hit");
-//	AllTrack_[4].setTrack(location "sound/Jump.wav", "Jump");
-//	AllTrack_[5].setTrack(location "sound/Pickup_banana.wav", "Pickup_banana");
-//	AllTrack_[6].setTrack(location "sound/Pickup_rotten_banana.wav", "Pickup_rotten_banana");
-//	AllTrack_[7].setTrack(location "sound/Powerup.wav", "Powerup");
-//	AllTrack_[8].setTrack(location "sound/Shoot.wav", "Shoot");
-//	AllTrack_[9].setTrack(location "sound/victory.wav", "victory");
-//	AllTrack_[10].setTrack(location "sound/waka.wav", "waka");
-//	AllTrack_[12].setTrack(location "sound/piou8bits.wav", "piou");
-//	AllTrack_[11].setTrack(location "sound/Laser_Shoot.wav", "Laser");
-//	AllTrack_[13].setTrack(location "sound/speed_up.wav", "Laser");
-//
-//	AllTrack_[10].getSound().setVolume(25);
-//	AllTrack_[11].getSound().setVolume(50);
-//
-//}
-//
-//void DJ::playMusicForever(std::string path) 
-//{
-//	music_.openFromFile(path);
-//	music_.play();
-//	music_.setLoop(true);
-//
-//	sf::Listener listener;
-//	listener.setGlobalVolume(50);
-//}
-//
-//void DJ::play(size_t n, bool forced)
-//{
-//	if (forced)
-//		AllTrack_[n].getSound().play();
-//	else
-//	{
-//		if (AllTrack_[n].getSound().getStatus() != sf::Sound::Playing) AllTrack_[n].getSound().play();
-//	}
-//}
+    if(!std::filesystem::is_directory(dirPath))
+        throw std::runtime_error("Not a directory" + dirPath.u8string());
+
+    for(auto& file : std::filesystem::directory_iterator(dirPath))
+    {
+        if(file.path().extension() == ".wav")
+        {
+            soundBuffers_.emplace_back();
+            /*
+            if(!soundBuffers_.back().loadFromFile(file.path().string()))
+                std::cerr << file.path().u8string() << std::endl;
+            */
+
+            sounds_[file.path().filename().string()] = sf::Sound(soundBuffers_.back());
+        }
+        else if(file.path().extension() == ".ogg")
+        {
+            musics_[file.path().filename().string()] = std::make_unique<sf::Music>();
+            musics_[file.path().filename().string()]->openFromFile(file.path().string());
+        }
+    }
+}
+
+DJ& DJ::getInstance() { return DJInstance; }
+
+void DJ::playSound(const std::string& name, bool forced)
+{
+    if(sounds_[name].getStatus() != sf::Sound::Status::Playing || forced)
+        sounds_[name].play();
+}
+                    
+void DJ::playMusic(const std::string& name)
+{
+    if(musics_[name]->getStatus() != sf::Music::Status::Playing)
+        musics_[name]->play();
+}
+                    
+void DJ::stopMusic(const std::string& name) { musics_[name]->stop(); }
+
+void DJ::stopAllMusic()
+{
+    for(auto& [k, v] : musics_)
+        v->stop();
+}

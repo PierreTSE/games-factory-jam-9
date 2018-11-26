@@ -3,6 +3,7 @@
 #include "globalClock.hpp"
 #include "Utils.h"
 #include <iostream>
+#include "DJ.hpp"
 
 std::filesystem::path strip_root(const std::filesystem::path& p)
 {
@@ -12,6 +13,9 @@ std::filesystem::path strip_root(const std::filesystem::path& p)
     else
         return strip_root(parent_path) / p.filename();
 }
+
+Cinematique::Cinematique(sf::RenderWindow& win, std::filesystem::path dirPath, std::unique_ptr<Screen> nextScreen) :
+    Cinematique{win, dirPath, false, std::move(nextScreen)} {}
 
 Cinematique::
 Cinematique(sf::RenderWindow&       win,
@@ -52,8 +56,32 @@ Cinematique::Cinematique(sf::RenderWindow&       win,
     for(auto& text : texts_) { centerOrigin(text); }
 }
 
+Cinematique::Cinematique(sf::RenderWindow&       win,
+                         std::filesystem::path   dirPath,
+                         const std::string&      musicName,
+                         bool                    waitForSkip,
+                         std::unique_ptr<Screen> nextScreen) :
+    Cinematique{win, dirPath, waitForSkip, std::move(nextScreen)} { musicName_ = musicName; }
+
+Cinematique::Cinematique(sf::RenderWindow&       win,
+                         std::filesystem::path   dirPath,
+                         const std::string&      musicName,
+                         std::vector<sf::Text>   texts,
+                         bool                    waitForSkip,
+                         std::unique_ptr<Screen> nextScreen) :
+    Cinematique{
+        win,
+        dirPath,
+        texts,
+        waitForSkip,
+        std::move(nextScreen)
+    } { musicName_ = musicName; }
+
 std::unique_ptr<Screen> Cinematique::execute()
 {
+    if(!musicName_.empty())
+        DJ::getInstance().playMusic(musicName_);
+
     window_.setView(sf::View({0, 0, static_cast<float>(WINDOW_SIZE_X), static_cast<float>(WINDOW_SIZE_Y)}));
 
     sf::Event event{};
@@ -74,7 +102,8 @@ std::unique_ptr<Screen> Cinematique::execute()
                 if(result)
                     return std::move(*result);
 
-                if(event.type == sf::Event::KeyPressed && ((currentTime <= fadeInTime_ + frameTime_ && !skippingAsked) || waitForSkip_))
+                if(event.type == sf::Event::KeyPressed && ((currentTime <= fadeInTime_ + frameTime_ && !skippingAsked)
+                    || waitForSkip_))
                 {
                     switch(event.key.code)
                     {

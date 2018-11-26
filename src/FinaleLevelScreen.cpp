@@ -3,7 +3,8 @@
 #include "Bell.h"
 #include "camera.hpp"
 #include "Cinematique.hpp"
-
+#include <numeric>
+#include "Item.h"
 
 FinaleLevelScreen::FinaleLevelScreen(sf::RenderWindow& win):
     Screen{win},

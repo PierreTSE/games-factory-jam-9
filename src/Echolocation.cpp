@@ -2,6 +2,7 @@
 #include "constantes.hpp"
 #include <iostream>
 #include "Bell.h"
+#include "Utils.h"
 
 
 void Echolocation::detectHorizontalBorder(sf::Vector2f center, float radius, float j, float border)
@@ -71,9 +72,13 @@ void Echolocation::detect(sf::Vector2f center, float radius)
 
 	if (radius > 0)
 	{
-		for (size_t i = 0; i < maze_->getWidth(); i++)
+		int miniI = Utils::max(0.f, (center.y - radius) / (float)PIXEL_SIZE);
+		int maxiI = Utils::min((float)maze_->getHeight(), (center.y + radius) / (float)PIXEL_SIZE);
+		int miniJ = Utils::max(0.f, (center.x - radius) / (float)PIXEL_SIZE);
+		int maxiJ = Utils::min((float)maze_->getWidth(), (center.x + radius) / (float)PIXEL_SIZE);
+		for (size_t i = miniI; i < maxiI; i++)
 		{
-			for (size_t j = 0; j < maze_->getHeight(); j++)
+			for (size_t j = miniJ; j < maxiJ; j++)
 			{
 				if(maze_->getWall(i, j).bot)
 					detectHorizontalBorder(center, radius, j, (i+1) * PIXEL_SIZE);

@@ -6,7 +6,7 @@
 class TitleScreen : public Screen
 {
     public:
-        explicit TitleScreen(sf::RenderWindow& window);
+        explicit TitleScreen(sf::RenderWindow& window, const std::string& musicName = "");
         std::unique_ptr<Screen> execute() override;
         
         bool spawnTitle();
@@ -18,6 +18,8 @@ class TitleScreen : public Screen
         sf::Text title;
         sf::Texture bg_t, bed_t, win_t;
         sf::Font font;
+		std::string musicName_ = "";
+
 };
 
 
