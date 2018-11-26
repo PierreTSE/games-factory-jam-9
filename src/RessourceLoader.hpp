@@ -42,7 +42,7 @@ class RessourceLoader
 
         std::map<std::string, std::unique_ptr<sf::Font>> loadedFonts;
         std::map<std::string, std::unique_ptr<sf::Texture>> loadedTextures;
-        std::map<std::string, std::unique_ptr<sf::SoundBuffer>> loadedSound;
+        std::map<std::string, std::unique_ptr<sf::SoundBuffer>> loadedSoundBuffers;
 };
 
 static RessourceLoader ressourceLoaderInstance;

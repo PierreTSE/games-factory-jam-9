@@ -14,13 +14,12 @@ DJ::DJ()
     {
         if(file.path().extension() == ".wav")
         {
-            soundBuffers_.emplace_back();
             /*
             if(!soundBuffers_.back().loadFromFile(file.path().string()))
                 std::cerr << file.path().u8string() << std::endl;
             */
 
-            sounds_[file.path().filename().string()] = sf::Sound(soundBuffers_.back());
+            sounds_[file.path().filename().string()] = sf::Sound(RessourceLoader::getSoundBuffer(file.path().filename().string()));
         }
         else if(file.path().extension() == ".ogg")
         {
@@ -34,8 +33,8 @@ DJ& DJ::getInstance() { return DJInstance; }
 
 void DJ::playSound(const std::string& name, bool forced)
 {
-    if(sounds_[name].getStatus() != sf::Sound::Status::Playing || forced)
-        sounds_[name].play();
+    if(sounds_.find(name) != sounds_.end() && sounds_[name].getStatus() != sf::Sound::Status::Playing || forced)
+        sounds_[name].play();    
 }
                     
 void DJ::playMusic(const std::string& name)
