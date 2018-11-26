@@ -138,10 +138,7 @@ std::unique_ptr<Screen> LevelScreen::execute()
 			sablier.kill();
 			player.setFullLife();
 		}
-
-
-        sf::View view = scrollCamera(env, player);
-		view.setViewport(window_.getView().getViewport());
+		
 
         for(Chandelier& chand : chandeliers)
             chand.gestion(globalClock::getClock().frameTime());
@@ -166,7 +163,11 @@ std::unique_ptr<Screen> LevelScreen::execute()
 
             return std::make_unique<Cinematique>(window_, RessourceLoader::getPath("gameOver"), v, false, std::make_unique<LevelScreen>(window_, lvl));
         }
-            
+
+
+        sf::View view = scrollCamera(env, player);
+        view.setViewport(window_.getView().getViewport());
+        window_.setView(view);
         
         window_.clear();
 		window_.draw(fond);
@@ -191,9 +192,7 @@ std::unique_ptr<Screen> LevelScreen::execute()
 
 		sortie.update();
 		sortie.draw(window_);
-
-        sf::View view = scrollCamera(env, player);
-        window_.setView(view);
+		
 		sablier.update();
 		sablier.draw(window_);
 

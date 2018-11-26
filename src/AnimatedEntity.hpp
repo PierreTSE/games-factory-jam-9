@@ -46,7 +46,7 @@ void AnimatedEntity<StateType>::setState(StateType state)
 template<typename StateType>
 inline sf::Vector2f AnimatedEntity<StateType>::getSize()
 {    
-    updateTransformation();
+    //updateTransformation();
 	sf::Vector2f res;
 	res.x = currentSprite()->getGlobalBounds().width / (float)sprites.front().getNbFrame();
 	res.y = currentSprite()->getGlobalBounds().height / (float)sprites.front().getNbFrame();

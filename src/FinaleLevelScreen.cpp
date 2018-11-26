@@ -9,7 +9,7 @@ FinaleLevelScreen::FinaleLevelScreen(sf::RenderWindow& win):
     Screen{win},
     env{RessourceLoader::getPath("map/map11.png")},
     maze{env},
-    sortie(0, 0),
+    sortie(PORTE),
     player{&maze, &sortie, env.getMapLife()}
 {
     sf::Vector2i tot = std::accumulate(env.getDepart().begin(), env.getDepart().end(), sf::Vector2i(0, 0));
@@ -55,10 +55,6 @@ std::unique_ptr<Screen> FinaleLevelScreen::execute()
         }
 
 
-        sf::View view = scrollCamera(env, player);
-
-
-        window_.setView(view);
 
         if(player.getLife() == 0)
             return std::make_unique<Cinematique>(window_, RessourceLoader::getPath("gameOver"));
@@ -70,6 +66,11 @@ std::unique_ptr<Screen> FinaleLevelScreen::execute()
 
         sortie.update();
         sortie.draw(window_);
+        
+        
+        sf::View view = scrollCamera(env, player);
+
+        window_.setView(view);
 
         window_.display();
 
