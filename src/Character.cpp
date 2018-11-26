@@ -139,22 +139,22 @@ Player::Player(Maze* maze, Item *sortie, int nbRing, bool noBell = false) :
 	sprite.setup(RINGING_DOWN,
 		AnimatedSprite(2,
 			sf::milliseconds(250),
-			RessourceLoader::getTexture("sprites/ringing_down_no_bell.png"),
+			RessourceLoader::getTexture("sprites/ringing_down.png"),
 			sf::IntRect{ 0, 0, 340, 600 }));
 	sprite.setup(RINGING_UP,
 		AnimatedSprite(2,
 			sf::milliseconds(250),
-			RessourceLoader::getTexture("sprites/ringing_up_no_bellpng"),
+			RessourceLoader::getTexture("sprites/ringing_up.png"),
 			sf::IntRect{ 0, 0, 340, 600 }));
 	sprite.setup(RINGING_LEFT,
 		AnimatedSprite(2,
 			sf::milliseconds(250),
-			RessourceLoader::getTexture("sprites/ringing_left_no_bellpng"),
+			RessourceLoader::getTexture("sprites/ringing_left.png"),
 			sf::IntRect{ 0, 0, 340, 600 }));
 	sprite.setup(RINGING_RIGHT,
 		AnimatedSprite(2,
 			sf::milliseconds(250),
-			RessourceLoader::getTexture("sprites/ringing_right_no_bellpng"),
+			RessourceLoader::getTexture("sprites/ringing_right.png"),
 			sf::IntRect{ 0, 0, 340, 600 }));
 
 
