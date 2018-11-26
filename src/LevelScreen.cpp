@@ -182,11 +182,12 @@ std::unique_ptr<Screen> LevelScreen::execute()
             std::vector<sf::Text> v;
             v.push_back(text);
 
+			DJ::getInstance().stopAllMusic();
             return std::make_unique<Cinematique>(window_,
                                                  RessourceLoader::getPath("gameOver"),
-                                                 v,
+                                                 "fail.ogg",
                                                  false,
-                                                 std::make_unique<LevelScreen>(window_, lvl));
+                                                 std::make_unique<LevelScreen>(window_, lvl, "lastinghope.ogg"));
         }
 
 
