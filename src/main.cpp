@@ -11,8 +11,6 @@
 namespace fs = std::filesystem;
 int main()
 {
-    // mainTestEnvironment();
-
     // Création de la fenêtre du jeu
     sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y),
                             "Bell me your dreams",

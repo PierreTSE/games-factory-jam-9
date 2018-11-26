@@ -6,7 +6,6 @@
 #include "AnimatedEntity.hpp"
 #include "Maze.h"
 #include "globalClock.hpp"
-#include <iostream>
 #include "Item.h"
 #include "DJ.hpp"
 

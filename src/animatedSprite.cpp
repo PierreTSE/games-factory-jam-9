@@ -1,7 +1,8 @@
 #include "animatedSprite.hpp"
 #include "globalClock.hpp"
-#include <SFML/Graphics/RenderTarget.hpp>
 #include <cmath>
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 
 AnimatedSprite::AnimatedSprite(int nFrame, sf::Time time, const sf::Texture& tex) :

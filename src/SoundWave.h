@@ -4,10 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include "Maze.h"
 #include "Echolocation.h"
-#include "globalClock.hpp"
-#include "constantes.hpp"
-
-#include <vector>
 
 class SoundWave
 {

@@ -1,11 +1,10 @@
 #ifndef ANIMATEDENTITY_HPP
 #define ANIMATEDENTITY_HPP
 
-
-#include <type_traits>
-#include <map>
 #include "animatedSprite.hpp"
+#include <type_traits>
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <vector>
 
 
 template<typename StateType>

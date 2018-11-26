@@ -2,8 +2,6 @@
 #define ITEM_H
 
 #include <SFML/Graphics.hpp>
-#include <cmath>
-#include "Utils.h"
 #include "AnimatedEntity.hpp"
 #include "RessourceLoader.hpp"
 

@@ -3,9 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <memory>
-#include <cmath>
 
-#include "Utils.h"
 #include "Item.h"
 #include "Maze.h"
 

@@ -1,4 +1,5 @@
 #include "SoundWave.h"
+#include "globalClock.hpp"
 
 SoundWave::SoundWave(Maze *maze, Item *sortie) : echo_(maze, sortie)
 {

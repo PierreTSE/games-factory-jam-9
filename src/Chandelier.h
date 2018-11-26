@@ -1,6 +1,6 @@
-#include <cmath>
 #ifndef CHANDELIER_H
 #define CHANDELIER_H
+
 #include <SFML/Graphics.hpp>
 #include <filesystem>
 #include "AnimatedEntity.hpp"
@@ -29,8 +29,6 @@ private:
     sf::Time timer_;
 
 public:
-
-    //TODO devra être remplacé par un sf::Sprite
     sf::RectangleShape objet_;
 
     Chandelier(sf::Vector2i debut, sf::Vector2i fin);

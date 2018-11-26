@@ -6,7 +6,6 @@
 
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include <memory>
 
 class Bell
 {
