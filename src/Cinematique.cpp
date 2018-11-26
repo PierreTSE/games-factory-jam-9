@@ -85,7 +85,9 @@ std::unique_ptr<Screen> Cinematique::execute()
     if(!musicName_.empty())
         DJ::getInstance().playMusic(musicName_);
 
-    window_.setView(sf::View({0, 0, static_cast<float>(WINDOW_SIZE_X), static_cast<float>(WINDOW_SIZE_Y)}));
+    sf::View v = sf::View({0, 0, static_cast<float>(WINDOW_SIZE_X), static_cast<float>(WINDOW_SIZE_Y)});
+    v.setViewport(window_.getView().getViewport());
+    window_.setView(v);
 
     sf::Event event{};
 
