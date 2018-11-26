@@ -5,15 +5,6 @@
 #include <iostream>
 #include "DJ.hpp"
 
-std::filesystem::path strip_root(const std::filesystem::path& p)
-{
-    const std::filesystem::path& parent_path = p.parent_path();
-    if(parent_path.empty() || parent_path.string() == "/")
-        return std::filesystem::path();
-    else
-        return strip_root(parent_path) / p.filename();
-}
-
 Cinematique::Cinematique(sf::RenderWindow& win, std::filesystem::path dirPath, std::unique_ptr<Screen> nextScreen) :
     Cinematique{win, dirPath, false, std::move(nextScreen)} {}
 

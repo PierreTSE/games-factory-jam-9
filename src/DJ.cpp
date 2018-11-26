@@ -1,6 +1,7 @@
 #include"DJ.hpp"
 #include <filesystem>
 #include "RessourceLoader.hpp"
+#include "Utils.h"
 #include <iostream>
 
 DJ::DJ()
@@ -19,7 +20,7 @@ DJ::DJ()
                 std::cerr << file.path().u8string() << std::endl;
             */
 
-            sounds_[file.path().filename().string()] = sf::Sound(RessourceLoader::getSoundBuffer(file.path().filename().string()));
+            sounds_[file.path().filename().string()] = sf::Sound(RessourceLoader::getSoundBuffer(strip_root(dirPath / file.path().filename())));
         }
         else if(file.path().extension() == ".ogg")
         {
@@ -29,7 +30,9 @@ DJ::DJ()
     }
 }
 
-DJ& DJ::getInstance() { return DJInstance; }
+DJ& DJ::getInstance() { 
+    static DJ instance;
+    return instance; }
 
 void DJ::playSound(const std::string& name, bool forced)
 {

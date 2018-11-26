@@ -25,11 +25,6 @@
 namespace fs = std::filesystem;
 int main()
 {
-    DJ::getInstance().playSound("luciole.wav");
-
-
-    system("pause");
-
 
     // mainTestEnvironment();
 
