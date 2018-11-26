@@ -135,15 +135,16 @@ std::unique_ptr<Screen> LevelScreen::execute()
         {
             Bell::getInstance().clear();
 			if (lvl < 3) {
-				return std::make_unique<LevelScreen>(window_, lvl+1);
+				return std::make_unique<LevelScreen>(window_, lvl+1, "lastinghope.ogg",false);
 			}
 			else if(lvl<9)
 			{
-				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl+1)), "cinematique.ogg", false, std::make_unique<LevelScreen>(window_, lvl+1));
+				DJ::getInstance().stopAllMusic();
+				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl+1)), "cinematique.ogg", false, std::make_unique<LevelScreen>(window_, lvl+1, "lastinghope.ogg"));
 			}
 			else
 			{
-				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl + 1)), "seeker.ogg", false, std::make_unique<LevelScreen>(window_, lvl + 1));
+				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl + 1)), "seeker.ogg", false, std::make_unique<LevelScreen>(window_, lvl + 1,"" ,false));
 			}
 			
 
@@ -152,13 +153,14 @@ std::unique_ptr<Screen> LevelScreen::execute()
 
         if(sablier.touchPlayer(player.getHitbox()))
         {
+			DJ::getInstance().playSound("sablier.wav");
             sablier.kill();
             player.setFullLife();
         }
 
 
         sf::View view = scrollCamera(env, player);
-        view.setViewport(window_.getView().getViewport());
+		view.setViewport(window_.getView().getViewport());
 
         for(Chandelier& chand : chandeliers)
             chand.gestion(globalClock::getClock().frameTime());
@@ -172,6 +174,8 @@ std::unique_ptr<Screen> LevelScreen::execute()
 
         if(player.getLife() == 0)
         {
+			Bell::getInstance().clear();
+
             sf::Text text;
             text.setFont(RessourceLoader::getFont("font/Dry Brush.ttf"));
             text.setString("Game Over");
@@ -213,6 +217,8 @@ std::unique_ptr<Screen> LevelScreen::execute()
         sortie.update();
         sortie.draw(window_);
 
+
+		view.setViewport(window_.getView().getViewport());
         window_.setView(view);
         sablier.update();
         sablier.draw(window_);
