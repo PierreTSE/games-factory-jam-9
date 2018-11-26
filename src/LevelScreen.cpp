@@ -6,6 +6,7 @@
 #include <numeric>
 #include "Cinematique.hpp"
 #include "DJ.hpp"
+#include "FinaleLevelScreen.hpp"
 
 
 LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber, std::string musicName, bool stopMusicAtBegin) :
@@ -144,7 +145,7 @@ std::unique_ptr<Screen> LevelScreen::execute()
 			}
 			else
 			{
-				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl + 1)), "seeker.ogg", false, std::make_unique<LevelScreen>(window_, lvl + 1,"" ,false));
+				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl + 1)), "seeker.ogg", false, std::make_unique<FinaleLevelScreen>(window_));
 			}
 			
 
@@ -182,13 +183,16 @@ std::unique_ptr<Screen> LevelScreen::execute()
             std::vector<sf::Text> v;
             v.push_back(text);
 
+			DJ::getInstance().stopAllMusic();
             return std::make_unique<Cinematique>(window_,
                                                  RessourceLoader::getPath("gameOver"),
-                                                 v,
+                                                 "fail.ogg",
                                                  false,
-                                                 std::make_unique<LevelScreen>(window_, lvl));
+                                                 std::make_unique<LevelScreen>(window_, lvl, "lastinghope.ogg"));
         }
 
+
+		
 
         sf::View view = scrollCamera(env, player);
         view.setViewport(window_.getView().getViewport());
@@ -220,6 +224,35 @@ std::unique_ptr<Screen> LevelScreen::execute()
 
 		sablier.update();
 		sablier.draw(window_);
+
+		if (lvl == 1)
+		{
+			sf::Text text;
+			text.setFont(RessourceLoader::getFont("font/Dry Brush.ttf"));
+			text.setString("Arrows : Move");
+			text.setCharacterSize(50);
+			text.setPosition(2, -70);
+			window_.draw(text);
+
+			text.setString("Space : Ring the Bell");
+			text.setCharacterSize(50);
+			text.setPosition(-50, 310);
+			window_.draw(text);
+		}
+		else if (lvl == 2)
+		{
+			sf::Text text;
+			text.setFont(RessourceLoader::getFont("font/Dry Brush.ttf"));
+			text.setString("Don't ring too much ...");
+			text.setCharacterSize(50);
+			text.setPosition(0, 30);
+			window_.draw(text);
+
+			text.setString("... or you will wake up");
+			text.setCharacterSize(50);
+			text.setPosition(-45, 410);
+			window_.draw(text);
+		}
 
         window_.display();
 

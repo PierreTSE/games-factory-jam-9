@@ -14,7 +14,7 @@ TitleScreen::TitleScreen(sf::RenderWindow& window, const std::string& musicName)
 std::unique_ptr<Screen> TitleScreen::execute()
 {
     title.setFont(RessourceLoader::getFont("font/Dry Brush.ttf"));
-    title.setString("Bell me your Dream");
+    title.setString("Bell me your Dreams");
     title.setCharacterSize(90);
     
     bg_t.loadFromFile(RessourceLoader::getPath("titlescreen/ecran_titre_fond.png"));
