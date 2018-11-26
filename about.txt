@@ -2,20 +2,19 @@ This game uses the open source API SFML : https://www.sfml-dev.org/
 
 This game uses the open-source software OpenAL : http://openal-soft.org/
 
-Lasting Hope byKevin MacLeod under Creative Commons Attribution (https://creativecommons.org/licenses/by/4.0/)
+Musics:
+
+Lasting Hope par Kevin MacLeod est distribu� sous la licence Creative Commons Attribution (https://creativecommons.org/licenses/by/4.0/)
+
 Source : http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100178
 
 Waterfall - Aakash Gandhi
-
 Night Music - Kevin MacLeod
-
 Seeger - John Deley and the 41 Players
-
 Ambient Ambulance - Jingle Punks
 
-Makers : 
+Creators : 
 
-Elodie Charitat - Théo Escobar - Thomas Ferrand - Paul Le Meur - Pierre Giraud - Cyril Li - Clémence Petit - Adrien Midol-Monnet
+Elodie Charitat - Th�o Escobar - Thomas Ferrand - Paul Le Meur - Pierre Giraud - Cyril Li - Cl�mence Petit - Adrien Midol-Monnet
+
 Twitter : @clubinfotse
-Facebook : clubinfotse
-Discord : Club Info'TSE
