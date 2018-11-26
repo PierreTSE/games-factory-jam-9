@@ -87,6 +87,87 @@ Player::Player(Maze* maze, Item *sortie, int nbRing) : nbRing_{nbRing},
     animation   = Animation::IDLE;
 }
 
+Player::Player(Maze* maze, Item *sortie, int nbRing, bool noBell = false) :
+
+	nbRing_{ nbRing },
+	life_{ nbRing },
+	sprite(IDLE_DOWN,
+		AnimatedSprite(1,
+			sf::milliseconds(250),
+			RessourceLoader::getTexture("sprites/walking_down_no_bell.png"),
+		sf::IntRect{ 340, 0, 340, 600 })),
+	maze_{ maze }, sortie_{ sortie }
+{
+	sprite.setup(IDLE_UP,
+		AnimatedSprite(1,
+			sf::milliseconds(250),
+			RessourceLoader::getTexture("sprites/walking_up_no_bell.png"),
+			sf::IntRect{ 340, 0, 340, 600 }));
+	sprite.setup(IDLE_LEFT,
+		AnimatedSprite(1,
+			sf::milliseconds(250),
+			RessourceLoader::getTexture("sprites/walking_left_no_bell.png"),
+			sf::IntRect{ 340, 0, 340, 600 }));
+	sprite.setup(IDLE_RIGHT,
+		AnimatedSprite(1,
+			sf::milliseconds(250),
+			RessourceLoader::getTexture("sprites/walking_right_no_bell.png"),
+			sf::IntRect{ 340, 0, 340, 600 }));
+
+	sprite.setup(WALKING_DOWN,
+		AnimatedSprite(4,
+			sf::milliseconds(250),
+			RessourceLoader::getTexture("sprites/walking_down_no_bell.png"),
+			sf::IntRect{ 0, 0, 340, 600 }));
+	sprite.setup(WALKING_UP,
+		AnimatedSprite(4,
+			sf::milliseconds(250),
+			RessourceLoader::getTexture("sprites/walking_up_no_bell.png"),
+			sf::IntRect{ 0, 0, 340, 600 }));
+	sprite.setup(WALKING_LEFT,
+		AnimatedSprite(4,
+			sf::milliseconds(250),
+			RessourceLoader::getTexture("sprites/walking_left_no_bell.png"),
+			sf::IntRect{ 0, 0, 340, 600 }));
+	sprite.setup(WALKING_RIGHT,
+		AnimatedSprite(4,
+			sf::milliseconds(250),
+			RessourceLoader::getTexture("sprites/walking_right_no_bell.png"),
+			sf::IntRect{ 0, 0, 340, 600 }));
+
+
+	sprite.setup(RINGING_DOWN,
+		AnimatedSprite(2,
+			sf::milliseconds(250),
+			RessourceLoader::getTexture("sprites/ringing_down_no_bell.png"),
+			sf::IntRect{ 0, 0, 340, 600 }));
+	sprite.setup(RINGING_UP,
+		AnimatedSprite(2,
+			sf::milliseconds(250),
+			RessourceLoader::getTexture("sprites/ringing_up_no_bellpng"),
+			sf::IntRect{ 0, 0, 340, 600 }));
+	sprite.setup(RINGING_LEFT,
+		AnimatedSprite(2,
+			sf::milliseconds(250),
+			RessourceLoader::getTexture("sprites/ringing_left_no_bellpng"),
+			sf::IntRect{ 0, 0, 340, 600 }));
+	sprite.setup(RINGING_RIGHT,
+		AnimatedSprite(2,
+			sf::milliseconds(250),
+			RessourceLoader::getTexture("sprites/ringing_right_no_bellpng"),
+			sf::IntRect{ 0, 0, 340, 600 }));
+
+
+	sprite.setScale(SPRITE_RATIO, SPRITE_RATIO);
+
+	hitbox_.width = 3 * PIXEL_SIZE;
+	hitbox_.height = 2.5 * PIXEL_SIZE;
+	hitbox_.left = (TARGET_SPRITE_WIDTH - hitbox_.width) / 2;
+	hitbox_.top = TARGET_SPRITE_HEIGHT - hitbox_.height;
+
+	orientation = Orientation::DOWN;
+	animation = Animation::IDLE;
+}
 
 void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>> const& map)
 {

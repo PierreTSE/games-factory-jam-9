@@ -28,6 +28,7 @@ class Player
 {
 public:
 	Player(Maze* maze, Item *sortie, int nbRing);
+	Player(Maze* maze, Item *sortie, int nbRing,bool cloche);
 
 	bool collision(std::vector<std::vector<bool>> const& map, sf::Vector2f                                  pos);
 	void movement(const sf::Time&                        elapsedTime, std::vector<std::vector<bool>> const& map);

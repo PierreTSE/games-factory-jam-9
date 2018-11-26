@@ -13,7 +13,7 @@ FinaleLevelScreen::FinaleLevelScreen(sf::RenderWindow& win):
     env{RessourceLoader::getPath("map/map11.png")},
     maze{env},
     sortie(PORTE),
-    player{&maze, &sortie, env.getMapLife()}
+    player{&maze, &sortie, env.getMapLife(),true}
 {
     sf::Vector2i tot = std::accumulate(env.getDepart().begin(), env.getDepart().end(), sf::Vector2i(0, 0));
     sf::Vector2f pos(tot.x, tot.y);

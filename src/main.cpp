@@ -25,6 +25,10 @@
 namespace fs = std::filesystem;
 int main()
 {
+	//Player(nullptr, nullptr, 1);
+	Player(nullptr, nullptr, 1, true);
+
+
     // mainTestEnvironment();
 
     // Création de la fenêtre du jeu

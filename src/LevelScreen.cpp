@@ -186,7 +186,7 @@ std::unique_ptr<Screen> LevelScreen::execute()
 			DJ::getInstance().stopAllMusic();
             return std::make_unique<Cinematique>(window_,
                                                  RessourceLoader::getPath("gameOver"),
-                                                 "fail.ogg",
+                                                 "fail.ogg",v,
                                                  false,
                                                  std::make_unique<LevelScreen>(window_, lvl, "lastinghope.ogg"));
         }
