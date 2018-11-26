@@ -34,13 +34,13 @@ int main()
 
 
     //title screen
-    //std::unique_ptr<Screen> screen(new TitleScreen(window));
+    std::unique_ptr<Screen> screen(new TitleScreen(window, "nightmusic.ogg"));
 
     // cinématiques d'abord
     //std::unique_ptr<Screen> screen(new Cinematique(window, RessourceLoader::getPath("1"), "cinematique.ogg", false, std::make_unique<LevelScreen>(window, 3)));
     
     // direct sur le jeu
-    std::unique_ptr<Screen> screen(std::make_unique<LevelScreen>(window,1));
+    //std::unique_ptr<Screen> screen(std::make_unique<LevelScreen>(window,1));
 
 
     while(screen)

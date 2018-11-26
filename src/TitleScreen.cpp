@@ -5,6 +5,11 @@
 #include "LevelScreen.hpp"
 #include "Utils.h"
 #include "Cinematique.hpp"
+#include "DJ.hpp"
+
+TitleScreen::TitleScreen(sf::RenderWindow& window, const std::string& musicName) : Screen{window}, musicName_{musicName}
+{}
+
 
 std::unique_ptr<Screen> TitleScreen::execute()
 {
@@ -15,6 +20,10 @@ std::unique_ptr<Screen> TitleScreen::execute()
     bg_t.loadFromFile(RessourceLoader::getPath("titlescreen/ecran_titre_fond.png"));
     bed_t.loadFromFile(RessourceLoader::getPath("titlescreen/ecran_titre_lit.png"));
     win_t.loadFromFile(RessourceLoader::getPath("titlescreen/ecran_titre_fenetre.png"));
+
+	if (!musicName_.empty())
+		DJ::getInstance().playMusic(musicName_);
+
     
     bg.setTexture(bg_t);
     bed.setTexture(bed_t);
@@ -46,12 +55,7 @@ std::unique_ptr<Screen> TitleScreen::execute()
     continu = fade();
     if(!continu)
         return std::unique_ptr<Screen>(nullptr);
-    return std::make_unique<LevelScreen>(window_, 1);
-}
-
-TitleScreen::TitleScreen(sf::RenderWindow& window) : Screen(window)
-{
-
+    return std::make_unique<LevelScreen>(window_, 1, "lastinghope.ogg", true);
 }
 
 bool TitleScreen::spawnTitle()
