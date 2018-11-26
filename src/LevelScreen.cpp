@@ -192,12 +192,10 @@ std::unique_ptr<Screen> LevelScreen::execute()
         }
 
 
-		
+		sf::View view = scrollCamera(env, player);
+		view.setViewport(window_.getView().getViewport());
+		window_.setView(view);
 
-        sf::View view = scrollCamera(env, player);
-        view.setViewport(window_.getView().getViewport());
-        window_.setView(view);
-        
         window_.clear();
         window_.draw(fond);
 
@@ -222,8 +220,8 @@ std::unique_ptr<Screen> LevelScreen::execute()
 		sortie.update();
 		sortie.draw(window_);
 
-		sablier.update();
-		sablier.draw(window_);
+        sablier.update();
+        sablier.draw(window_);
 
 		if (lvl == 1)
 		{

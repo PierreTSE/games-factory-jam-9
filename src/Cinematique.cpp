@@ -114,15 +114,21 @@ std::unique_ptr<Screen> Cinematique::execute()
                 if(result)
                     return std::move(*result);
 
-                if(event.type == sf::Event::KeyPressed && ((currentTime <= fadeInTime_ + frameTime_ && !skippingAsked)
-                    || waitForSkip_))
-                {
-                    switch(event.key.code)
-                    {
-                        case sf::Keyboard::Space :
-                            skippingAsked = true;
-                            break;
-                    }
+				if (event.type == sf::Event::KeyPressed && (currentTime <= fadeInTime_ + frameTime_ && !skippingAsked)
+					|| waitForSkip_ || sf::Event::JoystickButtonPressed && (currentTime <= fadeInTime_ + frameTime_ && !skippingAsked))
+				{
+					switch (event.key.code)
+					{
+					case sf::Keyboard::Space:
+						skippingAsked = true;
+						break;
+					}
+					switch (event.joystickButton.button)
+					{
+					case 0:
+						skippingAsked = true;
+						break;
+					}
                 }
             }
 
