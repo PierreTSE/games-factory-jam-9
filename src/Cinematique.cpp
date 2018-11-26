@@ -31,9 +31,21 @@ Cinematique(sf::RenderWindow&       win,
     if(!is_directory(dirPath))
         throw std::runtime_error("Not a directory" + dirPath.u8string());
 
-    for(auto& file : std::filesystem::directory_iterator(dirPath))
+    std::vector<std::filesystem::path> paths;
+    for(auto&                          file : std::filesystem::directory_iterator(dirPath))
     {
-        images_.emplace_back(RessourceLoader::getTexture(strip_root(file.path()).u8string()));
+        paths.push_back(file.path());
+    }
+    std::sort(paths.begin(),
+              paths.end(),
+              [](std::filesystem::path p1, std::filesystem::path p2)
+              {
+                  return p1.filename().string().compare(p2.filename().string()) <= 0;
+              });
+
+    for(auto& path : paths)
+    {
+        images_.emplace_back(RessourceLoader::getTexture(strip_root(path).u8string()));
 
         centerOrigin(images_.back());
         images_.back().setPosition(WINDOW_SIZE_X / 2.0, WINDOW_SIZE_Y / 2.0);
