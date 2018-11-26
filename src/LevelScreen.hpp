@@ -12,7 +12,7 @@
 class LevelScreen : public Screen
 {
     public:
-        LevelScreen(sf::RenderWindow& win, int levelNumber);
+        LevelScreen(sf::RenderWindow& win, int levelNumber, std::string musicName = "", bool stopMusicAtBegin = true);
         std::unique_ptr<Screen> execute() override;
     
     private:
@@ -25,6 +25,9 @@ class LevelScreen : public Screen
 		Item sablier;
         Player player;
 		int lvl;
+
+        std::string musicName_;
+        bool stopMusicAtBegin_;
 };
 
 

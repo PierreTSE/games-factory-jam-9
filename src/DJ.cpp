@@ -15,8 +15,10 @@ DJ::DJ()
         if(file.path().extension() == ".wav")
         {
             soundBuffers_.emplace_back();
+            /*
             if(!soundBuffers_.back().loadFromFile(file.path().string()))
                 std::cerr << file.path().u8string() << std::endl;
+            */
 
             sounds_[file.path().filename().string()] = sf::Sound(soundBuffers_.back());
         }
