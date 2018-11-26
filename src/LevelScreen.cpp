@@ -48,7 +48,7 @@ LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber, std::string mus
     {
         sf::Vector2i tot3 = std::accumulate(env.getBonus().begin(), env.getBonus().end(), sf::Vector2i(0, 0));
         sf::Vector2f pos3(tot3.x, tot3.y);
-        pos3 /= static_cast<float>(env.getArrivee().size());
+        pos3 /= static_cast<float>(env.getBonus().size());
         sablier.setPosition(pos3.x * PIXEL_SIZE, pos3.y * PIXEL_SIZE);
     }
     else
@@ -159,9 +159,6 @@ std::unique_ptr<Screen> LevelScreen::execute()
         }
 
 
-        sf::View view = scrollCamera(env, player);
-		view.setViewport(window_.getView().getViewport());
-
         for(Chandelier& chand : chandeliers)
             chand.gestion(globalClock::getClock().frameTime());
 
@@ -193,6 +190,10 @@ std::unique_ptr<Screen> LevelScreen::execute()
         }
 
 
+        sf::View view = scrollCamera(env, player);
+        view.setViewport(window_.getView().getViewport());
+        window_.setView(view);
+        
         window_.clear();
         window_.draw(fond);
 
@@ -214,14 +215,11 @@ std::unique_ptr<Screen> LevelScreen::execute()
                                       [](auto& elem) { return elem.isDead(); }),
                        lucioles.end());
 
-        sortie.update();
-        sortie.draw(window_);
+		sortie.update();
+		sortie.draw(window_);
 
-
-		view.setViewport(window_.getView().getViewport());
-        window_.setView(view);
-        sablier.update();
-        sablier.draw(window_);
+		sablier.update();
+		sablier.draw(window_);
 
         window_.display();
 

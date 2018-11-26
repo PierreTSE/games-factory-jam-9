@@ -16,6 +16,8 @@ class AnimatedSprite : public sf::Sprite
         void update();
 
 		int getNbFrame();
+		
+		sf::IntRect const& getFrameSize() const { return frameSize; }
     
     private:
         sf::IntRect frameSize;

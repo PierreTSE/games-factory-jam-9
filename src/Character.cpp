@@ -144,9 +144,8 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
         }
         setAnimation(Animation::IDLE);
     }
-    auto test1 = sprite.getSize();
+    
     sprite.setPosition(position_);
-    auto test2 = sprite.getSize();
 }
 
 
