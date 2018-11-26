@@ -48,7 +48,7 @@ LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber, std::string mus
     {
         sf::Vector2i tot3 = std::accumulate(env.getBonus().begin(), env.getBonus().end(), sf::Vector2i(0, 0));
         sf::Vector2f pos3(tot3.x, tot3.y);
-        pos3 /= static_cast<float>(env.getArrivee().size());
+        pos3 /= static_cast<float>(env.getBonus().size());
         sablier.setPosition(pos3.x * PIXEL_SIZE, pos3.y * PIXEL_SIZE);
     }
     else
