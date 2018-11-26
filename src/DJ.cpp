@@ -35,3 +35,9 @@ void DJ::playSound(const std::string& name) { sounds_[name].play(); }
 void DJ::playMusic(const std::string& name) { musics_[name]->play(); }
                     
 void DJ::stopMusic(const std::string& name) { musics_[name]->stop(); }
+
+void DJ::stopAllMusic()
+{
+    for(auto& [k, v] : musics_)
+        v->stop();
+}
