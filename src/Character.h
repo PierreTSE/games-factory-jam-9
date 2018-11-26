@@ -8,6 +8,7 @@
 #include "globalClock.hpp"
 #include <iostream>
 #include "Item.h"
+#include "DJ.hpp"
 
 enum class Orientation
 {
@@ -102,6 +103,8 @@ void Player::ring(CB&& callback)
 	if (!canRing)
 		return;
 
+	DJ::getInstance().playSound("cloche.wav");
+	
 	setAnimation(Animation::RINGING);
 	setCanMove(false);
 

@@ -109,7 +109,9 @@ void Environment::load(std::filesystem::path path)
 
 void Environment::switchPillars()
 {
-	DJ::getInstance().playSound("pillar.wav");
+	if (pillars_.size() > 0) {
+		DJ::getInstance().playSound("pillar.wav");
+	}
     for(auto& pillar : pillars_)
         pillar.isUp_ = !pillar.isUp_;
     updatePillars();
