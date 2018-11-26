@@ -5,7 +5,6 @@
 #include <map>
 #include <SFML/Audio.hpp>
 #include <string>
-#include <vector>
 
 class DJ
 {

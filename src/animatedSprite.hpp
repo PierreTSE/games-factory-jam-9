@@ -3,7 +3,6 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Time.hpp>
-#include <SFML/Graphics/Texture.hpp>
 
 
 class AnimatedSprite : public sf::Sprite

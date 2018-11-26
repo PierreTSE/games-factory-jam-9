@@ -3,10 +3,7 @@
 
 #include <optional>
 #include <memory>
-#include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-
 
 void adapt_viewport(sf::RenderWindow& window);
 

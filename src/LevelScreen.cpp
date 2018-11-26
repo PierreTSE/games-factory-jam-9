@@ -7,6 +7,7 @@
 #include "Cinematique.hpp"
 #include "DJ.hpp"
 #include "FinalLevelScreen.hpp"
+#include "Utils.h"
 
 
 LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber, std::string musicName, bool stopMusicAtBegin) :
