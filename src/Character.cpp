@@ -139,7 +139,7 @@ void Player::movement(const sf::Time& elapsedTime, std::vector<std::vector<bool>
         if(wallDetectionCooldown > sf::seconds(0.75))
         {
             Bell::getInstance().add(maze_, sortie_, position_.x + hitbox_.left + hitbox_.width / 2.0,
-                                    position_.y + hitbox_.top + hitbox_.height / 2.0, 0, 255, 600, 4500, false);
+                                    position_.y + hitbox_.top + hitbox_.height / 2.0, 0, 255, 600, 3200, true);
             wallDetectionCooldown = sf::Time::Zero;
         }
         setAnimation(Animation::IDLE);
