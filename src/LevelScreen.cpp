@@ -192,6 +192,8 @@ std::unique_ptr<Screen> LevelScreen::execute()
         }
 
 
+		
+
         sf::View view = scrollCamera(env, player);
         view.setViewport(window_.getView().getViewport());
         window_.setView(view);
@@ -222,6 +224,35 @@ std::unique_ptr<Screen> LevelScreen::execute()
 
 		sablier.update();
 		sablier.draw(window_);
+
+		if (lvl == 1)
+		{
+			sf::Text text;
+			text.setFont(RessourceLoader::getFont("font/Dry Brush.ttf"));
+			text.setString("Arrows : Move");
+			text.setCharacterSize(50);
+			text.setPosition(2, -70);
+			window_.draw(text);
+
+			text.setString("Space : Ring the Bell");
+			text.setCharacterSize(50);
+			text.setPosition(-50, 310);
+			window_.draw(text);
+		}
+		else if (lvl == 2)
+		{
+			sf::Text text;
+			text.setFont(RessourceLoader::getFont("font/Dry Brush.ttf"));
+			text.setString("Don't ring too much ...");
+			text.setCharacterSize(50);
+			text.setPosition(0, 30);
+			window_.draw(text);
+
+			text.setString("... or you will wake up");
+			text.setCharacterSize(50);
+			text.setPosition(-50, 410);
+			window_.draw(text);
+		}
 
         window_.display();
 
