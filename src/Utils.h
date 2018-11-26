@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <random>
 #include "constantes.hpp"
+#include <filesystem>
 
 
 class Utils {
@@ -65,5 +66,9 @@ void centerOrigin(T& t) {
 }
 
 void fit(sf::Sprite& s);
+
+
+std::filesystem::path strip_root(const std::filesystem::path& p);
+
 
 #endif // !UTILS_H

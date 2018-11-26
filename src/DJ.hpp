@@ -24,6 +24,4 @@ private :
     std::map<std::string, std::unique_ptr<sf::Music>> musics_;
 };
 
-static DJ DJInstance;
-
 #endif //DJ_HPP

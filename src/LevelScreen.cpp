@@ -186,18 +186,16 @@ std::unique_ptr<Screen> LevelScreen::execute()
 			DJ::getInstance().stopAllMusic();
             return std::make_unique<Cinematique>(window_,
                                                  RessourceLoader::getPath("gameOver"),
-                                                 "fail.ogg",
+                                                 "fail.ogg",v,
                                                  false,
                                                  std::make_unique<LevelScreen>(window_, lvl, "lastinghope.ogg"));
         }
 
 
-		
+		sf::View view = scrollCamera(env, player);
+		view.setViewport(window_.getView().getViewport());
+		window_.setView(view);
 
-        sf::View view = scrollCamera(env, player);
-        view.setViewport(window_.getView().getViewport());
-        window_.setView(view);
-        
         window_.clear();
         window_.draw(fond);
 
@@ -222,8 +220,8 @@ std::unique_ptr<Screen> LevelScreen::execute()
 		sortie.update();
 		sortie.draw(window_);
 
-		sablier.update();
-		sablier.draw(window_);
+        sablier.update();
+        sablier.draw(window_);
 
 		if (lvl == 1)
 		{
