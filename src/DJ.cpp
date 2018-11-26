@@ -19,7 +19,7 @@ DJ::DJ()
                 std::cerr << file.path().u8string() << std::endl;
             */
 
-            sounds_[file.path().filename().string()] = sf::Sound(RessourceLoader::getSoundBuffer(file.path().filename().string()));
+            //sounds_[file.path().filename().string()] = sf::Sound(RessourceLoader::getSoundBuffer(file.path().filename().string()));
         }
         else if(file.path().extension() == ".ogg")
         {

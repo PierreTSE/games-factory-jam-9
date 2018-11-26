@@ -11,7 +11,7 @@
 class FinaleLevelScreen : public Screen
 {
     public:
-        FinaleLevelScreen(sf::RenderWindow& win);
+        FinaleLevelScreen(sf::RenderWindow& win, std::string musicName = "", bool stopMusicAtBegin = true);
         std::unique_ptr<Screen> execute() override;
 
     private:
@@ -20,6 +20,9 @@ class FinaleLevelScreen : public Screen
         Item sortie;
         Player player;
         int lvl;
+
+        std::string musicName_;
+        bool stopMusicAtBegin_;
 };
 
 

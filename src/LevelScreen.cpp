@@ -143,9 +143,9 @@ std::unique_ptr<Screen> LevelScreen::execute()
 				DJ::getInstance().stopAllMusic();
 				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl+1)), "cinematique.ogg", false, std::make_unique<LevelScreen>(window_, lvl+1, "lastinghope.ogg"));
 			}
-			else
+			else if(lvl == 10)
 			{
-				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl + 1)), "seeker.ogg", false, std::make_unique<FinaleLevelScreen>(window_));
+				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl + 1)), "seeker.ogg", false, std::make_unique<FinaleLevelScreen>(window_, "seeker.ogg", false));
 			}
 			
 
