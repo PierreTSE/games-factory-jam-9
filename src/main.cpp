@@ -17,6 +17,11 @@ int main()
                             sf::Style::Default,
                             sf::ContextSettings(0, 0, 8));
 
+	sf::Image icone;
+
+	icone.loadFromFile(RessourceLoader::getPath("sprites/logo_64.png"));
+	window.setIcon(icone.getSize().x, icone.getSize().y, icone.getPixelsPtr());
+
 
     //title screen
     std::unique_ptr<Screen> screen(new TitleScreen(window, "nightmusic.ogg"));
