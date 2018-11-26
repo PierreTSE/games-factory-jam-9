@@ -250,7 +250,7 @@ std::unique_ptr<Screen> LevelScreen::execute()
 
 			text.setString("... or you will wake up");
 			text.setCharacterSize(50);
-			text.setPosition(-50, 410);
+			text.setPosition(-45, 410);
 			window_.draw(text);
 		}
 
