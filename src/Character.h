@@ -7,6 +7,7 @@
 #include "Maze.h"
 #include "globalClock.hpp"
 #include "Item.h"
+#include "DJ.hpp"
 
 enum class Orientation
 {
@@ -101,6 +102,8 @@ void Player::ring(CB&& callback)
 	if (!canRing)
 		return;
 
+	DJ::getInstance().playSound("cloche.wav");
+	
 	setAnimation(Animation::RINGING);
 	setCanMove(false);
 

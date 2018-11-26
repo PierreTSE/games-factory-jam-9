@@ -99,10 +99,12 @@ bool Luciole::isDead()
 
 void Luciole::checkColision(sf::FloatRect box)
 {
-	if (box.contains(sf::Vector2f(abs, ord)))
-		
+	if (box.contains(sf::Vector2f(abs, ord))) {
+
 		triggered_ = true;
 		DJ::getInstance().playSound("luciole.wav");
+
+	}
 }
 
 Luciole::Luciole(Maze *maze, Item *sortie) :
