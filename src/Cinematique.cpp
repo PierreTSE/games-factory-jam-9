@@ -157,8 +157,5 @@ std::unique_ptr<Screen> Cinematique::execute()
         }
     }
 
-    if(!musicName_.empty())
-        DJ::getInstance().stopMusic(musicName_);
-
     return std::move(nextScreen_);
 }

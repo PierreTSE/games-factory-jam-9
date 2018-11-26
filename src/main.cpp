@@ -20,27 +20,10 @@
 #include "Cinematique.hpp"
 #include "FinaleLevelScreen.hpp"
 
-void testSon()
-{
-    sf::SoundBuffer sb;
-    sb.loadFromFile(RessourceLoader::getPath("audio/cloche.wav"));
-
-    sf::Sound sound(sb);
-    sound.play();
-
-    while(sound.getStatus() == sf::Sound::Status::Playing)
-    {
-        
-    }
-
-}
-
 
 namespace fs = std::filesystem;
 int main()
 {
-    //testSon();
-
     // mainTestEnvironment();
 
     // Création de la fenêtre du jeu

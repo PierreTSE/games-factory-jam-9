@@ -17,6 +17,7 @@ public :
     void playSound(const std::string& name);
     void playMusic(const std::string& name);
     void stopMusic(const std::string& name);
+    void stopAllMusic();
 
 private :
     std::vector<sf::SoundBuffer>                      soundBuffers_;
