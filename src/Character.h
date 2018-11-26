@@ -102,7 +102,7 @@ void Player::ring(CB&& callback)
 	if (!canRing)
 		return;
 
-	DJ::getInstance().playSound("cloche.wav");
+	DJ::getInstance().playSound("cloche.wav", true);
 	
 	setAnimation(Animation::RINGING);
 	setCanMove(false);

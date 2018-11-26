@@ -21,12 +21,12 @@ LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber, std::string mus
     stopMusicAtBegin_{stopMusicAtBegin}
 {
     lvl              = levelNumber;
-    sf::Vector2i tot = std::accumulate(env.getDepart().begin(), env.getDepart().end(), sf::Vector2i(0, 0));
+    const sf::Vector2i tot = std::accumulate(env.getDepart().begin(), env.getDepart().end(), sf::Vector2i(0, 0));
     sf::Vector2f pos(tot.x, tot.y);
     pos /= static_cast<float>(env.getDepart().size());
     player.setInitialPosition(pos * static_cast<float>(PIXEL_SIZE) + sf::Vector2f(PIXEL_SIZE / 2, PIXEL_SIZE / 2));
 
-    sf::Vector2i tot1 = std::accumulate(env.getArrivee().begin(), env.getArrivee().end(), sf::Vector2i(0, 0));
+    const sf::Vector2i tot1 = std::accumulate(env.getArrivee().begin(), env.getArrivee().end(), sf::Vector2i(0, 0));
     sf::Vector2f pos1(tot1.x, tot1.y);
     pos1 /= static_cast<float>(env.getArrivee().size());
     sortie.setPosition(pos1.x * PIXEL_SIZE, pos1.y * PIXEL_SIZE);
@@ -150,11 +150,12 @@ std::unique_ptr<Screen> LevelScreen::execute()
             }
             else if(lvl == 10)
             {
+                DJ::getInstance().stopAllMusic();
                 return std::make_unique<Cinematique>(window_,
                                                      RessourceLoader::getPath(std::to_string(lvl + 1)),
                                                      "seeker.ogg",
                                                      false,
-                                                     std::make_unique<FinalLevelScreen>(window_, "seeker.ogg", true));
+                                                     std::make_unique<FinalLevelScreen>(window_, "seeker.ogg", false));
             }
         }
 
