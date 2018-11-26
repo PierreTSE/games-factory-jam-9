@@ -160,7 +160,7 @@ std::unique_ptr<Screen> LevelScreen::execute()
 
 
         sf::View view = scrollCamera(env, player);
-        view.setViewport(window_.getView().getViewport());
+		view.setViewport(window_.getView().getViewport());
 
         for(Chandelier& chand : chandeliers)
             chand.gestion(globalClock::getClock().frameTime());
@@ -174,6 +174,8 @@ std::unique_ptr<Screen> LevelScreen::execute()
 
         if(player.getLife() == 0)
         {
+			Bell::getInstance().clear();
+
             sf::Text text;
             text.setFont(RessourceLoader::getFont("font/Dry Brush.ttf"));
             text.setString("Game Over");
@@ -215,6 +217,8 @@ std::unique_ptr<Screen> LevelScreen::execute()
         sortie.update();
         sortie.draw(window_);
 
+        sf::View view = scrollCamera(env, player);
+		view.setViewport(window_.getView().getViewport());
         window_.setView(view);
         sablier.update();
         sablier.draw(window_);
