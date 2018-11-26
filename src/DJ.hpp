@@ -14,7 +14,7 @@ public :
 
     static DJ& getInstance();
 
-    void playSound(const std::string& name, bool forced = true);
+    void playSound(const std::string& name, bool forced = false);
     void playMusic(const std::string& name);
     void stopMusic(const std::string& name);
     void stopAllMusic();
