@@ -153,6 +153,7 @@ std::unique_ptr<Screen> LevelScreen::execute()
 
         if(sablier.touchPlayer(player.getHitbox()))
         {
+			DJ::getInstance().playSound("sablier.wav");
             sablier.kill();
             player.setFullLife();
         }

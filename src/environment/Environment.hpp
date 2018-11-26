@@ -7,6 +7,7 @@
 #include "../RessourceLoader.hpp"
 #include "../constantes.hpp"
 
+
 struct Pillar
 {
     sf::Vector2i pos_;
