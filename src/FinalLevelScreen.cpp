@@ -1,4 +1,4 @@
-#include "FinaleLevelScreen.hpp"
+#include "FinalLevelScreen.hpp"
 #include "constantes.hpp"
 #include "Bell.h"
 #include "camera.hpp"
@@ -9,7 +9,7 @@
 #include "DJ.hpp"
 
 
-FinaleLevelScreen::FinaleLevelScreen(sf::RenderWindow& win, std::string musicName, bool stopMusicAtBegin):
+FinalLevelScreen::FinalLevelScreen(sf::RenderWindow& win, std::string musicName, bool stopMusicAtBegin):
     Screen{win},
     env{RessourceLoader::getPath("map/map11.png")},
     maze{env},
@@ -30,7 +30,7 @@ FinaleLevelScreen::FinaleLevelScreen(sf::RenderWindow& win, std::string musicNam
 }
 
 
-std::unique_ptr<Screen> FinaleLevelScreen::execute()
+std::unique_ptr<Screen> FinalLevelScreen::execute()
 {
     Bell::getInstance().add(&maze, &sortie, player.getPosition().x, player.getPosition().y, 0, 255, 600, 0);
 

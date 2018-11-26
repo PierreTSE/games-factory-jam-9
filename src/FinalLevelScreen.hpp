@@ -8,10 +8,10 @@
 #include "Character.h"
 
 
-class FinaleLevelScreen : public Screen
+class FinalLevelScreen : public Screen
 {
     public:
-        FinaleLevelScreen(sf::RenderWindow& win, std::string musicName = "", bool stopMusicAtBegin = true);
+        FinalLevelScreen(sf::RenderWindow& win, std::string musicName = "", bool stopMusicAtBegin = true);
         std::unique_ptr<Screen> execute() override;
 
     private:

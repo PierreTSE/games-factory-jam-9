@@ -1,25 +1,11 @@
-#include "AnimatedEntity.hpp"
-#include "Character.h"
-#include "Chandelier.h"
 #include "constantes.hpp"
-#include "environment/Environment.hpp"
-#include "globalClock.hpp"
-#include "Luciole.h"
-#include "RessourceLoader.hpp"
-#include "SoundWave.h"
-#include "Maze.h"
-#include "camera.hpp"
-#include "Bell.h"
-#include "Screen.hpp"
 #include "LevelScreen.hpp"
+#include "Screen.hpp"
 #include "TitleScreen.hpp"
 
 #include <filesystem>
 #include <SFML/Graphics.hpp>
-#include <vector>
-#include "Cinematique.hpp"
-#include "FinaleLevelScreen.hpp"
-#include "DJ.hpp"
+
 
 
 namespace fs = std::filesystem;
@@ -35,13 +21,13 @@ int main()
 
 
     //title screen
-    //std::unique_ptr<Screen> screen(new FinaleLevelScreen(window));
+    std::unique_ptr<Screen> screen(new TitleScreen(window, "nightmusic.ogg"));
 
     // cinématiques d'abord
     //std::unique_ptr<Screen> screen(new Cinematique(window, RessourceLoader::getPath("4"), "cinematique.ogg", false, std::make_unique<LevelScreen>(window, 3)));
     
     // direct sur le jeu
-    std::unique_ptr<Screen> screen(std::make_unique<LevelScreen>(window, 10));
+    //std::unique_ptr<Screen> screen(std::make_unique<LevelScreen>(window, 10));
 
 
     while(screen)

@@ -6,7 +6,7 @@
 #include <numeric>
 #include "Cinematique.hpp"
 #include "DJ.hpp"
-#include "FinaleLevelScreen.hpp"
+#include "FinalLevelScreen.hpp"
 
 
 LevelScreen::LevelScreen(sf::RenderWindow& win, int levelNumber, std::string musicName, bool stopMusicAtBegin) :
@@ -145,7 +145,7 @@ std::unique_ptr<Screen> LevelScreen::execute()
 			}
 			else if(lvl == 10)
 			{
-				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl + 1)), "seeker.ogg", false, std::make_unique<FinaleLevelScreen>(window_, "seeker.ogg", false));
+				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl + 1)), "seeker.ogg", false, std::make_unique<FinalLevelScreen>(window_, "seeker.ogg", false));
 			}
 			
 
