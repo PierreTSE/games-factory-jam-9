@@ -14,7 +14,7 @@ FinalLevelScreen::FinalLevelScreen(sf::RenderWindow& win, std::string musicName,
     env{RessourceLoader::getPath("map/map11.png")},
     maze{env},
     sortie(PORTE),
-    player{&maze, &sortie, env.getMapLife()},
+    player{&maze, &sortie, env.getMapLife(), true},
     musicName_{musicName},
     stopMusicAtBegin_{stopMusicAtBegin}
 {
@@ -32,14 +32,21 @@ FinalLevelScreen::FinalLevelScreen(sf::RenderWindow& win, std::string musicName,
 
 std::unique_ptr<Screen> FinalLevelScreen::execute()
 {
-    Bell::getInstance().add(&maze, &sortie, player.getPosition().x, player.getPosition().y, 0, 255, 600, 0);
+    globalClock::getClock().restart();
+
+    Bell::getInstance().add(&maze, &sortie, player.getPosition().x, player.getPosition().y, 0, 255, 200, 0);
 
     if(stopMusicAtBegin_)
         DJ::getInstance().stopAllMusic();
 
     if(!musicName_.empty())
         DJ::getInstance().playMusic(musicName_);
-    
+
+    globalClock::getClock().restart();
+
+    player.setCanMove(false);
+    globalClock::getClock().executeIn(sf::seconds(5), [this]() { player.setCanMove(true); });
+
     while(window_.isOpen())
     {
         // Création d'un objet récupérant les événements (touche clavier et autre)
@@ -55,34 +62,38 @@ std::unique_ptr<Screen> FinalLevelScreen::execute()
 
         globalClock::getClock().restart();
 
-
         player.movement(globalClock::getClock().frameTime(), env.getObstacles()); //Mouvement du personnage
 
         if(sortie.touchPlayer(player.getHitbox()))
         {
             Bell::getInstance().clear();
-            return std::make_unique<Cinematique>(window_, RessourceLoader::getPath("12"), true, 
-                        std::make_unique<Cinematique>(window_, RessourceLoader::getPath("credit"), true, std::make_unique<TitleScreen>(window_)));
+            return std::make_unique<Cinematique>(window_,
+                                                 RessourceLoader::getPath("12"),
+                                                 true,
+                                                 std::make_unique<Cinematique>(window_,
+                                                                               RessourceLoader::getPath("credit"),
+                                                                               true,
+                                                                               std::make_unique<TitleScreen>(window_, "lastinghope.ogg", true)));
         }
 
 
-
         if(player.getLife() == 0)
-            return std::make_unique<Cinematique>(window_, RessourceLoader::getPath("gameOver"), std::unique_ptr<Screen>(
-                nullptr));
+            return std::make_unique<Cinematique>(window_,
+                                                 RessourceLoader::getPath("gameOver"),
+                                                 std::unique_ptr<Screen>(
+                                                                         nullptr));
 
         sf::View view = scrollCamera(env, player);
-
+        view.setViewport(window_.getView().getViewport());
         window_.setView(view);
         window_.clear();
         Bell::getInstance().draw(window_); // Draw visible walls
 
         player.draw(window_);
 
-        sortie.update();
+        sortie.update(true);
         sortie.draw(window_);
-        
-        
+
 
         window_.display();
 

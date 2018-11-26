@@ -51,7 +51,7 @@ bool Item::touchPlayer(sf::FloatRect box)
 	return box.contains(sf::Vector2f(x_, y_));
 }
 
-void Item::update()
+void Item::update(bool forced)
 {
 	if (alpha_ > 0) {
 		sf::Time elapsedTime = globalClock::getClock().frameTime();
@@ -59,6 +59,11 @@ void Item::update()
 
 		if (type_ == PORTE) alpha_ -= 100 * elapsedTime.asSeconds();
 		else alpha_ = 255;
+
+        if(forced)
+        {
+            alpha_ = 255;
+        }
 	}
 }
 

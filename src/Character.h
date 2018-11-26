@@ -45,7 +45,7 @@ public:
 
 	sf::Vector2f getPosition();
 
-	sf::FloatRect getHitbox();
+	sf::FloatRect getHitbox() const;
 
     int getLife() const {return life_;}
 	void setFullLife();

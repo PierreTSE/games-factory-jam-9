@@ -20,7 +20,7 @@ class Item
 		void discover();
 		bool isInCircle(sf::Vector2f center, float radius);
 		bool touchPlayer(sf::FloatRect box);
-		void update();
+		void update(bool forced = false);
 		void draw(sf::RenderWindow &window);
 		void kill();
 

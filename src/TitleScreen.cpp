@@ -7,7 +7,7 @@
 #include "Cinematique.hpp"
 #include "DJ.hpp"
 
-TitleScreen::TitleScreen(sf::RenderWindow& window, const std::string& musicName) : Screen{window}, musicName_{musicName}
+TitleScreen::TitleScreen(sf::RenderWindow& window, const std::string& musicName, bool stopMusicAtBegin) : Screen{window}, musicName_{musicName}, stopMusicAtBegin_{stopMusicAtBegin}
 {}
 
 
@@ -20,6 +20,9 @@ std::unique_ptr<Screen> TitleScreen::execute()
     bg_t.loadFromFile(RessourceLoader::getPath("titlescreen/ecran_titre_fond.png"));
     bed_t.loadFromFile(RessourceLoader::getPath("titlescreen/ecran_titre_lit.png"));
     win_t.loadFromFile(RessourceLoader::getPath("titlescreen/ecran_titre_fenetre.png"));
+    
+    if(stopMusicAtBegin_)
+        DJ::getInstance().stopAllMusic();
 
 	if (!musicName_.empty())
 		DJ::getInstance().playMusic(musicName_);

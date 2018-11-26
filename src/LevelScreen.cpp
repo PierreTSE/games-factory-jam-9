@@ -136,26 +136,31 @@ std::unique_ptr<Screen> LevelScreen::execute()
         if(sortie.touchPlayer(player.getHitbox()))
         {
             Bell::getInstance().clear();
-			if (lvl < 3) {
-				return std::make_unique<LevelScreen>(window_, lvl+1, "lastinghope.ogg",false);
-			}
-			else if(lvl<9)
-			{
-				DJ::getInstance().stopAllMusic();
-				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl+1)), "cinematique.ogg", false, std::make_unique<LevelScreen>(window_, lvl+1, "lastinghope.ogg"));
-			}
-			else if(lvl == 10)
-			{
-				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl + 1)), "seeker.ogg", false, std::make_unique<FinalLevelScreen>(window_, "seeker.ogg", false));
-			}
-			
-
-			
+            if(lvl < 3) { return std::make_unique<LevelScreen>(window_, lvl + 1, "lastinghope.ogg", false); }
+            else if(lvl <= 9)
+            {
+                DJ::getInstance().stopAllMusic();
+                return std::make_unique<Cinematique>(window_,
+                                                     RessourceLoader::getPath(std::to_string(lvl + 1)),
+                                                     "cinematique.ogg",
+                                                     false,
+                                                     std::make_unique<LevelScreen>(window_,
+                                                                                   lvl + 1,
+                                                                                   "lastinghope.ogg"));
+            }
+            else if(lvl == 10)
+            {
+                return std::make_unique<Cinematique>(window_,
+                                                     RessourceLoader::getPath(std::to_string(lvl + 1)),
+                                                     "seeker.ogg",
+                                                     false,
+                                                     std::make_unique<FinalLevelScreen>(window_, "seeker.ogg", false));
+            }
         }
 
         if(sablier.touchPlayer(player.getHitbox()))
         {
-			DJ::getInstance().playSound("sablier.wav");
+            DJ::getInstance().playSound("sablier.wav");
             sablier.kill();
             player.setFullLife();
         }
@@ -173,7 +178,7 @@ std::unique_ptr<Screen> LevelScreen::execute()
 
         if(player.getLife() == 0)
         {
-			Bell::getInstance().clear();
+            Bell::getInstance().clear();
 
             sf::Text text;
             text.setFont(RessourceLoader::getFont("font/Dry Brush.ttf"));
@@ -184,18 +189,19 @@ std::unique_ptr<Screen> LevelScreen::execute()
             std::vector<sf::Text> v;
             v.push_back(text);
 
-			DJ::getInstance().stopAllMusic();
+            DJ::getInstance().stopAllMusic();
             return std::make_unique<Cinematique>(window_,
                                                  RessourceLoader::getPath("gameOver"),
-                                                 "fail.ogg",v,
+                                                 "fail.ogg",
+                                                 v,
                                                  false,
                                                  std::make_unique<LevelScreen>(window_, lvl, "lastinghope.ogg"));
         }
 
 
-		sf::View view = scrollCamera(env, player);
-		view.setViewport(window_.getView().getViewport());
-		window_.setView(view);
+        sf::View view = scrollCamera(env, player);
+        view.setViewport(window_.getView().getViewport());
+        window_.setView(view);
 
         window_.clear();
         window_.draw(fond);
@@ -218,40 +224,40 @@ std::unique_ptr<Screen> LevelScreen::execute()
                                       [](auto& elem) { return elem.isDead(); }),
                        lucioles.end());
 
-		sortie.update();
-		sortie.draw(window_);
+        sortie.update();
+        sortie.draw(window_);
 
         sablier.update();
         sablier.draw(window_);
 
-		if (lvl == 1)
-		{
-			sf::Text text;
-			text.setFont(RessourceLoader::getFont("font/Dry Brush.ttf"));
-			text.setString("Arrows : Move");
-			text.setCharacterSize(50);
-			text.setPosition(2, -70);
-			window_.draw(text);
+        if(lvl == 1)
+        {
+            sf::Text text;
+            text.setFont(RessourceLoader::getFont("font/Dry Brush.ttf"));
+            text.setString("Arrows : Move");
+            text.setCharacterSize(50);
+            text.setPosition(2, -70);
+            window_.draw(text);
 
-			text.setString("Space : Ring the Bell");
-			text.setCharacterSize(50);
-			text.setPosition(-50, 310);
-			window_.draw(text);
-		}
-		else if (lvl == 2)
-		{
-			sf::Text text;
-			text.setFont(RessourceLoader::getFont("font/Dry Brush.ttf"));
-			text.setString("Don't ring too much ...");
-			text.setCharacterSize(50);
-			text.setPosition(0, 30);
-			window_.draw(text);
+            text.setString("Space : Ring the Bell");
+            text.setCharacterSize(50);
+            text.setPosition(-50, 310);
+            window_.draw(text);
+        }
+        else if(lvl == 2)
+        {
+            sf::Text text;
+            text.setFont(RessourceLoader::getFont("font/Dry Brush.ttf"));
+            text.setString("Don't ring too much ...");
+            text.setCharacterSize(50);
+            text.setPosition(0, 30);
+            window_.draw(text);
 
-			text.setString("... or you will wake up");
-			text.setCharacterSize(50);
-			text.setPosition(-45, 410);
-			window_.draw(text);
-		}
+            text.setString("... or you will wake up");
+            text.setCharacterSize(50);
+            text.setPosition(-45, 410);
+            window_.draw(text);
+        }
 
         window_.display();
 

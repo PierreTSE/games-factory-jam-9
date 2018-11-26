@@ -2,10 +2,11 @@
 #include "LevelScreen.hpp"
 #include "Screen.hpp"
 #include "TitleScreen.hpp"
+#include "FinalLevelScreen.hpp"
 
 #include <filesystem>
 #include <SFML/Graphics.hpp>
-
+#include "Cinematique.hpp"
 
 
 namespace fs = std::filesystem;
@@ -19,7 +20,7 @@ int main()
 
 
     //title screen
-    std::unique_ptr<Screen> screen(new TitleScreen(window, "nightmusic.ogg"));
+    //std::unique_ptr<Screen> screen(new TitleScreen(window, "nightmusic.ogg"));
 
     // cinématiques d'abord
     //std::unique_ptr<Screen> screen(new Cinematique(window, RessourceLoader::getPath("4"), "cinematique.ogg", false, std::make_unique<LevelScreen>(window, 3)));
@@ -27,6 +28,9 @@ int main()
     // direct sur le jeu
     //std::unique_ptr<Screen> screen(std::make_unique<LevelScreen>(window, 10));
 
+
+    //final level
+    std::unique_ptr<Screen> screen(std::make_unique<FinalLevelScreen>(window, "seeker.ogg"));
 
     while(screen)
         screen = screen->execute();

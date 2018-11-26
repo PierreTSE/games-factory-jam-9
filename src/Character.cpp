@@ -259,16 +259,14 @@ void Player::draw(sf::RenderTarget& target) { sprite.draw(target); }
 
 void Player::setOrientation(Orientation o)
 {
-    if(!canMove)
-        return;
+    
     orientation = o;
     sprite.setState(combineStates(orientation, animation));
 }
 
 void Player::setAnimation(Animation a)
 {
-    if(!canMove)
-        return;
+    
     animation = a;
     sprite.setState(combineStates(orientation, animation));
 }
@@ -278,7 +276,7 @@ sf::Vector2f Player::getPosition() {
     return position_ + s; 
 }
 
-sf::FloatRect Player::getHitbox()
+sf::FloatRect Player::getHitbox() const
 {
 	sf::FloatRect res(hitbox_);
 	res.left += position_.x;
@@ -299,4 +297,5 @@ void Player::setInitialPosition(sf::Vector2f pos)
     pos.x -= hitbox_.left + hitbox_.width / 2.0;
     pos.y -= hitbox_.top + hitbox_.height / 2.0;
     position_ = pos;
+    sprite.setPosition(position_);
 }
