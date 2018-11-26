@@ -59,18 +59,20 @@ std::unique_ptr<Screen> FinaleLevelScreen::execute()
         if(player.getLife() == 0)
             return std::make_unique<Cinematique>(window_, RessourceLoader::getPath("gameOver"));
 
+        sf::View view = scrollCamera(env, player);
+
+        window_.setView(view);
         window_.clear();
         Bell::getInstance().draw(window_); // Draw visible walls
 
+        auto p = player.getPosition();
         player.draw(window_);
+        p = player.getPosition();
 
         sortie.update();
         sortie.draw(window_);
         
         
-        sf::View view = scrollCamera(env, player);
-
-        window_.setView(view);
 
         window_.display();
 

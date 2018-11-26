@@ -34,7 +34,7 @@ int main()
 
 
     //title screen
-    std::unique_ptr<Screen> screen(new FinaleLevelScreen(window));
+    std::unique_ptr<Screen> screen(new TitleScreen(window));
 
     // cinématiques d'abord
     //std::unique_ptr<Screen> screen(new Cinematique(window, RessourceLoader::getPath("1"), true, std::make_unique<LevelScreen>(window, 3)));
