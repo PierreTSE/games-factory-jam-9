@@ -124,9 +124,13 @@ std::unique_ptr<Screen> LevelScreen::execute()
 			if (lvl < 3) {
 				return std::make_unique<LevelScreen>(window_, lvl+1);
 			}
+			else if(lvl<9)
+			{
+				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl+1)), "cinematique.ogg", false, std::make_unique<LevelScreen>(window_, lvl+1));
+			}
 			else
 			{
-				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl+1)), false, std::make_unique<LevelScreen>(window_, lvl+1));
+				return std::make_unique<Cinematique>(window_, RessourceLoader::getPath(std::to_string(lvl + 1)), "seeker.ogg", false, std::make_unique<LevelScreen>(window_, lvl + 1));
 			}
 			
 
@@ -192,7 +196,6 @@ std::unique_ptr<Screen> LevelScreen::execute()
 		sortie.update();
 		sortie.draw(window_);
 
-        sf::View view = scrollCamera(env, player);
         window_.setView(view);
 		sablier.update();
 		sablier.draw(window_);
