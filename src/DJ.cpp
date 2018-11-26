@@ -32,9 +32,17 @@ DJ::DJ()
 
 DJ& DJ::getInstance() { return DJInstance; }
 
-void DJ::playSound(const std::string& name) { sounds_[name].play(); }
+void DJ::playSound(const std::string& name, bool forced)
+{
+    if(sounds_[name].getStatus() != sf::Sound::Status::Playing || forced)
+        sounds_[name].play();
+}
                     
-void DJ::playMusic(const std::string& name) { musics_[name]->play(); }
+void DJ::playMusic(const std::string& name)
+{
+    if(musics_[name]->getStatus() != sf::Music::Status::Playing)
+        musics_[name]->play();
+}
                     
 void DJ::stopMusic(const std::string& name) { musics_[name]->stop(); }
 
